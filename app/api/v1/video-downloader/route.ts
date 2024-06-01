@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
   const { url } = await request.json();
 
   if (!ytdl.validateURL(url)) {
-    return NextResponse.json({ error: "Invalid YouTube URL" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid YouTube URL" }, { status: 404 });
   }
 
   try {

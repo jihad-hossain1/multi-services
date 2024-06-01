@@ -3,9 +3,17 @@
 import axios from "axios";
 
 export const serverAction = async (data: { url: string }) => {
-  const response = await axios.post(
+  const response = await fetch(
     `${process.env.PUBLIC_NEXT_URL}/api/v1/video-downloader`,
-    { ...data }
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...data }),
+    }
   );
-  return response.data;
+  const result = await response.json();
+
+  return result;
 };

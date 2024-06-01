@@ -35,8 +35,16 @@ const Downloader = () => {
       setLoading(true);
       const response = await serverAction({ url });
       setLoading(false);
+
+      // if (!response) return setError('No response from server');
+      // if (response?.info?.formats?.length === 0) return setError('No formats found');
+      // if (!response?.downloadUrl) return setError('No download URL found');
+      if (response?.error) return setError(response?.error);
+
       setVideoInfo(response);
+
     } catch (err: any) {
+      console.log(err);
       setError(err?.message || "Something went wrong");
       setLoading(false);
     }
