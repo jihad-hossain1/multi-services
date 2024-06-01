@@ -81,7 +81,7 @@ const Downloader = () => {
 
         {videoInfo && (
           <div className="my-10">
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center my-6">
               <div>
                 <Image
                   className="m-auto object-cover rounded-lg shadow-lg"
@@ -92,7 +92,15 @@ const Downloader = () => {
                 />
               </div>
               <h2 className="text-xl font-semibold">
-                {videoInfo?.info?.details?.title}
+                {videoInfo?.info?.details?.title} -{" "}
+                <Link
+                  target="_blank"
+                  href={videoInfo?.downloadUrl}
+                  className="bg-violet-800 px-3 rounded-md shadow-sm hover:shadow-lg py-1"
+                  download={videoInfo?.info?.details?.title}
+                >
+                  Download
+                </Link>
               </h2>
             </div>
             {/* <p>{videoInfo.info.details.description}</p> */}
