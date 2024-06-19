@@ -14,6 +14,8 @@ const Downloader = () => {
   // console.log("🚀 ~ Downloader ~ videoInfo:", videoInfo);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [convloading, setConvLoading] = useState(false);
+  const [tabIndex, setTabIndex] = useState<number | null>(null);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -32,13 +34,18 @@ const Downloader = () => {
     }
   };
 
-  const handleQuality = async (quality: string, _url: string) => {
+  const handleQuality = async (
+    quality: string,
+    _url: string,
+    index: number
+  ) => {
+    setTabIndex(index);
     console.log(quality, _url);
     try {
-      setLoading(true);
+      setConvLoading(true);
       const response = await qualityServer({ url: _url, quality });
       console.log("🚀 ~ handleQuality ~ response:", response);
-      setLoading(false);
+      setConvLoading(false);
       if (response?.error) return setError(response?.error);
     } catch (error) {}
   };
@@ -111,12 +118,21 @@ const Downloader = () => {
                       <h4>format : {format?.qualityLabel}</h4>
                       <h4>Type: {format.container}</h4>
                     </div>
-                    <button
-                      disabled={loading}
-                      onClick={() => handleQuality(format?.quality, url)}
-                    >
-                      {loading ? "Loading..." : "Convert"}
-                    </button>
+                    <div className="flex flex-col gap-2">
+                      <button
+                        disabled={convloading}
+                        onClick={() =>
+                          handleQuality(format?.quality, url, index)
+                        }
+                      >
+                        {convloading && index === tabIndex
+                          ? "Loading..."
+                          : "Convert"}
+                      </button>
+                      <a href={format?.url} target="_blank">
+                        <button>Download</button>
+                      </a>
+                    </div>
                   </div>
                 ))}
               </div>
