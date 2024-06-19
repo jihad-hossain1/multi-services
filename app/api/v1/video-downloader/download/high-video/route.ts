@@ -200,10 +200,10 @@ export async function POST(request: NextRequest) {
       },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error:any) {
     console.error("Download error", error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: error.message },
       { status: 500 }
     );
   }

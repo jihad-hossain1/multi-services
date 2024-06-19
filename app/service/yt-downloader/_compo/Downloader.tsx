@@ -11,7 +11,7 @@ export interface VideoInfo {}
 const Downloader = () => {
   const [url, setUrl] = useState("");
   const [videoInfo, setVideoInfo] = useState<any | null>(null);
-  console.log("🚀 ~ Downloader ~ videoInfo:", videoInfo);
+  // console.log("🚀 ~ Downloader ~ videoInfo:", videoInfo);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
