@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { serverAction } from "./server-action";
+import { qualityServer } from "./qualityServer";
 
 export interface VideoInfo {}
 
@@ -31,8 +32,18 @@ const Downloader = () => {
     }
   };
 
+  const handleQuality = async (quality: string, _url: string) => {
+    console.log(quality, _url);
+    try {
+      setLoading(true);
+      const response = await qualityServer({ url: _url, quality });
+      console.log("🚀 ~ handleQuality ~ response:", response);
+      setLoading(false);
+      if (response?.error) return setError(response?.error);
+    } catch (error) {}
+  };
   return (
-    <div>
+    <div className="py-10">
       <div>
         <h1 className="text-2xl font-bold text-center my-20">
           YouTube Video Downloader
@@ -88,7 +99,28 @@ const Downloader = () => {
                 ))}
               </div>
             </div>
-
+            <div>
+              <h4>Convert to Format</h4>
+              <div className="flex flex-col gap-2">
+                {videoInfo?.formats?.map((format: any, index: any) => (
+                  <div
+                    key={index}
+                    className="flex  gap-1 items-center justify-between border rounded p-3"
+                  >
+                    <div>
+                      <h4>format : {format?.qualityLabel}</h4>
+                      <h4>Type: {format.container}</h4>
+                    </div>
+                    <button
+                      disabled={loading}
+                      onClick={() => handleQuality(format?.quality, url)}
+                    >
+                      {loading ? "Loading..." : "Convert"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
             <div>
               <h2 className="text-xl font-bold mt-3">Audio</h2>
               <div className="flex flex-col gap-1 mt-3">

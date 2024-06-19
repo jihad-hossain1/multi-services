@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
         audio: audioDownloadLinks,
         title: videoTitle,
         thumbnail: thumbnail,
+        formats: info.formats,
       },
       { status: 200 }
     );
