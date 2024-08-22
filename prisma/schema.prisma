@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model ULink {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  link     String
+  content  String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @db.ObjectId
+}
+
+model LmTmLnk {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId
+  link    String
+  content String?
+  xdate   DateTime @default(now())
+}
+
+model User {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  email    String   @unique
+  name     String
+  password String
+  status   ustatus  @default(FREE)
+  verify   uverify  @default(PENDING)
+  xcode    String?
+  address  Address?
+  links    ULink[]
+}
+
+// Address is an embedded document
+type Address {
+  street String
+  city   String
+  state  String
+  zip    String
+}
+
+enum ustatus {
+  FREE @map("0")
+  PAID @map("1")
+}
+
+enum uverify {
+  VERIFIED @map("verified")
+  PENDING  @map("pending")
+}

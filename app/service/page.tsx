@@ -1,5 +1,4 @@
 import MediaSVG from "@/components/svg/media";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -9,6 +8,12 @@ const ServicePage = () => {
       name: "YouTube Downloader",
       description: "Download videos from YouTube",
       url: "/service/yt-downloader",
+      icon: <MediaSVG />,
+    },
+    {
+      name: "Code Share",
+      description: "Share code with other users",
+      url: "/service/code-share",
       icon: <MediaSVG />,
     },
   ];
