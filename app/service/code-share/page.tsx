@@ -1,26 +1,26 @@
 import React from 'react'
 import CodeShare from './_comp/CodeShare'
-import os from 'node:os';
+// import os from 'node:os';
 
-async function osInfos() {
-  const os_version = await os.version()
-  const os_macadd = await os.networkInterfaces()
-  const findmacaddrr:any   = os_macadd['Wi-Fi'] ? os_macadd['Wi-Fi'] : os_macadd['Ethernet'] 
+// async function osInfos() {
+//   const os_version = await os.version()
+//   const os_macadd = await os.networkInterfaces()
+//   const findmacaddrr:any   = os_macadd['Wi-Fi'] ? os_macadd['Wi-Fi'] : os_macadd['Ethernet'] 
 
-  const osInfo = {
-      os_version: os_version as string,
-      os_macadd: findmacaddrr[0].mac ? findmacaddrr[0].mac : "No Mac Address",
-  }
+//   const osInfo = {
+//       os_version: os_version as string,
+//       os_macadd: findmacaddrr[0].mac ? findmacaddrr[0].mac : "No Mac Address",
+//   }
 
-  return osInfo
-}
+//   return osInfo
+// }
 
 const Sharepage = async () => {
-   const osInfo = await osInfos()
-   
+  //  const _osInfo = await osInfos()
+
   return (
     <div>
-        <CodeShare osInfo={osInfo} />
+        <CodeShare osInfo={{ os_version: "1.0.0", os_macadd: "00:00:00:00:00:00" }} />
     </div>
   )
 }

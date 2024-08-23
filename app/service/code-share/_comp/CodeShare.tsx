@@ -56,7 +56,7 @@ const CodeShare = ({ osInfo }: { osInfo: { os_version: string; os_macadd: string
 
     return (
         <div className='min-h-[60vh] flex flex-col justify-center items-center'>
-             {errors.map((error, index) => (
+             {errors?.map((error: string, index: number) => (
                     <p key={index} className='text-red-500 m-5'>{error}</p>
                 ))}
             <div className='text-center'>
