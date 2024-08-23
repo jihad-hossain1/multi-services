@@ -22,7 +22,7 @@
 import { PrismaClient } from './generated/client'
 import { PrismaClient as PrisClient } from "@prisma/client";
 
-let prisma: PrismaClient | PrisClient ;
+let prisma: any;
 
 if (process.env.NODE_ENV === "production") {
  prisma = new PrisClient();
