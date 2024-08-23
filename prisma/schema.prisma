@@ -19,8 +19,18 @@ model LmTmLnk {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   link    String
   content String?
+  osInfo  os_info
   xdate   DateTime @default(now())
 }
+
+model MacAddTrack {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  macadd     String   @unique
+  count      Int      @default(0)
+  lastused   DateTime @default(now())
+  lastreset  DateTime @default(now())
+}
+
 
 model User {
   id       String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -40,6 +50,11 @@ type Address {
   city   String
   state  String
   zip    String
+}
+
+type os_info {
+  os_macadd String
+  os_version String
 }
 
 enum ustatus {

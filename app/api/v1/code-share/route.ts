@@ -2,16 +2,52 @@ import prisma from "@/lib/prismalib";
 
 import { NextRequest, NextResponse } from "next/server";
 
+const MAC_ADDRESS_LIMIT = 5;
+
 export async function POST(request: NextRequest) {
-    const { code, type } = await request.json();
+    const { code, type, osInfo } = await request.json();
 
     try {
+        let macTracking = await prisma.macAddTrack.findUnique({
+            where: {
+                macadd: osInfo.os_macadd,
+            },
+        });
+
+        if (!macTracking) {
+            // If no tracking record exists, create a new one
+            macTracking = await prisma.macAddTrack.create({
+                data: {
+                    macadd: osInfo.os_macadd,
+                    count: 1,
+                },
+            });
+        } else {
+            // Check if the limit has been reached
+            if (macTracking.count >= MAC_ADDRESS_LIMIT) {
+                throw new Error(
+                    "Link creation limit reached. Please try again later. after 24 hours you can create new link.",
+                );
+            }
+
+            // If a tracking record exists, update the count
+            await prisma.macAddTrack.update({
+                where: {
+                    id: macTracking.id,
+                },
+                data: {
+                    count: macTracking.count + 1,
+                },
+            });
+        }
+
         let createCode;
 
         if (type == "lmTmLnk") {
             createCode = await prisma.lmTmLnk.create({
                 data: {
                     link: code,
+                    osInfo: osInfo,
                 },
             });
         }
@@ -72,9 +108,9 @@ export async function GET(request: NextRequest) {
     try {
         let result = await prisma.lmTmLnk.findFirst({
             where: {
-                link: code as string
-            }
-        })
+                link: code as string,
+            },
+        });
         // if (type == "lmTmLnk") {
         //     result = await prisma.lmTmLnk.findFirst({
         //         where: {
@@ -83,10 +119,12 @@ export async function GET(request: NextRequest) {
         //     });
         // }
 
-        console.log(result)
+        console.log(result);
 
-        if(!result){
-            return NextResponse.json({error: "we can't get any link or content"})
+        if (!result) {
+            return NextResponse.json({
+                error: "we can't get any link or content",
+            });
         }
         return NextResponse.json({ result: result }, { status: 201 });
     } catch (error) {
