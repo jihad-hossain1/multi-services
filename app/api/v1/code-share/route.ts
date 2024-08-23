@@ -1,6 +1,6 @@
 // import { osInfos } from "@/helpers/osinfo";
 import prisma from "@/lib/prismalib";
-
+import os from 'node:os';
 import { NextRequest, NextResponse } from "next/server";
 
 const MAC_ADDRESS_LIMIT = 5;
@@ -21,10 +21,19 @@ const RESET_INTERVAL_MINUTES = 1;
 // }
 
 export async function POST(request: NextRequest) {
-    const { code, type, osInfo } = await request.json();
+    const { code, type } = await request.json();
     const now = new Date();
     const cutoffDate = new Date();
     cutoffDate.setMinutes(cutoffDate.getMinutes() - RESET_INTERVAL_MINUTES);
+
+    const os_version =  os.version()
+  const os_macadd =  os.networkInterfaces()
+  const findmacaddrr:any   = os_macadd['Wi-Fi'] ? os_macadd['Wi-Fi'] : os_macadd['Ethernet'] 
+
+  const osInfo = {
+      os_version: os_version as string,
+      os_macadd: findmacaddrr[0]?.mac ? findmacaddrr[0]?.mac : "No Mac Address",
+  }
     
     try {
         // const osInfo = await osInfos();

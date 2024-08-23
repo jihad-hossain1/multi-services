@@ -4,18 +4,18 @@ import os from 'node:os'
 
 
 const Sharepage = async () => {
-  const os_version =  os.version()
-  const os_macadd =  os.networkInterfaces()
-  const findmacaddrr:any   = os_macadd['Wi-Fi'] ? os_macadd['Wi-Fi'] : os_macadd['Ethernet'] 
+  // const os_version =  os.version()
+  // const os_macadd =  os.networkInterfaces()
+  // const findmacaddrr:any   = os_macadd['Wi-Fi'] ? os_macadd['Wi-Fi'] : os_macadd['Ethernet'] 
 
-  const osInfo = {
-      os_version: os_version as string,
-      os_macadd: findmacaddrr[0]?.mac ? findmacaddrr[0]?.mac : "No Mac Address",
-  }
+  // const osInfo = {
+  //     os_version: os_version as string,
+  //     os_macadd: findmacaddrr[0]?.mac ? findmacaddrr[0]?.mac : "No Mac Address",
+  // }
 
   return (
     <div>
-        <CodeShare osInfo={osInfo} />
+        <CodeShare osInfo={{os_version: "d",os_macadd: "d"}} />
     </div>
   )
 }
