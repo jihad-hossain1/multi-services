@@ -1,9 +1,10 @@
+import Certificate from "@/components/test/Certificate";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="min-h-[60vh] flex flex-col justify-center items-center">
-      <div className="text-center">
+      {/* <div className="text-center">
         <h4 className="text-3xl font-bold my-3">Welcome To Multi Service</h4>
         <Link
           href={"/service"}
@@ -11,7 +12,8 @@ export default function Home() {
         >
           Services
         </Link>
-      </div>
+      </div> */}
+      <Certificate />
     </div>
   );
 }
