@@ -17,8 +17,6 @@ const CodeSharePage = () => {
     const [code, setCode] = useState('');
     const router = useRouter();
 
-
-
     const handleGenerateCode = async () => {
         // Generate a random URL code
         const newCode = generateUniqueCode();

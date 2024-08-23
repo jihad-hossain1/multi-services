@@ -70,16 +70,24 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get("type");
 
     try {
-        let result;
+        let result = await prisma.lmTmLnk.findFirst({
+            where: {
+                link: code as string
+            }
+        })
+        // if (type == "lmTmLnk") {
+        //     result = await prisma.lmTmLnk.findFirst({
+        //         where: {
+        //             link: code as string,
+        //         },
+        //     });
+        // }
 
-        if (type == "lmTmLnk") {
-            result = await prisma.lmTmLnk.findFirst({
-                where: {
-                    link: code as string,
-                },
-            });
+        console.log(result)
+
+        if(!result){
+            return NextResponse.json({error: "we can't get any link or content"})
         }
-
         return NextResponse.json({ result: result }, { status: 201 });
     } catch (error) {
         return NextResponse.json(

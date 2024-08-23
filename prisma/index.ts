@@ -20,11 +20,12 @@
 // export default prisma;
 
 import { PrismaClient } from './generated/client'
+import { PrismaClient as PrisClient } from "@prisma/client";
 
-let prisma: PrismaClient;
+let prisma: PrismaClient | PrisClient ;
 
 if (process.env.NODE_ENV === "production") {
- prisma = new PrismaClient();
+ prisma = new PrisClient();
 } else 
 { if (!(global as any).prisma)
      {
