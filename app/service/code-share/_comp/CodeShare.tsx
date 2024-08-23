@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { spanning } from "@/public/inpoter";
@@ -13,11 +13,13 @@ const generateUniqueCode = () => {
         .slice(0, 16); // Adjust the length to your needs
 };
 
-const CodeShare = ({ osInfo }: { osInfo: { os_version: string; os_macadd: string } }) => {
+const CodeShare = () => {
     const [code, setCode] = useState("");
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
+    const [osInfo, setOsInfo] = useState({ os_version: "", os_macadd: "" });
+    
 
     const handleGenerateCode = async () => {
         // Generate a random URL code
@@ -30,13 +32,16 @@ const CodeShare = ({ osInfo }: { osInfo: { os_version: string; os_macadd: string
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ code: newCode, type: "lmTmLnk",osInfo: osInfo }),
+                body: JSON.stringify({
+                    code: newCode,
+                    type: "lmTmLnk",
+                    osInfo: osInfo,
+                }),
             });
 
             setLoading(false);
             const data = await response.json();
-            console.log("🚀 ~ handleGenerateCode ~ data:", data)
-
+            console.log("🚀 ~ handleGenerateCode ~ data:", data);
 
             if (data?.result) {
                 setLoading(false);
@@ -44,24 +49,35 @@ const CodeShare = ({ osInfo }: { osInfo: { os_version: string; os_macadd: string
                     `${window.location.origin}/service/code-share/${data?.result?.link}`,
                 );
             }
-            if(data?.error){
+            if (data?.error) {
                 setLoading(false);
-                setErrors((prevErrors) => [...prevErrors, data.error])
+                setErrors((prevErrors) => [...prevErrors, data.error]);
             }
-
         } catch (error) {
             setLoading(false);
             console.error((error as Error).message);
         }
     };
 
+
+    useEffect(() => {
+        const fetchOsInfo = async () => {
+            const response = await fetch("/api/v1/os-info");
+            const data = await response.json();
+            console.log("🚀 ~ fetchOsInfo ~ data:", data)
+            setOsInfo(data);
+        };
+
+        fetchOsInfo();
+    }, []);
     return (
         <div className='min-h-[60vh] flex flex-col justify-center items-center'>
-             {errors?.map((error: string, index: number) => (
-                    <p key={index} className='text-red-500 m-5'>{error}</p>
-                ))}
+            {errors?.map((error: string, index: number) => (
+                <p key={index} className='text-red-500 m-5'>
+                    {error}
+                </p>
+            ))}
             <div className='text-center'>
-               
                 <button
                     disabled={loading}
                     onClick={handleGenerateCode}
