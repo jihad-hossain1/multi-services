@@ -37,7 +37,7 @@ const CodeSharePage = () => {
             console.log("🚀 ~ handleGenerateCode ~ data:", data)
 
             if(data?.result){
-                router.push(`/service/code-share/${newCode}`);
+                router.push(`${window.location.origin}/service/code-share/${data?.result?.link}`);
             }
             
         } catch (error) {
