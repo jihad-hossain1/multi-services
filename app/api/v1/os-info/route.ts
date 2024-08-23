@@ -1,6 +1,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import os from 'os';
+import os from 'node:os';
 
 export function GET(req: NextRequest) {
   try {
