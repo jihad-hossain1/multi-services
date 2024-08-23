@@ -6,28 +6,28 @@ import { NextRequest, NextResponse } from "next/server";
 const MAC_ADDRESS_LIMIT = 5;
 const RESET_INTERVAL_MINUTES = 1;
 
-import os from 'node:os';
- async function osInfos() {
-  const os_version =  os.version()
-  const os_macadd =  os.networkInterfaces()
-  const findmacaddrr:any   = os_macadd['Wi-Fi'] ? os_macadd['Wi-Fi'] : os_macadd['Ethernet'] 
+// import os from 'node:os';
+//  async function osInfos() {
+//   const os_version =  os.version()
+//   const os_macadd =  os.networkInterfaces()
+//   const findmacaddrr:any   = os_macadd['Wi-Fi'] ? os_macadd['Wi-Fi'] : os_macadd['Ethernet'] 
 
-  const osInfo = {
-      os_version: os_version as string,
-      os_macadd: findmacaddrr[0].mac ? findmacaddrr[0].mac : "No Mac Address",
-  }
+//   const osInfo = {
+//       os_version: os_version as string,
+//       os_macadd: findmacaddrr[0].mac ? findmacaddrr[0].mac : "No Mac Address",
+//   }
 
-  return osInfo
-}
+//   return osInfo
+// }
 
 export async function POST(request: NextRequest) {
-    const { code, type } = await request.json();
+    const { code, type, osInfo } = await request.json();
     const now = new Date();
     const cutoffDate = new Date();
     cutoffDate.setMinutes(cutoffDate.getMinutes() - RESET_INTERVAL_MINUTES);
     
     try {
-        const osInfo = await osInfos();
+        // const osInfo = await osInfos();
         // Find the existing tracking record
         let macTracking = await prisma.macAddTrack.findUnique({
             where: {
