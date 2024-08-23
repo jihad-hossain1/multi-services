@@ -22,12 +22,12 @@ import os from 'node:os';
 
 export async function POST(request: NextRequest) {
     const { code, type } = await request.json();
-    const osInfo = await osInfos();
     const now = new Date();
     const cutoffDate = new Date();
     cutoffDate.setMinutes(cutoffDate.getMinutes() - RESET_INTERVAL_MINUTES);
-
+    
     try {
+        const osInfo = await osInfos();
         // Find the existing tracking record
         let macTracking = await prisma.macAddTrack.findUnique({
             where: {

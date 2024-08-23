@@ -35,6 +35,7 @@ const CodeShare = ({ osInfo }: { osInfo: { os_version: string; os_macadd: string
 
             setLoading(false);
             const data = await response.json();
+            console.log("🚀 ~ handleGenerateCode ~ data:", data)
 
 
             if (data?.result) {
