@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { spanning } from "@/public/inpoter";
@@ -15,11 +15,11 @@ const generateUniqueCode = () => {
 
 const CodeShare = () => {
     const [code, setCode] = useState("");
+    const [localUid, setLocalUid] = useState("");
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
     const [osInfo, setOsInfo] = useState({});
-    
 
     const handleGenerateCode = async () => {
         // Generate a random URL code
@@ -36,12 +36,12 @@ const CodeShare = () => {
                     code: newCode,
                     type: "lmTmLnk",
                     osInfo: osInfo,
+                    uid: localUid,
                 }),
             });
 
             setLoading(false);
             const data = await response.json();
-            console.log("🚀 ~ handleGenerateCode ~ data:", data);
 
             if (data?.result) {
                 setLoading(false);
@@ -59,17 +59,36 @@ const CodeShare = () => {
         }
     };
 
-
     useEffect(() => {
         const fetchOsInfo = async () => {
-            const response = await fetch("https://log-server-orpin.vercel.app/api/logs");
+            const response = await fetch(
+                "https://log-server-orpin.vercel.app/api/logs",
+            );
             const data = await response.json();
-            console.log("🚀 ~ fetchOsInfo ~ data:", data)
+            console.log("🚀 ~ fetchOsInfo ~ data:", data);
             setOsInfo(data);
         };
 
         fetchOsInfo();
     }, []);
+
+    const setUidOnLocal = useCallback(() => {
+        const service_uid = generateUniqueCode();
+        const get_uid = localStorage.getItem("service_uid");
+       
+        if(get_uid === null) {
+             localStorage.setItem("service_uid", service_uid);
+        } 
+
+        if(get_uid) {
+            setLocalUid(get_uid);
+        }
+    }, [setLocalUid]);
+
+    useEffect(() => {
+        setUidOnLocal()
+    }, [setUidOnLocal]);
+    
     return (
         <div className='min-h-[60vh] flex flex-col justify-center items-center'>
             {errors?.map((error: string, index: number) => (

@@ -19,6 +19,7 @@ model LmTmLnk {
   id      String   @id @default(auto()) @map("_id") @db.ObjectId
   link    String
   content String?
+  uid     String
   osInfo  os_info
   xdate   DateTime @default(now())
 }
@@ -27,6 +28,7 @@ model MacAddTrack {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   macadd     String   @unique
   count      Int      @default(0)
+  uid         String
   lastused   DateTime @default(now())
   lastreset  DateTime @default(now())
 }

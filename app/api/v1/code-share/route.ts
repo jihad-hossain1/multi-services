@@ -4,23 +4,28 @@ import { NextRequest, NextResponse } from "next/server";
 
 const MAC_ADDRESS_LIMIT = 5;
 const RESET_INTERVAL_MINUTES = 1;
+const RESET_INTERVAL_HOURS = 24;
 
 export async function POST(request: NextRequest) {
-    const { code, type, osInfo } = await request.json();
-    console.log("🚀 ~ POST ~ osInfo:", osInfo.os_macadd)
+    const { code, type, osInfo, uid } = await request.json();
 
     // generate date
     const now = new Date();
     const cutoffDate = new Date();
-    cutoffDate.setMinutes(cutoffDate.getMinutes() - RESET_INTERVAL_MINUTES);
-   
-    
+
+    // reset every minute
+    // cutoffDate.setMinutes(cutoffDate.getMinutes() - RESET_INTERVAL_MINUTES);
+
+    // reset every 24 hour
+    cutoffDate.setHours(cutoffDate.getHours() - RESET_INTERVAL_HOURS);
+
     try {
         // const osInfo = await osInfos();
         // Find the existing tracking record
         let macTracking = await prisma.macAddTrack.findUnique({
             where: {
                 macadd: osInfo.os_macadd,
+                uid: uid,
             },
         });
 
@@ -31,6 +36,7 @@ export async function POST(request: NextRequest) {
                     macadd: osInfo.os_macadd,
                     count: 1,
                     lastreset: now,
+                    uid: uid,
                 },
             });
         } else {
@@ -39,6 +45,7 @@ export async function POST(request: NextRequest) {
                 macTracking = await prisma.macAddTrack.update({
                     where: {
                         id: macTracking.id,
+                        uid: uid,
                     },
                     data: {
                         count: 1, // Reset count to 1 (starting a new period)
@@ -49,7 +56,7 @@ export async function POST(request: NextRequest) {
                 // Check if the limit has been reached
                 if (macTracking.count >= MAC_ADDRESS_LIMIT) {
                     throw new Error(
-                        "Link creation limit reached. Please try again later. You can create a new link after the reset period."
+                        "Link creation limit reached. Please try again later. You can create a new link after the reset period at 24 hours",
                     );
                 }
 
@@ -57,6 +64,7 @@ export async function POST(request: NextRequest) {
                 macTracking = await prisma.macAddTrack.update({
                     where: {
                         id: macTracking.id,
+                        uid: uid,
                     },
                     data: {
                         count: macTracking.count + 1,
@@ -73,6 +81,7 @@ export async function POST(request: NextRequest) {
                 data: {
                     link: code,
                     osInfo: osInfo,
+                    uid: uid,
                 },
             });
         }
@@ -96,7 +105,6 @@ export async function POST(request: NextRequest) {
 //             },
 //         });
 
-
 //         if (!macTracking) {
 //             // If no tracking record exists, create a new one
 //             macTracking = await prisma.macAddTrack.create({
@@ -106,7 +114,7 @@ export async function POST(request: NextRequest) {
 //                 },
 //             });
 //         } else {
-          
+
 //             // Check if the limit has been reached
 //             if (macTracking.count >= MAC_ADDRESS_LIMIT) {
 //                 throw new Error(
