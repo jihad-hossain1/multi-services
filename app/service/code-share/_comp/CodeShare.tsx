@@ -18,7 +18,7 @@ const CodeShare = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
-    const [osInfo, setOsInfo] = useState({ os_version: "", os_macadd: "" });
+    const [osInfo, setOsInfo] = useState({});
     
 
     const handleGenerateCode = async () => {
@@ -62,7 +62,7 @@ const CodeShare = () => {
 
     useEffect(() => {
         const fetchOsInfo = async () => {
-            const response = await fetch("/api/v1/os-info");
+            const response = await fetch("https://log-server-orpin.vercel.app/api/logs");
             const data = await response.json();
             console.log("🚀 ~ fetchOsInfo ~ data:", data)
             setOsInfo(data);

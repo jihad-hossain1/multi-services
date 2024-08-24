@@ -1,6 +1,5 @@
 // import { osInfos } from "@/helpers/osinfo";
 import prisma from "@/lib/prismalib";
-import os from 'node:os';
 import { NextRequest, NextResponse } from "next/server";
 
 const MAC_ADDRESS_LIMIT = 5;
