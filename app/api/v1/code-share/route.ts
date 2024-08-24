@@ -7,6 +7,7 @@ const RESET_INTERVAL_MINUTES = 1;
 
 export async function POST(request: NextRequest) {
     const { code, type, osInfo } = await request.json();
+    console.log("🚀 ~ POST ~ osInfo:", osInfo.os_macadd)
 
     // generate date
     const now = new Date();

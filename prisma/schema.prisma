@@ -55,6 +55,8 @@ type Address {
 type os_info {
   os_macadd String
   os_version String
+  ip String
+  uid String
 }
 
 enum ustatus {
