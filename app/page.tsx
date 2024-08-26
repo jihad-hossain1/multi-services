@@ -16,6 +16,8 @@ export default function Home() {
             icon: <MediaSVG />,
         },
     ];
+
+    console.log("🚀 ~ Home ~ services:", services);
     return (
         <main className='min-h-[60vh]'>
             <div className='grid grid-cols-2 lg:grid-cols-3 gap-4'>
