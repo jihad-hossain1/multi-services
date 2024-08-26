@@ -63,11 +63,12 @@ const RegisterForm = () => {
 
   return (
     <section className='min-h-screen flex flex-col items-center justify-center  px-3 py-5 md:py-16'>
-      <main className='max-sm:p-5 p-20 bg-[#dedddf] border border-gray-300 shadow-xl drop-shadow-md rounded-lg'>
+      <main className='max-sm:p-5 p-20 bg-[#dedddf02] max-sm:w-full w-[550px] border border-gray-300 shadow-xl drop-shadow-md rounded-lg'>
       <h4 className='text-2xl font-bold mb-5'>Register</h4>
         <form onSubmit={handleRegister} className='flex flex-col gap-1 w-full'>
           {stateErrors && <div className='text-red-500'>{stateErrors}</div>}
           <InputField
+          required={true}
             key='01'
             id='name'
             label='Name'
@@ -78,6 +79,7 @@ const RegisterForm = () => {
             />
 
           <InputField
+          required={true}
             key='02'
             id='email'
             label='Email'
@@ -86,6 +88,7 @@ const RegisterForm = () => {
             onChange={(e)=>setState({ ...state, email: e.target.value })} value={state?.email} />
 
           <InputField
+          required={true}
             key='05'
             id='password'
             label='Password'
@@ -96,7 +99,7 @@ const RegisterForm = () => {
           <div className='mt-6 w-full'>
             <button
               type='submit'
-              className='w-full bg-gradient-to-r from-[#222831] via-[#344955] to-[#344955] text-white py-3 rounded-lg shadow-md hover:from-gray-700 hover:via-gray-800 hover:to-gray-700 uppercase transition duration-500 ease-in-out transform hover:scale-105'
+              className='input_btn_2'
             >
               {loading ? "Registering..." : "Register"}
             </button>

@@ -190,7 +190,7 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
                 <Modal
                     isOpen={isModalOpen}
                     onClose={closeModal}
-                    title="Enhanced Modal"
+                    title="This is your share link Expires in 24 hours"
                     size="lg"
                     closeOnOverlayClick={true}
                 >
