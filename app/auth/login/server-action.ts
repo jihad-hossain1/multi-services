@@ -31,7 +31,7 @@ export async function userLogin(formData: {
   const set_session = await newSession(
     result?.result?.id,
     result?.result?.name,
-    result?.result?.xemail
+    result?.result?.email
   );
 
   if (set_session) {

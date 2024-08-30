@@ -11,7 +11,7 @@ import Loader from "@/components/svg/loader";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
-export const TextEditor = ({ params }: { params: { code: string[] } }) => {
+export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
     const [content, setContent] = useState("");
     const [shareLink, setShareLink] = useState("");
     const [isContentChanged, setIsContentChanged] = useState(false);
@@ -60,7 +60,7 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
         abortControllerRef.current = abortController;
 
         try {
-         
+
             const response = await fetch(`/api/v1/code-share`, {
                 method: "PATCH",
                 headers: {
@@ -69,7 +69,10 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
                 body: JSON.stringify({
                     content,
                     code: params?.code[0],
-                    type: "lmTmLnk",
+                    type: "permanent",
+                    email: auth?.email,
+                    userid: auth?.userId,
+                    xname: formData?.xname,
                 }),
                 signal: abortController.signal,
             });
@@ -83,7 +86,7 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
                 console.error("Failed to update content:", error);
             }
         }
-    }, [isContentChanged, content, params?.code]);
+    }, [auth?.email, auth?.userId, content, formData?.xname, isContentChanged, params?.code]);
 
     useEffect(() => {
         if (isContentChanged) {
@@ -97,19 +100,18 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
 
     const fetchContent = useCallback(async () => {
         setIsFetchingContent(true);
-        const type = "lmTmLnk";
+        const type = "permanent" 
         const response = await fetch(`/api/v1/code-share?code=${params?.code[0]}&type=${type}`);
         const data = await response.json();
         console.log("🚀 ~ fetchContent ~ data:", data)
         setContent(data?.result?.content || "");
         lastContentRef.current = data?.result?.content || "";
+        setFormData({ xname: data?.result?.xname || "" });
         setIsFetchingContent(false);
     }, [params?.code]);
 
     useEffect(() => {
-        if (params?.code[0] && isFetchingContent) {
-            fetchContent();
-        }
+        if (params?.code[0] && isFetchingContent) fetchContent();
     }, [fetchContent, isFetchingContent, params?.code]);
 
     const handleShareLink = () => {
@@ -133,19 +135,12 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
             <h4 className="text-center m-4 my-2 font-bold text-2xl md:text-4xl">
                 Share your Code Link
             </h4>
-            <h4 className="text-center m-4 my-2 text-sm">
-                        <span>
-                            You can share the link with your friends. Limited to{" "}
-                            <strong>5 links per 24.</strong>
-                        </span>
-                    </h4>
-                    <h4 className="text-center m-4 my-2 text-sm">
-                        <strong>Save your link and share</strong> it with your friends.{" "}
-                        <a className="text-blue-500 hover:underline" href="/auth/login">
-                            Login required
-                        </a>
-                    </h4>
-           
+            <h4>
+                    <strong>Save your link and share</strong> it with your friends. max limit 20{" "}
+                    <a href="#" className="text-blue-500 hover:underline">
+                        Upgrade Now
+                    </a>
+                </h4>
             <div>
                 <div className="flex justify-end gap-4">
                     <div className="flex gap-2">
@@ -178,7 +173,7 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
                         </button>
                     </div>
                 </div>
-                {/* {loading ? (
+                {loading ? (
                     <div>Loading...</div>
                 ) : (
                     authenticated && (
@@ -190,7 +185,7 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
                             onChange={(e) => setFormData({ ...formData, xname: e.target.value })}
                         />
                     )
-                )} */}
+                )}
                 <div className="mt-4 border border-gray-400 shadow-[0px_0px_5px_rgba(0,0,0,0.25)] rounded-sm p-2">
                     <Editor
                         height="90vh"

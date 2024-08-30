@@ -20,14 +20,14 @@ const LoginForm = () => {
 
   const router = useRouter();
 
-  const handleRegister = async (e:any) => {
+  const handleRegister = async (e: any) => {
     e.preventDefault();
     try {
       setLoading(true);
       setStateErrors('');
-      const response = await userLogin({...state});
+      const response = await userLogin({ ...state });
       setLoading(false);
-      if(response?.error){
+      if (response?.error) {
         setStateErrors(response?.error)
       }
 
@@ -38,7 +38,10 @@ const LoginForm = () => {
           email: "",
           password: "",
         });
-        router.push("/");
+        router.refresh();
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
 
       }
     } catch (error) {
@@ -50,34 +53,34 @@ const LoginForm = () => {
   return (
     <section className='min-h-screen flex flex-col items-center justify-center  px-3 py-5 md:py-16'>
       <main className='max-sm:p-5 p-20 bg-[#dedddf02] max-sm:w-full w-[550px] border border-gray-300 shadow-xl drop-shadow-md rounded-lg'>
-      <h4 className='text-2xl font-bold mb-5'>Login</h4>
+        <h4 className='text-2xl font-bold mb-5'>Login</h4>
         <form onSubmit={handleRegister} className='flex flex-col gap-1 w-full'>
-          {stateErrors && <div className='text-red-500 flex items-center gap-2'>{stateErrors} {stateErrors =="User not verifyed" && <Link href={`/auth/verify/${state?.email}`} className='text-blue-600 hover:underline'>Verify</Link>} </div>}
-          
+          {stateErrors && <div className='text-red-500 flex items-center gap-2'>{stateErrors} {stateErrors == "User not verifyed" && <Link href={`/auth/verify/${state?.email}`} className='text-blue-600 hover:underline'>Verify</Link>} </div>}
+
           <InputField
-          required={true}
+            required={true}
             key='02'
             id='email'
             label='Email'
             type='email'
             name='xemail'
-            onChange={(e)=>setState({ ...state, email: e.target.value })} value={state?.email} />
+            onChange={(e) => setState({ ...state, email: e.target.value })} value={state?.email} />
 
           <InputField
-          required={true}
+            required={true}
             key='05'
             id='password'
             label='Password'
             type='password'
             name='password'
-            onChange={(e)=>setState({ ...state, password: e.target.value })} value={state?.password} />
+            onChange={(e) => setState({ ...state, password: e.target.value })} value={state?.password} />
 
           <div className='mt-6 w-full'>
             <button
               type='submit'
               className='input_btn_2 flex items-center justify-center'
             >
-              {loading ? <Loader className='w-5 h-5 animate-spin'  /> : "Login"}
+              {loading ? <Loader className='w-5 h-5 animate-spin' /> : "Login"}
             </button>
           </div>
         </form>

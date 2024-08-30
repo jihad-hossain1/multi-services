@@ -11,19 +11,15 @@ import Loader from "@/components/svg/loader";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
-export const TextEditor = ({ params }: { params: { code: string[] } }) => {
-    const [content, setContent] = useState("");
+export const TextView = ({auth_link_json}: {
+    auth_link_json: any
+}) => {
+    const [content, setContent] = useState(auth_link_json?.content);
     const [shareLink, setShareLink] = useState("");
-    const [isContentChanged, setIsContentChanged] = useState(false);
-    const [isFetchingContent, setIsFetchingContent] = useState(true);
     const [copySuccess, setCopySuccess] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [linkCopied, setLinkCopied] = useState(false);
-    const lastContentRef = useRef(content);
-    const abortControllerRef = useRef<AbortController | null>(null);
-    const [formData, setFormData] = useState({
-        xname: "",
-    });
+
 
     const { auth, loading, authenticated } = useAuth();
 
@@ -49,79 +45,17 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
         }, 2000);
     };
 
-    const sendContentOnServer = useCallback(async () => {
-        if (!isContentChanged || content === lastContentRef.current) return;
 
-        if (abortControllerRef.current) {
-            abortControllerRef.current.abort();
-        }
-
-        const abortController = new AbortController();
-        abortControllerRef.current = abortController;
-
-        try {
-         
-            const response = await fetch(`/api/v1/code-share`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    content,
-                    code: params?.code[0],
-                    type: "lmTmLnk",
-                }),
-                signal: abortController.signal,
-            });
-
-            const data = await response.json();
-            lastContentRef.current = content;
-            setContent(data?.result?.content || "");
-            setIsContentChanged(false);
-        } catch (error: any) {
-            if (error.name !== "AbortError") {
-                console.error("Failed to update content:", error);
-            }
-        }
-    }, [isContentChanged, content, params?.code]);
-
-    useEffect(() => {
-        if (isContentChanged) {
-            const timerId = setTimeout(() => {
-                sendContentOnServer();
-            }, 6000);
-
-            return () => clearTimeout(timerId);
-        }
-    }, [content, sendContentOnServer, isContentChanged]);
-
-    const fetchContent = useCallback(async () => {
-        setIsFetchingContent(true);
-        const type = "lmTmLnk";
-        const response = await fetch(`/api/v1/code-share?code=${params?.code[0]}&type=${type}`);
-        const data = await response.json();
-        console.log("🚀 ~ fetchContent ~ data:", data)
-        setContent(data?.result?.content || "");
-        lastContentRef.current = data?.result?.content || "";
-        setIsFetchingContent(false);
-    }, [params?.code]);
-
-    useEffect(() => {
-        if (params?.code[0] && isFetchingContent) {
-            fetchContent();
-        }
-    }, [fetchContent, isFetchingContent, params?.code]);
 
     const handleShareLink = () => {
         openModal();
-        const link = `${window.location.origin}/service/code-share/${params?.code[0]}`;
+        const link = `${window.location.origin}/service/code-share/${auth_link_json?.link}`;
         setShareLink(link);
     };
 
     const handleEditorChange = (value: string | undefined) => {
         if (value !== content) {
             setContent(value || "");
-            setIsContentChanged(true);
         }
     };
 
@@ -133,7 +67,9 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
             <h4 className="text-center m-4 my-2 font-bold text-2xl md:text-4xl">
                 Share your Code Link
             </h4>
-            <h4 className="text-center m-4 my-2 text-sm">
+            {!authenticated && (
+                <>
+                    <h4 className="text-center m-4 my-2 text-sm">
                         <span>
                             You can share the link with your friends. Limited to{" "}
                             <strong>5 links per 24.</strong>
@@ -145,7 +81,16 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
                             Login required
                         </a>
                     </h4>
-           
+                </>
+            )}
+            {authenticated && (
+                <h4>
+                    <strong>Save your link and share</strong> it with your friends. max limit 20{" "}
+                    <a href="#" className="text-blue-500 hover:underline">
+                        Upgrade Now
+                    </a>
+                </h4>
+            )}
             <div>
                 <div className="flex justify-end gap-4">
                     <div className="flex gap-2">
@@ -178,19 +123,7 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
                         </button>
                     </div>
                 </div>
-                {/* {loading ? (
-                    <div>Loading...</div>
-                ) : (
-                    authenticated && (
-                        <input
-                            type="text"
-                            placeholder="Your Link Name"
-                            className="max-w-[500px] border p-2"
-                            value={formData?.xname}
-                            onChange={(e) => setFormData({ ...formData, xname: e.target.value })}
-                        />
-                    )
-                )} */}
+               
                 <div className="mt-4 border border-gray-400 shadow-[0px_0px_5px_rgba(0,0,0,0.25)] rounded-sm p-2">
                     <Editor
                         height="90vh"

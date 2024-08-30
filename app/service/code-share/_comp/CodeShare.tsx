@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { spanning } from "@/public/inpoter";
+import useAuth from "@/helpers/hook/useAuth";
 
 const generateUniqueCode = () => {
     // Convert Uint8Array to a regular array and then map it to a base 36 string
@@ -21,30 +22,43 @@ const CodeShare = () => {
     const [errors, setErrors] = useState<string[]>([]);
     const [osInfo, setOsInfo] = useState({});
 
+    const {auth} = useAuth()
+    // console.log("🚀 ~ CodeShare ~ auth:", auth)
+
     const handleGenerateCode = async () => {
         // Generate a random URL code
         const newCode = generateUniqueCode();
         setCode(newCode);
         try {
+            const localUserBody = {
+                code: newCode,
+                type: "lmTmLnk",
+                osInfo: osInfo,
+                uid: localUid,
+            };
+            const savedUserBody = {
+                code: newCode,
+                userid: auth?.userId,
+                type : "permanent",
+            }
+            const jsonBody = auth?.userId ? savedUserBody : localUserBody
+            
             setLoading(true);
+            setErrors([])
             const response = await fetch(`/api/v1/code-share`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({
-                    code: newCode,
-                    type: "lmTmLnk",
-                    osInfo: osInfo,
-                    uid: localUid,
-                }),
+                body: JSON.stringify(jsonBody),
             });
 
             setLoading(false);
             const data = await response.json();
+            console.log("🚀 ~ handleGenerateCode ~ data:", data)
 
             if (data?.result) {
-                setLoading(false);
+               
                 setTimeout(() => {
                     router.push(
                         `/service/code-share/${data?.result?.link}`,
@@ -52,11 +66,10 @@ const CodeShare = () => {
                 }, 1500);
             }
             if (data?.error) {
-                setLoading(false);
-                setErrors((prevErrors) => [...prevErrors, data.error]);
+                
+                setErrors((prevErrors) => [...prevErrors, "Something went wrong, please try again "]);
             }
         } catch (error) {
-            setLoading(false);
             console.error((error as Error).message);
         }
     };
@@ -67,7 +80,6 @@ const CodeShare = () => {
                 "https://log-server-orpin.vercel.app/api/logs",
             );
             const data = await response.json();
-            console.log("🚀 ~ fetchOsInfo ~ data:", data);
             setOsInfo(data);
         };
 

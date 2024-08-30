@@ -8,11 +8,14 @@ datasource db {
 }
 
 model ULink {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
   link     String
-  content  String
-  author   User   @relation(fields: [authorId], references: [id])
-  authorId String @db.ObjectId
+  content  String?
+  xname    String?
+  xdate    DateTime @default(now())
+  status   xstatus  @default(ACTIVE)
+  author   User     @relation(fields: [authorId], references: [id])
+  authorId String   @db.ObjectId
 }
 
 model LmTmLnk {
@@ -25,25 +28,25 @@ model LmTmLnk {
 }
 
 model MacAddTrack {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  macadd     String   @unique
-  count      Int      @default(0)
-  uid         String
-  lastused   DateTime @default(now())
-  lastreset  DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  macadd    String   @unique
+  count     Int      @default(0)
+  uid       String
+  lastused  DateTime @default(now())
+  lastreset DateTime @default(now())
 }
 
-
 model User {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  email    String   @unique
+  id       String        @id @default(auto()) @map("_id") @db.ObjectId
+  email    String        @unique
   name     String
   password String
-  status   ustatus  @default(FREE)
-  verify   uverify  @default(PENDING)
+  status   ustatus       @default(FREE)
+  verify   uverify       @default(PENDING)
   xcode    String?
+  count    Int            @default(0)
   limit    premium_count @default(LIMIT)
-  xrole    xrole  @default(USER)
+  xrole    xrole         @default(USER)
   address  Address?
   links    ULink[]
 }
@@ -57,25 +60,30 @@ type Address {
 }
 
 type os_info {
-  os_macadd String?
+  os_macadd  String?
   os_version String?
-  ip String?
-  uid String?
+  ip         String?
+  uid        String?
 }
 
 enum xrole {
-  USER @map("user")
+  USER   @map("user")
   XADMIN @map("xadmin")
 }
 
 enum premium_count {
-  LIMIT @map("20")
+  LIMIT     @map("20")
   UNLIMITED @map("unlimited")
 }
 
 enum ustatus {
   FREE @map("0")
   PAID @map("1")
+}
+
+enum xstatus {
+  ACTIVE  @map("0")
+  DISABLE @map("1")
 }
 
 enum uverify {
