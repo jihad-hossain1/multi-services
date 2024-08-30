@@ -8,7 +8,7 @@ export async function userLogin(formData: {
     email: string; password: string;}) {
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/v1/auth/login`,
+    `${process.env.PUBLIC_NEXT_URL}/api/v1/auth/login`,
     {
       method: "POST",
       headers: {
@@ -29,9 +29,8 @@ export async function userLogin(formData: {
   }
 
   const set_session = await newSession(
-    result?.result?.xuserid,
-    result?.result?.xname,
-    result?.result?.bizid,
+    result?.result?.id,
+    result?.result?.name,
     result?.result?.xemail
   );
 

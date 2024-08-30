@@ -1,3 +1,4 @@
+import { mailBody, sendEmails } from './../../../../helpers/sendMail';
 import prisma from "@/lib/prismalib";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
@@ -52,6 +53,14 @@ export async function POST(request: NextRequest) {
             }
         })
 
+                const htmlBody = mailBody({ code: createUser.xcode, email: createUser.email });
+
+        // Send verification code
+           await sendEmails(
+            createUser?.email,
+            "Verification Code",
+            htmlBody,
+        );
 
         return NextResponse.json({ result: createUser }, { status: 201 });
     } catch (error) {

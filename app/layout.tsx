@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/shared/header/header";
 import { ToasterComponent } from "@/components/toaster/toaster";
+import AuthContextProvider from "../helpers/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,13 +20,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="bg-slate-50 ">
+        <AuthContextProvider> 
+          <main className="bg-slate-50 ">
           <ToasterComponent />
           <Header />
           <div className=" min-h-screen max-w-screen-xl m-auto p-4 ">
             {children}
           </div>
         </main>
+        </AuthContextProvider>
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { InputField } from "@/components/ui/InputField";
-import Link from "next/link";;
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -51,7 +51,7 @@ const RegisterForm = () => {
           duration: 3000,
           icon: "👏",
         });
-        router.push("/auth/login");
+        router.push(`/auth/verify/${data?.result?.email}`);
       }
 
       setLoading(false);

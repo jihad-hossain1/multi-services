@@ -28,17 +28,15 @@ export async function token_decrypt(session: string | undefined = "") {
 export async function newSession(
   xuserid: number,
   xname: string,
-  bizid: number,
   xemail: string
 ) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-  if (!xuserid || !xname || !bizid || !xemail) return null;
+  // if (!xuserid || !xname || !bizid || !xemail) return null;
 
   const session_token = await token_encrypt({
     name: xname,
     userId: xuserid,
-    bizid: bizid,
     email: xemail,
     expiresAt,
   });

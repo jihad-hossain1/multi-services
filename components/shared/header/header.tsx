@@ -4,9 +4,29 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
+import useAuth  from "../../../helpers/hook/useAuth";
+import Loader from "@/components/svg/loader";
+
 const Header = () => {
-    const auth = true;
+    const auth: any  = useAuth()
     const path = usePathname();
+    const [loading, setLoading] = React.useState(false)
+
+    const handleLogout = async () => {
+        try {
+            setLoading(true)
+            const response = await fetch("/api/v1/auth/logout")
+
+            setLoading(false)
+            const data = await response.json();
+
+            if (data.success) {
+                window.location.reload();
+            }
+        } catch (error) {
+            
+        }
+    }
 
     const paths = ["/service/code-share"];
 
@@ -30,12 +50,18 @@ const Header = () => {
 
             {hiddenPath && (
                 <div>
-                    {auth ? (
-                        <Link href='/auth/logout' className='link'>
-                            Logout
+                    {auth?.auth?.userId ? (
+                        <div className="flex items-center gap-2">
+                        <Link href='/profile' className='link'>
+                            Profile
                         </Link>
+                        <hr className="border-2 h-5 border-gray-400 " />
+                        <button onClick={handleLogout} className='link' disabled={loading}>
+                            {loading ? <Loader className="w-5 h-5 animate-spin" /> : "Logout"}
+                        </button>
+                        </div>
                     ) : (
-                        <Link href='/login' className='link'>
+                        <Link href='/auth/login' className='link'>
                             Login
                         </Link>
                     )}
