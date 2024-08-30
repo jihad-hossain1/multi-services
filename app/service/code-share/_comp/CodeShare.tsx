@@ -45,9 +45,11 @@ const CodeShare = () => {
 
             if (data?.result) {
                 setLoading(false);
-                router.push(
-                    `${window.location.origin}/service/code-share/${data?.result?.link}`,
-                );
+                setTimeout(() => {
+                    router.push(
+                        `/service/code-share/${data?.result?.link}`,
+                    );
+                }, 1500);
             }
             if (data?.error) {
                 setLoading(false);
