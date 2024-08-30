@@ -44,7 +44,7 @@ const AuthContextProvider: FC<IAuthContext> = ({ children }) => {
           console.error(`Error: ${response.statusText}`);
         }
         const result = await response.json();
-        console.log("🚀 ~ fetchAuth ~ result:", result);
+       
         setAuth(result);
         setAuthenticated("authenticated");
       } catch (error) {

@@ -1,12 +1,17 @@
-import React from 'react'
-import Authorized from '../../../helpers/context/Authorized'
+
+
+import React from "react";
+import { LinkList } from "./_comp/Linklist";
+
 
 const Profile = () => {
-  return (
-    <Authorized>
-      <div>Profile</div>
-    </Authorized>
-  )
-}
+    return (
+        <div>
+          <LinkList />
+      </div>
+    );
+};
 
-export default Profile
+export default Profile;
+
+

@@ -1,6 +1,6 @@
 import React from "react";
 
-const MediaSVG = () => {
+const MediaSVG = (props: any) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,7 +8,7 @@ const MediaSVG = () => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className="size-6"
+      {...props}
     >
       <path
         strokeLinecap="round"

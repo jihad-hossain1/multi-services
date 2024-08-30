@@ -1,3 +1,4 @@
+import CodeSVG from "@/components/svg/code";
 import MediaSVG from "@/components/svg/media";
 import Link from "next/link";
 import React from "react";
@@ -8,30 +9,35 @@ const ServicePage = () => {
       name: "YouTube Downloader",
       description: "Download videos from YouTube",
       url: "/service/yt-downloader",
-      icon: <MediaSVG />,
+      icon: <MediaSVG className="size-10" />,
     },
     {
       name: "Code Share",
       description: "Share code with other users",
       url: "/service/code-share",
-      icon: <MediaSVG />,
+      icon: <CodeSVG className="size-10" />,
     },
   ];
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      {services.map((service) => (
-        <div
-          key={service.name}
-          className="border border-violet-800 p-4 rounded-md shadow-sm hover:shadow "
-        >
-          <Link href={service.url} className="flex flex-col gap-1 items-center">
-            {service?.icon}
-            <h3>{service.name}</h3>
-            <p>{service.description}</p>
-          </Link>
-        </div>
-      ))}
+    <main className='min-h-[60vh]'>
+    <div className='grid max-sm:grid-cols-1 grid-cols-2 lg:grid-cols-3 gap-4'>
+        {services.map((service) => (
+            <div
+                key={service.name}
+                className=' transition-all duration-300 border border-gray-300 p-4 rounded-md shadow-[0px_0px_2px_rgba(0,0,0,0.25)] hover:shadow-[0px_0px_5px_rgba(0,0,0,0.25)] bg-white'
+            >
+                <Link
+                    href={service.url}
+                    className='flex flex-col gap-1 items-center'
+                >
+                    {service?.icon}
+                    <h3>{service.name}</h3>
+                    <p>{service.description}</p>
+                </Link>
+            </div>
+        ))}
     </div>
+</main>
   );
 };
 
