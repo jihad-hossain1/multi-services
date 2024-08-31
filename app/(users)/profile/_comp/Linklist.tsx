@@ -7,22 +7,28 @@ import { useCallback, useEffect, useState } from "react";
 
 export function LinkList() {
   const { auth } = useAuth();
-  console.log("authuser", auth);
+  const [loading, setLoading] = useState(false);
   const [links, setLinks] = useState([]);
 
   const fetchLinks = useCallback(async () => {
-    const response = await fetch(
-      `/api/v1/code-share/all-links?userid=${auth?.userId}`,
-    );
-    const jsondata = await response.json();
-    if (jsondata?.result) setLinks(jsondata?.result);
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `/api/v1/code-share/all-links?userid=${auth?.userId}`
+      );
+
+      setLoading(false);
+      const jsondata = await response.json();
+      if (jsondata?.result) setLinks(jsondata?.result);
+    } catch (error) {
+      console.error("Error fetching links:", error);
+    }
   }, [auth?.userId]);
 
   useEffect(() => {
     if (auth) fetchLinks();
   }, [auth, fetchLinks]);
 
-  console.log("user links", links);
   return (
     <div className="grid min-h-screen w-full overflow-hidden lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 lg:block">
@@ -88,51 +94,91 @@ export function LinkList() {
           </div>
           <div className="flex flex-1 items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
             <form className="ml-auto flex-1 sm:flex-initial">
-              <div className="relative">
-                <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <input
-                  type="search"
-                  placeholder="Search orders..."
-                  className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-                />
-              </div>
+              <input
+                type="search"
+                placeholder="Search orders..."
+                className="border p-2 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+              />
             </form>
             <CodeShare />
           </div>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
           <div className="border shadow-sm rounded-lg p-2">
-            <table className="w-full overflow-auto">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-start px-4 py-2 ">#</th>
-                  <th className="text-start px-4 py-2 ">Link</th>
-                  <th className="text-start px-4 py-2 ">Url</th>
-                  <th className="text-start px-4 py-2 ">Date</th>
-                  <th className="text-start px-4 py-2 ">Status</th>
-                  <th className="text-start px-4 py-2 ">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {links?.map((link:any, i) => (
-                  <tr key={i} className="border-b hover:bg-gray-100">
-                    <td className="text-start px-4 py-2 ">{i + 1}</td>
-                    <td className="text-start ">{link?.xname || "N/A"}</td>
-                    <td className="text-start px-4 py-2 ">{link?.link}</td>
-                    <td className="text-start px-4 py-2 ">{new Date(link?.xdate).toLocaleDateString()}</td>
-                    <td className="text-start px-4 py-2 ">{link?.status?.toLowerCase()}</td>
-                    <td className="text-start px-4 py-2 ">
-                      <Link
-                        href={`/service/code-share/${link?.link}`}
-                        className="text-primary"
-                      >
-                        View
-                      </Link>
-                    </td>
+            {loading ? (
+              <table className="w-full overflow-auto">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-start px-4 py-2 ">#</th>
+                    <th className="text-start px-4 py-2 ">Link</th>
+                    <th className="text-start px-4 py-2 ">Url</th>
+                    <th className="text-start px-4 py-2 ">Date</th>
+                    <th className="text-start px-4 py-2 ">Status</th>
+                    <th className="text-start px-4 py-2 ">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {[...Array(15)].map((_, i) => (
+                    <tr key={i} className="border-b hover:bg-gray-100">
+                      <td className="text-start px-4 py-2">
+                        <div className="animate-pulse bg-gray-300 h-4 w-8"></div>
+                      </td>
+                      <td className="text-start px-4 py-2">
+                        <div className="animate-pulse bg-gray-300 h-4 w-24"></div>
+                      </td>
+                      <td className="text-start px-4 py-2">
+                        <div className="animate-pulse bg-gray-300 h-4 w-36"></div>
+                      </td>
+                      <td className="text-start px-4 py-2">
+                        <div className="animate-pulse bg-gray-300 h-4 w-20"></div>
+                      </td>
+                      <td className="text-start px-4 py-2">
+                        <div className="animate-pulse bg-gray-300 h-4 w-16"></div>
+                      </td>
+                      <td className="text-start px-4 py-2">
+                        <div className="animate-pulse bg-gray-300 h-4 w-12"></div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <table className="w-full overflow-auto">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-start px-4 py-2 ">#</th>
+                    <th className="text-start px-4 py-2 ">Link</th>
+                    <th className="text-start px-4 py-2 ">Url</th>
+                    <th className="text-start px-4 py-2 ">Date</th>
+                    <th className="text-start px-4 py-2 ">Status</th>
+                    <th className="text-start px-4 py-2 ">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {links?.map((link: any, i) => (
+                    <tr key={i} className="border-b hover:bg-gray-100">
+                      <td className="text-start px-4 py-2 ">{i + 1}</td>
+                      <td className="text-start ">{link?.xname || "N/A"}</td>
+                      <td className="text-start px-4 py-2 ">{link?.link}</td>
+                      <td className="text-start px-4 py-2 ">
+                        {new Date(link?.xdate).toLocaleDateString()}
+                      </td>
+                      <td className="text-start px-4 py-2 ">
+                        {link?.status?.toLowerCase()}
+                      </td>
+                      <td className="text-start px-4 py-2 ">
+                        <Link
+                          href={`/service/code-share/${link?.link}`}
+                          className="text-primary"
+                        >
+                          View
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
         </main>
       </div>
