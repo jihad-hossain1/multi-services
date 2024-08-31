@@ -4,7 +4,7 @@ import { serverAuth } from "./lib/server_session";
 
 export async function middleware(request: NextRequest) {
   const isAuth = await serverAuth();
-  console.log("🚀 ~ middleware ~ isAuth:", isAuth)
+
   const loginUrl = new URL("/auth/login", request.url);
 
   if (isAuth) {

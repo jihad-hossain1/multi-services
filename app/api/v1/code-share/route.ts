@@ -207,9 +207,7 @@ export async function PATCH(request: NextRequest) {
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const code = searchParams.get("code");
-    console.log("🚀 ~ GET ~ code:", code)
     const type = searchParams.get("type");
-    console.log("🚀 ~ GET ~ type:", type)
 
     try {
         

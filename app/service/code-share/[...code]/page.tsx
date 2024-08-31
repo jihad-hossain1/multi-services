@@ -19,7 +19,7 @@ const CodeSharePage = async ({ params }: { params: { code: string[] } }) => {
           !isAuth && <TextEditor params={params} />
         }
         {
-          isAuth ? <AuthTextEditor params={params} /> : null
+          isAuth && auth_link_json?.result?.authorId == isAuth?.userId ? <AuthTextEditor params={params} /> : null
         }
 
         {
