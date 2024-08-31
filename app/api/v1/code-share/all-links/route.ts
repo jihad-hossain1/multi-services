@@ -4,13 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.nextUrl);
   const userid = searchParams.get("userid") as string;
-  console.log("user id", userid);
+
+  // console.log("user id", userid);
   try {
-    const result = prisma.uLink.findMany({
+    const result = await prisma.uLink.findMany({
       where: {
         authorId: userid,
       },
     });
+    // console.log("🚀 ~ GET ~ result:", result)
 
     return NextResponse.json({ result: result }, { status: 200 });
   } catch (error) {

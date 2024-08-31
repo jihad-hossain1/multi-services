@@ -54,16 +54,16 @@ const AuthContextProvider: FC<IAuthContext> = ({ children }) => {
         setLoading(false);
       }
     };
-   if(authenticated == 'authenticated') fetchAuth();
-  }, [authenticated]);
+    fetchAuth();
+  }, []);
 
-  // useEffect(() => {
-  //   if (auth) {
-  //     setAuthenticated("authenticated");
-  //   } else {
-  //     setAuthenticated("unauthenticated");
-  //   }
-  // }, [auth]);
+  useEffect(() => {
+    if (auth) {
+      setAuthenticated("authenticated");
+    } else {
+      setAuthenticated("unauthenticated");
+    }
+  }, [auth]);
 
   return (
     <AuthContext.Provider

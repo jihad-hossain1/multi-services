@@ -1,5 +1,6 @@
 "use client";
 
+import CodeShare from "@/app/service/code-share/_comp/CodeShare";
 import useAuth from "@/helpers/hook/useAuth";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
@@ -46,9 +47,9 @@ export function LinkList() {
                 className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary  transition-all hover:text-primary"
               >
                 <ShoppingCartIcon className="h-4 w-4" />
-                Orders{" "}
+                Links{" "}
                 <button className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  12
+                  {links?.length || 0}
                 </button>
               </Link>
               <Link
@@ -96,9 +97,7 @@ export function LinkList() {
                 />
               </div>
             </form>
-            <Link href={`/service/code-share/`} className="text-nowrap">
-              New Link
-            </Link>
+            <CodeShare />
           </div>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
@@ -115,14 +114,21 @@ export function LinkList() {
                 </tr>
               </thead>
               <tbody>
-                {[...Array(5)].map((_, i) => (
+                {links?.map((link:any, i) => (
                   <tr key={i} className="border-b hover:bg-gray-100">
-                    <td className="text-start ">{"table"}</td>
-                    <td className="text-start px-4 py-2 ">{"table"}</td>
-                    <td className="text-start px-4 py-2 ">{"table"}</td>
-                    <td className="text-start px-4 py-2 ">{"table"}</td>
-                    <td className="text-start px-4 py-2 ">{"table"}</td>
-                    <td className="text-start px-4 py-2 ">{"table"}</td>
+                    <td className="text-start px-4 py-2 ">{i + 1}</td>
+                    <td className="text-start ">{link?.xname || "N/A"}</td>
+                    <td className="text-start px-4 py-2 ">{link?.link}</td>
+                    <td className="text-start px-4 py-2 ">{new Date(link?.xdate).toLocaleDateString()}</td>
+                    <td className="text-start px-4 py-2 ">{link?.status?.toLowerCase()}</td>
+                    <td className="text-start px-4 py-2 ">
+                      <Link
+                        href={`/service/code-share/${link?.link}`}
+                        className="text-primary"
+                      >
+                        View
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>
