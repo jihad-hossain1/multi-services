@@ -103,7 +103,6 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
         const type = "permanent" 
         const response = await fetch(`/api/v1/code-share?code=${params?.code[0]}&type=${type}`);
         const data = await response.json();
-        console.log("🚀 ~ fetchContent ~ data:", data)
         setContent(data?.result?.content || "");
         lastContentRef.current = data?.result?.content || "";
         setFormData({ xname: data?.result?.xname || "" });

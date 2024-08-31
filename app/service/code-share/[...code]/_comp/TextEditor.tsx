@@ -21,11 +21,7 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
     const [linkCopied, setLinkCopied] = useState(false);
     const lastContentRef = useRef(content);
     const abortControllerRef = useRef<AbortController | null>(null);
-    const [formData, setFormData] = useState({
-        xname: "",
-    });
-
-    const { auth, loading, authenticated } = useAuth();
+    const { loading } = useAuth();
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -100,7 +96,6 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
         const type = "lmTmLnk";
         const response = await fetch(`/api/v1/code-share?code=${params?.code[0]}&type=${type}`);
         const data = await response.json();
-        console.log("🚀 ~ fetchContent ~ data:", data)
         setContent(data?.result?.content || "");
         lastContentRef.current = data?.result?.content || "";
         setIsFetchingContent(false);

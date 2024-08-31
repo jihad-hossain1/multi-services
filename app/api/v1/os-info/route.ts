@@ -12,7 +12,6 @@ export function GET(req: NextRequest) {
       os_version,
       os_macadd: findmacaddrr[0]?.mac || 'No Mac Address',
     };
-    console.log("🚀 ~ GET ~ osInfo:", osInfo)
   
     return NextResponse.json(osInfo);
   } catch (error) {

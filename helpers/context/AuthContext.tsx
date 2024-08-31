@@ -14,6 +14,7 @@ interface AuthContextType {
   loading: boolean;
   authenticated: string;
   setAuthenticated: (data: string) => void;
+  setAuth: (data: string) => void;
 }
 
 interface IAuthContext {
@@ -46,27 +47,27 @@ const AuthContextProvider: FC<IAuthContext> = ({ children }) => {
         const result = await response.json();
        
         setAuth(result);
-        setAuthenticated("authenticated");
+        // setAuthenticated("authenticated");
       } catch (error) {
         setError(error);
       } finally {
         setLoading(false);
       }
     };
-    fetchAuth();
-  }, []);
+   if(authenticated == 'authenticated') fetchAuth();
+  }, [authenticated]);
 
-  useEffect(() => {
-    if (auth) {
-      setAuthenticated("authenticated");
-    } else {
-      setAuthenticated("unauthenticated");
-    }
-  }, [auth]);
+  // useEffect(() => {
+  //   if (auth) {
+  //     setAuthenticated("authenticated");
+  //   } else {
+  //     setAuthenticated("unauthenticated");
+  //   }
+  // }, [auth]);
 
   return (
     <AuthContext.Provider
-      value={{ auth, error, loading, authenticated, setAuthenticated }}
+      value={{ auth, error, loading, authenticated, setAuthenticated ,setAuth}}
     >
       {children}
     </AuthContext.Provider>

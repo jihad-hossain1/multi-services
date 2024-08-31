@@ -12,6 +12,7 @@ const useAuth = () => {
     loading: context.loading,
     authenticated: context.authenticated,
     setAuthenticated: context.setAuthenticated,
+    setAuth: context.setAuth,
   };
 };
 

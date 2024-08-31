@@ -7,20 +7,21 @@ import Link from "next/link";;
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { userLogin } from "./server-action";
+import useAuth from "@/helpers/hook/useAuth";
 
 const LoginForm = () => {
   const [state, setState] = useState<any>({
     email: "",
     password: "",
   });
-
+  const { setAuthenticated } = useAuth()
   const [stateErrors, setStateErrors] = useState<any>('');
 
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
-  const handleRegister = async (e: any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
       setLoading(true);
@@ -33,12 +34,15 @@ const LoginForm = () => {
 
       if (response?.success) {
         toast.success("Login Successful");
+        setAuthenticated("authenticated")
+
         setStateErrors('');
         setState({
           email: "",
           password: "",
         });
         router.refresh();
+
         setTimeout(() => {
           router.push("/");
         }, 1000);
@@ -54,7 +58,7 @@ const LoginForm = () => {
     <section className='min-h-screen flex flex-col items-center justify-center  px-3 py-5 md:py-16'>
       <main className='max-sm:p-5 p-20 bg-[#dedddf02] max-sm:w-full w-[550px] border border-gray-300 shadow-xl drop-shadow-md rounded-lg'>
         <h4 className='text-2xl font-bold mb-5'>Login</h4>
-        <form onSubmit={handleRegister} className='flex flex-col gap-1 w-full'>
+        <form onSubmit={handleLogin} className='flex flex-col gap-1 w-full'>
           {stateErrors && <div className='text-red-500 flex items-center gap-2'>{stateErrors} {stateErrors == "User not verifyed" && <Link href={`/auth/verify/${state?.email}`} className='text-blue-600 hover:underline'>Verify</Link>} </div>}
 
           <InputField
