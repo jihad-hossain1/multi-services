@@ -16,6 +16,12 @@ export default function Home() {
             url: "/service/code-share",
             icon: <CodeSVG className="size-10" />,
         },
+        {
+            name: "SVG to JSX",
+            description: "Convert your SVG to JSX Component",
+            url: "/service/svg-jsx-convert",
+            icon: <CodeSVG className="size-10" />,
+        },
     ];
 
     return (
