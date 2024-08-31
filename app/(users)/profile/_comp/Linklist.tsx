@@ -1,12 +1,33 @@
-import Link from "next/link"
+"use client";
+
+import useAuth from "@/helpers/hook/useAuth";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 
 export function LinkList() {
+  const { auth } = useAuth();
+  console.log("authuser", auth);
+  const [links, setLinks] = useState([]);
+
+  const fetchLinks = useCallback(async () => {
+    const response = await fetch(
+      `/api/v1/code-share/all-links?userid=${auth?.userId}`,
+    );
+    const jsondata = await response.json();
+    if (jsondata?.result) setLinks(jsondata?.result);
+  }, [auth?.userId]);
+
+  useEffect(() => {
+    if (auth) fetchLinks();
+  }, [auth, fetchLinks]);
+
+  console.log("user links", links);
   return (
     <div className="grid min-h-screen w-full overflow-hidden lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 lg:block">
         <div className="flex flex-col gap-2">
           <div className="flex h-[60px] items-center px-6">
-            <Link href="#" className="flex items-center gap-2 font-semibold" >
+            <Link href="#" className="flex items-center gap-2 font-semibold">
               <Package2Icon className="h-6 w-6" />
               <span className="">Link List</span>
             </Link>
@@ -16,7 +37,6 @@ export function LinkList() {
               <Link
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-
               >
                 <HomeIcon className="h-4 w-4" />
                 Home
@@ -24,16 +44,16 @@ export function LinkList() {
               <Link
                 href="#"
                 className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary  transition-all hover:text-primary"
-
               >
                 <ShoppingCartIcon className="h-4 w-4" />
                 Orders{" "}
-                <button className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">12</button>
+                <button className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                  12
+                </button>
               </Link>
               <Link
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-
               >
                 <PackageIcon className="h-4 w-4" />
                 Products
@@ -41,7 +61,6 @@ export function LinkList() {
               <Link
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-
               >
                 <UsersIcon className="h-4 w-4" />
                 Customers
@@ -49,7 +68,6 @@ export function LinkList() {
               <Link
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-
               >
                 <LineChartIcon className="h-4 w-4" />
                 Analytics
@@ -79,7 +97,7 @@ export function LinkList() {
               </div>
             </form>
             <Link href={`/service/code-share/`} className="text-nowrap">
-            New Link
+              New Link
             </Link>
           </div>
         </header>
@@ -97,38 +115,23 @@ export function LinkList() {
                 </tr>
               </thead>
               <tbody>
-                {
-                  [...Array(5)].map((_, i) => (
-                    <tr key={i} className="border-b hover:bg-gray-100">
-                      <td className="text-start ">
-                        {"table"}
-                      </td>
-                      <td className="text-start px-4 py-2 ">
-                        {"table"}
-                      </td>
-                      <td className="text-start px-4 py-2 ">
-                        {"table"}
-                      </td>
-                      <td className="text-start px-4 py-2 ">
-                        {"table"}
-                      </td>
-                      <td className="text-start px-4 py-2 ">
-                        {"table"}
-                      </td>
-                      <td className="text-start px-4 py-2 ">
-                        {"table"}
-                      </td>
-                    </tr>
-                  ))
-                }
-
+                {[...Array(5)].map((_, i) => (
+                  <tr key={i} className="border-b hover:bg-gray-100">
+                    <td className="text-start ">{"table"}</td>
+                    <td className="text-start px-4 py-2 ">{"table"}</td>
+                    <td className="text-start px-4 py-2 ">{"table"}</td>
+                    <td className="text-start px-4 py-2 ">{"table"}</td>
+                    <td className="text-start px-4 py-2 ">{"table"}</td>
+                    <td className="text-start px-4 py-2 ">{"table"}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </main>
       </div>
     </div>
-  )
+  );
 }
 
 function HomeIcon(props: any) {
@@ -148,9 +151,8 @@ function HomeIcon(props: any) {
       <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
       <polyline points="9 22 9 12 15 12 15 22" />
     </svg>
-  )
+  );
 }
-
 
 function LineChartIcon(props: any) {
   return (
@@ -169,9 +171,8 @@ function LineChartIcon(props: any) {
       <path d="M3 3v18h18" />
       <path d="m19 9-5 5-4-4-3 3" />
     </svg>
-  )
+  );
 }
-
 
 function MoveHorizontalIcon(props: any) {
   return (
@@ -191,9 +192,8 @@ function MoveHorizontalIcon(props: any) {
       <polyline points="6 8 2 12 6 16" />
       <line x1="2" x2="22" y1="12" y2="12" />
     </svg>
-  )
+  );
 }
-
 
 function Package2Icon(props: any) {
   return (
@@ -213,9 +213,8 @@ function Package2Icon(props: any) {
       <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
       <path d="M12 3v6" />
     </svg>
-  )
+  );
 }
-
 
 function PackageIcon(props: any) {
   return (
@@ -236,9 +235,8 @@ function PackageIcon(props: any) {
       <path d="m3.3 7 8.7 5 8.7-5" />
       <path d="M12 22V12" />
     </svg>
-  )
+  );
 }
-
 
 function SearchIcon(props: any) {
   return (
@@ -257,9 +255,8 @@ function SearchIcon(props: any) {
       <circle cx="11" cy="11" r="8" />
       <path d="m21 21-4.3-4.3" />
     </svg>
-  )
+  );
 }
-
 
 function ShoppingCartIcon(props: any) {
   return (
@@ -279,9 +276,8 @@ function ShoppingCartIcon(props: any) {
       <circle cx="19" cy="21" r="1" />
       <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
     </svg>
-  )
+  );
 }
-
 
 function UsersIcon(props: any) {
   return (
@@ -302,5 +298,5 @@ function UsersIcon(props: any) {
       <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
-  )
+  );
 }
