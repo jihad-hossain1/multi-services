@@ -14,16 +14,18 @@ const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
     const [content, setContent] = useState("");
     const [shareLink, setShareLink] = useState("");
-    const [isContentChanged, setIsContentChanged] = useState(false);
     const [isFetchingContent, setIsFetchingContent] = useState(true);
     const [copySuccess, setCopySuccess] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [linkCopied, setLinkCopied] = useState(false);
     const lastContentRef = useRef(content);
     const abortControllerRef = useRef<AbortController | null>(null);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<any>({
         xname: "",
+        status: "",
+        secure: false,
     });
+    const lastFormDataRef = useRef(formData);
 
     const { auth, loading, authenticated } = useAuth();
 
@@ -50,7 +52,10 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
     };
 
     const sendContentOnServer = useCallback(async () => {
-        if (!isContentChanged || content === lastContentRef.current) return;
+        const contentChanged = content !== lastContentRef.current;
+        const formDataChanged = JSON.stringify(formData) !== JSON.stringify(lastFormDataRef.current);
+
+        if (!contentChanged && !formDataChanged) return;
 
         if (abortControllerRef.current) {
             abortControllerRef.current.abort();
@@ -60,7 +65,6 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
         abortControllerRef.current = abortController;
 
         try {
-
             const response = await fetch(`/api/v1/code-share`, {
                 method: "PATCH",
                 headers: {
@@ -73,42 +77,55 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
                     email: auth?.email,
                     userid: auth?.userId,
                     xname: formData?.xname,
+                    status: formData?.status,
+                    secure: formData?.secure,
                 }),
                 signal: abortController.signal,
             });
 
             const data = await response.json();
             lastContentRef.current = content;
+            lastFormDataRef.current = formData;
             setContent(data?.result?.content || "");
-            setIsContentChanged(false);
         } catch (error: any) {
             if (error.name !== "AbortError") {
                 console.error("Failed to update content:", error);
             }
         }
-    }, [auth?.email, auth?.userId, content, formData?.xname, isContentChanged, params?.code]);
+    }, [auth?.email, auth?.userId, content, formData, params?.code]);
 
     useEffect(() => {
-        if (isContentChanged) {
-            const timerId = setTimeout(() => {
-                sendContentOnServer();
-            }, 6000);
+        const timerId = setTimeout(() => {
+            sendContentOnServer();
+        }, 2000);
 
-            return () => clearTimeout(timerId);
-        }
-    }, [content, sendContentOnServer, isContentChanged]);
+        return () => clearTimeout(timerId);
+    }, [content, formData, sendContentOnServer]);
 
+    // fetch content based on params id
     const fetchContent = useCallback(async () => {
         setIsFetchingContent(true);
-        const type = "permanent" 
-        const response = await fetch(`/api/v1/code-share?code=${params?.code[0]}&type=${type}`);
+        const type = "permanent";
+        const response = await fetch(
+            `/api/v1/code-share?code=${params?.code[0]}&type=${type}`
+        );
         const data = await response.json();
         setContent(data?.result?.content || "");
         lastContentRef.current = data?.result?.content || "";
-        setFormData({ xname: data?.result?.xname || "" });
+        setFormData({
+            xname: data?.result?.xname || "",
+            status: data?.result?.status || "",
+            secure: data?.result?.secure || false,
+        });
+        lastFormDataRef.current = {
+            xname: data?.result?.xname || "",
+            status: data?.result?.status || "",
+            secure: data?.result?.secure || false,
+        };
         setIsFetchingContent(false);
     }, [params?.code]);
 
+    // fetch content based on params id
     useEffect(() => {
         if (params?.code[0] && isFetchingContent) fetchContent();
     }, [fetchContent, isFetchingContent, params?.code]);
@@ -122,24 +139,35 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
     const handleEditorChange = (value: string | undefined) => {
         if (value !== content) {
             setContent(value || "");
-            setIsContentChanged(true);
         }
     };
 
-    if (loading) return <div>
-        <Loader />
-    </div>
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value, type, checked } = e.target;
+        setFormData((prevFormData: any) => ({
+            ...prevFormData,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+    if (loading)
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <Loader />
+            </div>
+        );
+
     return (
         <main>
             <h4 className="text-center m-4 my-2 font-bold text-2xl md:text-4xl">
                 Share your Code Link
             </h4>
             <h4>
-                    <strong>Save your link and share</strong> it with your friends. max limit 20{" "}
-                    <a href="#" className="text-blue-500 hover:underline">
-                        Upgrade Now
-                    </a>
-                </h4>
+                <strong>Save your link and share</strong> it with your friends. max limit 20{" "}
+                <a href="#" className="text-blue-500 hover:underline">
+                    Upgrade Now
+                </a>
+            </h4>
             <div>
                 <div className="flex justify-end gap-4">
                     <div className="flex gap-2">
@@ -176,13 +204,46 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
                     <div>Loading...</div>
                 ) : (
                     authenticated && (
-                        <input
-                            type="text"
-                            placeholder="Your Link Name"
-                            className="max-w-[500px] border p-2"
-                            value={formData?.xname}
-                            onChange={(e) => setFormData({ ...formData, xname: e.target.value })}
-                        />
+                        <div className="flex gap-2 items-center">
+                            <input
+                                type="text"
+                                placeholder="Your Link Name"
+                                className="max-w-[500px] border p-2"
+                                value={formData?.xname}
+                                name="xname"
+                                onChange={handleInputChange}
+                            />
+
+                            <div className="flex gap-2">
+                                <label htmlFor="secure-checkbox">
+                                    <strong>Private</strong>
+                                </label>
+                                <input
+                                    type="checkbox"
+                                    id="secure-checkbox"
+                                    name="secure"
+                                    checked={formData?.secure}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                            <div className="flex gap-2">
+                                <label htmlFor="status-checkbox">
+                                    <strong>In Active</strong>
+                                </label>
+                                <input
+                                    type="checkbox"
+                                    id="status-checkbox"
+                                    name="status"
+                                    checked={formData?.status === "INACTIVE"}
+                                    onChange={(e) =>
+                                        setFormData((prevFormData: any) => ({
+                                            ...prevFormData,
+                                            status: e.target.checked ? "INACTIVE" : "",
+                                        }))
+                                    }
+                                />
+                            </div>
+                        </div>
                     )
                 )}
                 <div className="mt-4 border border-gray-400 shadow-[0px_0px_5px_rgba(0,0,0,0.25)] rounded-sm p-2">
@@ -205,45 +266,16 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
                     {shareLink && (
                         <div className="flex gap-2">
                             <span>{shareLink}</span>
-                            {linkCopied ? (
-                                <span className="link_copy_success">
-                                    <Image
-                                        src={copyS}
-                                        width={24}
-                                        height={24}
-                                        alt="copy"
-                                    />
-                                </span>
-                            ) : (
-                                <button
-                                    onClick={() => {
-                                        navigator.clipboard.writeText(shareLink);
-                                        setLinkCopied(true);
-                                        toast.success("Link Copied! Check Your Clipboard", {
-                                            style: {
-                                                padding: "10px",
-                                                color: "#000",
-                                                borderRadius: "5px",
-                                                border: "1px solid yellow",
-                                            },
-                                            duration: 3000,
-                                            icon: "📋",
-                                            position: "bottom-center",
-                                        });
-                                        setTimeout(() => {
-                                            setLinkCopied(false);
-                                        }, 2000);
-                                    }}
-                                    className="link-copy-btn"
-                                >
-                                    <Image
-                                        src={copySvg}
-                                        width={24}
-                                        height={24}
-                                        alt="copy"
-                                    />
-                                </button>
-                            )}
+                            <button
+                                className="bg-blue-500 text-white px-2 py-1 rounded-md"
+                                onClick={() => {
+                                    navigator.clipboard.writeText(shareLink);
+                                    setLinkCopied(true);
+                                    setTimeout(() => setLinkCopied(false), 2000);
+                                }}
+                            >
+                                {linkCopied ? "Copied!" : "Copy"}
+                            </button>
                         </div>
                     )}
                 </Modal>
@@ -251,3 +283,5 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
         </main>
     );
 };
+
+export default AuthTextEditor;

@@ -136,11 +136,10 @@ export async function POST(request: NextRequest) {
 
 
 export async function PATCH(request: NextRequest) {
-    const { code, type, content,xname , userid } = await request.json();
+    const { code, type, content, xname, userid, status, secure } = await request.json();
+    console.log("🚀 ~ PATCH ~ { code, type, content, xname, userid, status, secure }:", { code, type, content, xname, userid, status, secure })
 
     try {
-       
-
         if (type == "lmTmLnk") {
             let updateCode;
 
@@ -168,7 +167,6 @@ export async function PATCH(request: NextRequest) {
 
             return NextResponse.json({ result: updateCode }, { status: 200 });
         }else {
-
             const findCode = await prisma.uLink.findFirst({
                 where: {
                     link: code as string,
@@ -189,13 +187,14 @@ export async function PATCH(request: NextRequest) {
                 data: {
                     content: content,
                     xname: xname,
+                    status: status,
+                    secure: secure
                 },
             });
 
             return NextResponse.json({ result: updateCode }, { status: 200 });
         }
 
-        
     } catch (error) {
         return NextResponse.json(
             { error: (error as Error).message },

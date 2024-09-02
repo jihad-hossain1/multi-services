@@ -12,6 +12,7 @@ model ULink {
   link     String
   content  String?
   xname    String?
+  secure   Boolean  @default(false)
   xdate    DateTime @default(now())
   status   xstatus  @default(ACTIVE)
   author   User     @relation(fields: [authorId], references: [id])
