@@ -27,7 +27,7 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
     });
     const lastFormDataRef = useRef(formData);
 
-    const { auth, loading, authenticated } = useAuth();
+    const { auth, loading } = useAuth();
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -203,7 +203,7 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
                 {loading ? (
                     <div>Loading...</div>
                 ) : (
-                    authenticated && (
+                    auth && (
                         <div className="flex gap-2 items-center">
                             <input
                                 type="text"

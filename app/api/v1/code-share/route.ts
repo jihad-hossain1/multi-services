@@ -6,8 +6,6 @@ import { RESET_INTERVAL_HOURS, RESET_INTERVAL_MINUTES, SAVED_USER_LIMIT, MAC_ADD
 
 export async function POST(request: NextRequest) {
     const { code, type, osInfo, uid, userid } = await request.json();
-    console.log("🚀 ~ POST ~ { code, type, osInfo, uid, userid }:", { code, type, osInfo, uid, userid })
-
     // generate date
     const now = new Date();
     const cutoffDate = new Date();
@@ -87,7 +85,6 @@ export async function POST(request: NextRequest) {
             const findUser = await prisma.user.findFirst({
                 where: {
                     id: userid,
-                    // email: "jihadkhan934@gmail.com"
                 },
             });
 
