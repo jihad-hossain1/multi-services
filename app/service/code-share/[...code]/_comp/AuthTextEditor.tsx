@@ -97,7 +97,7 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
     useEffect(() => {
         const timerId = setTimeout(() => {
             sendContentOnServer();
-        }, 2000);
+        }, 5000);
 
         return () => clearTimeout(timerId);
     }, [content, formData, sendContentOnServer]);

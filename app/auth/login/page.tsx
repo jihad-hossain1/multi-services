@@ -14,7 +14,7 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
-  const { setIsAdd } = useAuth()
+  const { auth,setIsAdd } = useAuth()
   const [stateErrors, setStateErrors] = useState<any>('');
 
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,6 @@ const LoginForm = () => {
         toast.success("Login Successful");
         setIsAdd(true)
         router.push("/");
-
       }
     } catch (error) {
       setLoading(false);

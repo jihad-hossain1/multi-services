@@ -36,8 +36,8 @@ const AuthContextProvider: FC<IAuthContext> = ({ children }) => {
 
   useEffect(() => {
     const fetchAuth = async () => {
-      setLoading(true);
       try {
+        setLoading(true);
         const response = await fetch(
           `/api/v1/auth/login/auth`);
         if (!response.ok) {
@@ -54,6 +54,7 @@ const AuthContextProvider: FC<IAuthContext> = ({ children }) => {
       }
     };
     if(isAdd)fetchAuth();
+    fetchAuth()
   }, [isAdd]);
 
   return (

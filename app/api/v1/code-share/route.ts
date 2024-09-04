@@ -2,10 +2,7 @@
 import prisma from "@/lib/prismalib";
 import { NextRequest, NextResponse } from "next/server";
 
-const MAC_ADDRESS_LIMIT = 5;
-const SAVED_USER_LIMIT = 20;
-const RESET_INTERVAL_MINUTES = 1;
-const RESET_INTERVAL_HOURS = 24;
+import { RESET_INTERVAL_HOURS, RESET_INTERVAL_MINUTES, SAVED_USER_LIMIT, MAC_ADDRESS_LIMIT } from "@/constant";
 
 export async function POST(request: NextRequest) {
     const { code, type, osInfo, uid, userid } = await request.json();
@@ -94,14 +91,15 @@ export async function POST(request: NextRequest) {
                 },
             });
 
-            // if (findUser?.count as number >= SAVED_USER_LIMIT) {
-            //     return NextResponse.json(
-            //         {
-            //             error: "Link creation limit reached. Please try to update your limit.",
-            //         },
-            //         { status: 400 },
-            //     );
-            // }
+            if (findUser?.limit == 'LIMIT' && findUser?.count as number == SAVED_USER_LIMIT) {
+                return NextResponse.json(
+                    {
+                        error: "Link creation limit reached. Please try to update your limit.",
+                        limit_error: "Link creation limit reached. Please try to update your limit.",
+                    },
+                    { status: 400 },
+                );
+            }
 
 
             const createPermanent = await prisma.uLink.create({
@@ -112,7 +110,7 @@ export async function POST(request: NextRequest) {
             });
 
 
-             await prisma.user.update({
+         const updateUserCount =    await prisma.user.update({
                 where: {
                     id: userid,
                 },
@@ -120,6 +118,7 @@ export async function POST(request: NextRequest) {
                     count: findUser?.count as number + 1,
                 },
             });
+         console.log("🚀 ~ POST ~ updateUserCount:", updateUserCount)
 
             return NextResponse.json(
                 { result: createPermanent },
@@ -180,6 +179,21 @@ export async function PATCH(request: NextRequest) {
                 );
             }
 
+            const findUser = await prisma.user.findFirst({
+                where: {
+                    id: userid
+                },
+            })
+
+            // if (findUser?.count as number >= SAVED_USER_LIMIT) {
+            //     return NextResponse.json(
+            //         {
+            //             error: "Link creation limit reached. Please try to update your limit.",
+            //         },
+            //         { status: 400 },
+            //     );
+            // }
+
             const updateCode = await prisma.uLink.update({
                 where: {
                     id: findCode?.id,
@@ -191,6 +205,7 @@ export async function PATCH(request: NextRequest) {
                     secure: secure
                 },
             });
+
 
             return NextResponse.json({ result: updateCode }, { status: 200 });
         }
