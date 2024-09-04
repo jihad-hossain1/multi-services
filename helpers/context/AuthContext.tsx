@@ -15,6 +15,8 @@ interface AuthContextType {
   authenticated: string;
   setAuthenticated: (data: string) => void;
   setAuth: (data: string) => void;
+  isAdd: boolean;
+  setIsAdd: (data: boolean) => void;
 }
 
 interface IAuthContext {
@@ -30,17 +32,14 @@ const AuthContextProvider: FC<IAuthContext> = ({ children }) => {
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [authenticated, setAuthenticated] = useState<string>("");
+  const [isAdd, setIsAdd] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchAuth = async () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `/api/v1/auth/login/auth`,
-          {
-            cache: "no-store",
-          }
-        );
+          `/api/v1/auth/login/auth`);
         if (!response.ok) {
           console.error(`Error: ${response.statusText}`);
         }
@@ -54,20 +53,12 @@ const AuthContextProvider: FC<IAuthContext> = ({ children }) => {
         setLoading(false);
       }
     };
-    fetchAuth();
-  }, []);
-
-  useEffect(() => {
-    if (auth) {
-      setAuthenticated("authenticated");
-    } else {
-      setAuthenticated("unauthenticated");
-    }
-  }, [auth]);
+    if(isAdd)fetchAuth();
+  }, [isAdd]);
 
   return (
     <AuthContext.Provider
-      value={{ auth, error, loading, authenticated, setAuthenticated ,setAuth}}
+      value={{ auth, error, loading, authenticated, setAuthenticated ,setAuth, isAdd, setIsAdd}}
     >
       {children}
     </AuthContext.Provider>

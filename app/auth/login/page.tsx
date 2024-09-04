@@ -14,7 +14,7 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
-  const { setAuthenticated } = useAuth()
+  const { setIsAdd } = useAuth()
   const [stateErrors, setStateErrors] = useState<any>('');
 
   const [loading, setLoading] = useState(false);
@@ -24,8 +24,8 @@ const LoginForm = () => {
   const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
-      setLoading(true);
       setStateErrors('');
+      setLoading(true);
       const response = await userLogin({ ...state });
       setLoading(false);
       if (response?.error) {
@@ -34,18 +34,8 @@ const LoginForm = () => {
 
       if (response?.success) {
         toast.success("Login Successful");
-        setAuthenticated("authenticated")
-
-        setStateErrors('');
-        setState({
-          email: "",
-          password: "",
-        });
-        router.refresh();
-
-        setTimeout(() => {
-          router.push("/");
-        }, 1000);
+        setIsAdd(true)
+        router.push("/");
 
       }
     } catch (error) {
