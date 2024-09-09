@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useLayoutEffect } from "react";
+import React from "react";
 
 import useAuth from "../../../helpers/hook/useAuth";
-import Loader from "@/components/svg/loader";
 import Logout from "./logout";
 
 const Header = () => {
@@ -33,11 +32,16 @@ const Header = () => {
           All Services
         </Link>
       </div>
-      {}
+
       {hiddenPath && (
         <div>
           {auth ? (
             <div className="flex items-center gap-2">
+              {auth?.role == "XADMIN" && (
+                <Link href="/xdashboard" className="link">
+                  Admin
+                </Link>
+              )}
               <Link href="/profile" className="link">
                 Profile
               </Link>

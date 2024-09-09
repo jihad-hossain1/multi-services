@@ -28,7 +28,8 @@ export async function token_decrypt(session: string | undefined = "") {
 export async function newSession(
   xuserid: number,
   xname: string,
-  xemail: string
+  xemail: string,
+  xrole: string
 ) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
@@ -39,6 +40,7 @@ export async function newSession(
     userId: xuserid,
     email: xemail,
     expiresAt,
+    role: xrole,
   });
 
   cookies().set("session_token", session_token, {

@@ -31,7 +31,8 @@ export async function userLogin(formData: {
   const set_session = await newSession(
     result?.result?.id,
     result?.result?.name,
-    result?.result?.email
+    result?.result?.email,
+    result?.result?.xrole
   );
 
   if (set_session) {
