@@ -2,39 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .input-form {
+    @apply w-full px-2 py-1 rounded-md border border-l-primary_light focus:outline-none focus:outline-1 focus:ring-1 bg-primary_light_2 text-primary_light_5 shadow-sm;
+  }
 
+  .input-btn {
+    @apply w-full p-2 rounded-md border border-primary_light_5 focus:outline-none focus:border-primary_light_4 bg-primary_light_4 text-primary_light_2 md:w-[200px] hover:border-primary_light_5 hover:bg-primary_light_5 transition-all duration-300;
+  }
 
+  .link-copy {
+    @apply bg-primary_light border flex items-center justify-center border-primary_light_4 rounded-md p-1 h-10 w-10;
+    /* Manually add the shadow */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  }
 
+  .link_copy_success {
+    @apply bg-primary_light_5 border flex items-center justify-center border-primary_light_4 rounded-md p-1 h-10 w-10;
+    /* Manually add the shadow */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+  }
 
+  .input_btn_2 {
+    @apply w-full border py-2 hover:bg-primary_light_2/20 transition-all duration-200 bg-primary_light_2/15;
+    /* Manually add the shadow */
+    box-shadow: 0 3px 6px -4px rgba(59, 113, 202, 0.3), 0 2px 8px 0 rgba(59, 113, 202, 0.2);
+  }
+}
 
 .link {
   @apply hover:font-bold hover:underline transition-all duration-300 ease-in-out;
 }
 
-.link-copy{
-  @apply bg-gray-50 border shadow-[0px_0px_5px_rgba(0,0,0,0.25)] flex items-center justify-center border-gray-500 rounded-md p-1 h-10 w-10;
-}
-.link_copy_success{
-  @apply bg-green-500 border shadow-[0px_0px_5px_rgba(0,0,0,0.25)] flex items-center justify-center border-gray-500 rounded-md p-1 h-10 w-10;
-}
-
 .text_area {
-  @apply w-full h-screen bg-zinc-800 text-white p-4 font-mono text-sm border-2 border-zinc-700 rounded-lg shadow-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 selection:bg-blue-600 selection:text-white;
+  @apply w-full h-screen bg-primary_dark text-primary_light p-4 font-mono text-sm border-2 border-primary_light_5 rounded-lg shadow-md resize-none focus:outline-none focus:ring-2 focus:ring-primary_light_3 selection:bg-primary_light_4 selection:text-primary_light;
 }
 
 .input-label {
-  @apply text-gray-600 flex gap-1 text-sm;
-}
-.input {
-  @apply w-full p-2 rounded-md border border-gray-600 focus:outline-none focus:border-gray-500 bg-transparent text-gray-200 md:w-[430px];
-}
-.input-form {
-  @apply w-full px-2 py-1 rounded-md border border-white focus:outline-none focus:outline-1 focus:ring-1 bg-gray-200 text-gray-800 shadow-sm;
-}
-.input-btn {
-  @apply w-full p-2 rounded-md border border-gray-600 focus:outline-none focus:border-gray-500 bg-gray-500 text-gray-200 md:w-[200px] hover:border-gray-950 hover:bg-gray-700 transition-all duration-300;
+  @apply text-primary_light_5 flex gap-1 text-sm;
 }
 
-.input_btn_2 {
-  @apply w-full hover:shadow-[0_3px_6px_-4px_rgba(59,113,202,0.3),0_2px_8px_0_rgba(59,113,202,0.2)]  border py-2 hover:bg-slate-100/20 transition-all duration-200 bg-slate-50/15;
+.input {
+  @apply w-full p-2 rounded-md border border-primary_light_5 focus:outline-none focus:border-primary_light_4 bg-primary_light text-primary_light_2 md:w-[430px];
 }

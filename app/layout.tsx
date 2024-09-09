@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthContextProvider>
-          <main className="bg-slate-50 ">
+          <main className="bg-primary_light text-primary_dark_deep">
             <ToasterComponent />
             <Header />
             <div className=" min-h-screen w-11/12 m-auto p-4 ">{children}</div>
