@@ -6,6 +6,7 @@ import React from "react";
 
 import useAuth from "../../../helpers/hook/useAuth";
 import Logout from "./logout";
+import { navLinks } from "@/constant";
 
 const Header = () => {
   const { auth } = useAuth();
@@ -16,18 +17,11 @@ const Header = () => {
   return (
     <nav className="p-4 bg-violet-700 text-white flex items-center justify-between ">
       <div className="flex items-center gap-4">
-        <Link href="/" className="link">
-          Home
-        </Link>
-        <Link href="/service/code-share" className="link">
-          Code Share
-        </Link>
-        <Link href="/service/yt-downloader" className="link">
-          YT Downloader
-        </Link>
-        <Link href="/service" className="link">
-          All Services
-        </Link>
+        {navLinks?.map((item) => (
+          <Link href={item?.href} key={item?.name} className="link">
+            {item?.name}
+          </Link>
+        ))}
       </div>
 
       {hiddenPath && (
