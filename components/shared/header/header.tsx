@@ -9,10 +9,7 @@ import Logout from "./logout";
 
 const Header = () => {
   const { auth } = useAuth();
-  console.log("🚀 ~ Header ~ auth:", auth);
   const path = usePathname();
-  const router = useRouter();
-
   const paths = ["/service/code-share"];
 
   const hiddenPath = paths.some((item) => path.startsWith(item));

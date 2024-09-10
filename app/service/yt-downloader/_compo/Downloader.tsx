@@ -11,7 +11,7 @@ export interface VideoInfo {}
 const Downloader = () => {
   const [url, setUrl] = useState("");
   const [videoInfo, setVideoInfo] = useState<any | null>(null);
-  // console.log("🚀 ~ Downloader ~ videoInfo:", videoInfo);
+
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [convloading, setConvLoading] = useState(false);
@@ -28,7 +28,7 @@ const Downloader = () => {
 
       setVideoInfo(response);
     } catch (err: any) {
-      console.log(err);
+
       setError(err?.message || "Something went wrong");
       setLoading(false);
     }
@@ -40,11 +40,10 @@ const Downloader = () => {
     index: number
   ) => {
     setTabIndex(index);
-    console.log(quality, _url);
+
     try {
       setConvLoading(true);
       const response = await qualityServer({ url: _url, quality });
-      console.log("🚀 ~ handleQuality ~ response:", response);
       setConvLoading(false);
       if (response?.error) return setError(response?.error);
     } catch (error) {}

@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
           lastreset: now,
         },
       });
-      console.log('Counts reset if needed successfully');
     }
 
     return NextResponse.json({ message: 'Counts reset if needed' }, { status: 200 });

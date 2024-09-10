@@ -45,21 +45,7 @@ async function resetCountsIfNeeded() {
 cron.schedule('* * * * *', async () => {
     try {
       await resetCountsIfNeeded();
-      console.log('Counts reset if needed');
     } catch (error) {
       console.error('Error resetting counts:', error);
     }
   })
-
-  
-  console.log('Scheduled reset function to run every minute.');
-
-// Schedule to run the reset function every hour
-// cron.schedule('0 * * * *', async () => {
-//     try {
-//       await resetCountsIfNeeded();
-//       console.log('Counts reset if needed');
-//     } catch (error) {
-//       console.error('Error resetting counts:', error);
-//     }
-//   });

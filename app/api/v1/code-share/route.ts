@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
                     uid: uid,
                 },
             });
-            // console.log("🚀 ~ POST ~ macTracking:", macTracking)
+            
 
             if (!macTracking) {
                 // If no tracking record exists, create a new one
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
                         uid: uid,
                     },
                 });
-                // console.log("🚀 ~ POST ~ macTracking:", macTracking)
+                
             } else {
                 // Reset count if the last reset was more than 1 minute ago
                 if (macTracking.lastreset < cutoffDate) {
@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
                     count: findUser?.count as number + 1,
                 },
             });
-         console.log("🚀 ~ POST ~ updateUserCount:", updateUserCount)
+         
 
             return NextResponse.json(
                 { result: createPermanent },
@@ -133,7 +133,6 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
     const { code, type, content, xname, userid, status, secure } = await request.json();
-    console.log("🚀 ~ PATCH ~ { code, type, content, xname, userid, status, secure }:", { code, type, content, xname, userid, status, secure })
 
     try {
         if (type == "lmTmLnk") {
@@ -199,7 +198,7 @@ export async function PATCH(request: NextRequest) {
                     content: content,
                     xname: xname,
                     status: status,
-                    secure: secure
+                    // secure: secure
                 },
             });
 
@@ -236,7 +235,7 @@ export async function GET(request: NextRequest) {
                 },
             });
 
-            console.log(result);
+
 
             if (!result) {
                 return NextResponse.json({
@@ -250,7 +249,7 @@ export async function GET(request: NextRequest) {
                     link: code as string,
                 },
             })
-            console.log("🚀 ~ GET ~ result:", result)
+
 
             if (!result) {
                 return NextResponse.json({
