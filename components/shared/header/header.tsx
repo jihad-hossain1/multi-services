@@ -15,7 +15,7 @@ const Header = () => {
 
   const hiddenPath = paths.some((item) => path.startsWith(item));
   return (
-    <nav className="p-4 bg-violet-700 text-white flex items-center justify-between ">
+    <nav className="p-4 bg-primary_light_2 shadow-[0_1px_5px_0_rgba(0,0,0,0.1)] text-white flex items-center justify-center gap-5 ">
       <div className="flex items-center gap-4">
         {navLinks?.map((item) => (
           <Link href={item?.href} key={item?.name} className="link">

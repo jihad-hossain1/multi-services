@@ -80,14 +80,6 @@ export async function GET(request: NextRequest) {
     }),
   ]);
 
-console.log("data", { data, meta: {
-    total,
-    page: parsedPage,
-    pageSize: parsedPageSize,
-  }})
-
-//   const users = await prisma.user.findMany({});
-
   return NextResponse.json({ data, meta: {
     total,
     page: parsedPage,
@@ -132,4 +124,44 @@ export async function PATCH(request: NextRequest) {
   }
 
   return NextResponse.json({ result: findUserUpdate }, { status: 200 });
+}
+
+
+export async function DELETE(request: NextRequest) {
+  const { userid, upId } = await request.json();
+
+  try {
+    if (!userid) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+    const findUser = await prisma.user.findUnique({
+    where: {
+      id: userid,
+    },
+  });
+
+  if (!findUser) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  if (findUser.xrole !== "XADMIN") {
+    return NextResponse.json({ error: "User not allowed" }, { status: 403 });
+  }
+
+  const findUserDelete = await prisma.user.delete({
+    where: {
+      id: upId,
+    },
+  });
+
+  if (!findUserDelete) {
+    return NextResponse.json({ error: "User are not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({ result: findUserDelete }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+  }
+  
 }

@@ -18,7 +18,8 @@ const UserPage = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [pageSize, setPageSize] = useState(15);
   const [totals, setTotals] = useState(0);
-
+  const [delLoading, setDelLoading] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
   // Debounced search term to delay the search
   const debouncedSearchTerm = useDebounce(searchTerm, 500); // 500ms debounce
 
@@ -108,6 +109,50 @@ const UserPage = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setPage(1);
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      setDelLoading(true);
+      const response = await fetch(`/api/v1/users`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userid: auth?.userId,
+          upId: id,
+        }),
+      });
+
+      setDelLoading(false);
+      const data = await response.json();
+      if (data.result) {
+        fetchUsers();
+        setDeleteConfirm(false);
+        closeModal();
+        toast.success("User deleted successfully", {
+          style: {
+            borderRadius: "10px",
+            padding: "10px",
+          },
+          duration: 3000,
+          icon: "👏",
+        });
+      }
+      if (data.error) {
+        toast.error(data.error, {
+          style: {
+            borderRadius: "10px",
+            padding: "10px",
+          },
+          duration: 3000,
+          icon: "👏",
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   return (
@@ -303,6 +348,35 @@ const UserPage = () => {
                   <option value="PAID">PAID</option>
                 </select>
               </div>
+            </div>
+            <div>
+              {deleteConfirm ? (
+                <div className="flex flex-col gap-2">
+                  <label>Are you sure?</label>
+                  <div className="flex gap-2 items-center">
+                    <button
+                      disabled={delLoading}
+                      onClick={() => handleDelete(userInfo?.id)}
+                      className="hover:bg-[#f44336] border border-[#f44336] hover:text-[#fff]  text-primary_dark rounded shadow-sm hover:shadow px-3 py-1"
+                    >
+                      {delLoading ? "Removing..." : "Remove"}
+                    </button>
+                    <button
+                      onClick={() => setDeleteConfirm(false)}
+                      className="bg-primary_dark  text-[#fff] rounded shadow-sm hover:shadow px-3 py-1"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setDeleteConfirm(true)}
+                  className="bg-[#f44336]  text-[#fff] rounded shadow-sm hover:shadow px-3 py-1"
+                >
+                  Remove User
+                </button>
+              )}
             </div>
           </div>
           <div className="flex justify-end gap-4 mt-4">

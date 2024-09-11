@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
         const createUser = await prisma.user.create({
             data: {
-                name,
+                name: name?.trim()?.toLowerCase(),
                 email,
                 password: hashedPassword,
                 xcode: randomNumber
