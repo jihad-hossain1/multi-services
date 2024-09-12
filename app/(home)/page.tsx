@@ -9,8 +9,7 @@ import LandingBanner from "./_comp/banner";
 import CustomServiceCard from "./_comp/customService";
 import Testimonial from "./_comp/testimonial";
 import OurTeam from "./_comp/teams";
-import ContactUs from "./_comp/contact/contactusform";
-import Quotation from "./_comp/quotation/quotation";
+import Contacts from "./_comp/contact/contacts";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -105,12 +104,11 @@ const HomePage: React.FC = () => {
         <OurTeam />
       </div>
 
-      <div className="my-10 grid grid-cols-1 xl:grid-cols-2 gap-6 items-center">
-        <ContactUs />
-        <Quotation />
+      <div className="my-10 scale-in">
+    <Contacts />
       </div>
 
-      <div className="my-10"></div>
+      {/* <div className="my-10"></div> */}
     </main>
   );
 };

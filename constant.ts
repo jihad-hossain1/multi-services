@@ -7,7 +7,7 @@ export const navLinks = [
     { name: "Home", href: "/" },
     { name: "Code Share", href: "/service/code-share" },
     { name: "Svg to JSX", href: "/service/svg-jsx-convert" },
-    {name: "All Services", href: "/service"}
+    {name: "Free Services", href: "/service"}
 ]
 
 export const serviceList = [
