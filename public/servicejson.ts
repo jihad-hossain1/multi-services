@@ -198,5 +198,17 @@ export const services = {
     testimonial:
       "Exceptional service from start to finish. The cloud solutions provided by Venture Buddy were tailored perfectly to our needs and have significantly improved our operational efficiency.",
   },
+  {
+    name: "Jane Smith",
+    company: "Creative Solutions",
+    testimonial:
+      "Venture Buddy's IT consulting services transformed our business. Their insights and technical knowledge were instrumental in our successful digital transformation.",
+  },
+  {
+    name: "Michael Johnson",
+    company: "NextGen Tech",
+    testimonial:
+      "Exceptional service from start to finish. The cloud solutions provided by Venture Buddy were tailored perfectly to our needs and have significantly improved our operational efficiency.",
+  },
 ]
 }
