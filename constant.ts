@@ -13,5 +13,6 @@ export const navLinks = [
 export const serviceList = [
     { name: "Code Share", href: "/service/code-share" },
     { name: "Svg to JSX", href: "/service/svg-jsx-convert" },
+    { name: "Image Compress", href: "/service/image-process" },
     
 ]

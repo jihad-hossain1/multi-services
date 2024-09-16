@@ -29,6 +29,12 @@ export default function CommonService() {
       url: "/service/svg-jsx-convert",
       icon: <CodeSVG className="w-10 h-10 " stroke="#f2c94c" />,
     },
+    {
+      name: "Image Compress",
+      description: "Compress your images",
+      url: "/service/image-process",
+      icon: <MediaSVG className="w-10 h-10 " stroke="#f2c94c" />,
+    },
   ];
 
   return (
