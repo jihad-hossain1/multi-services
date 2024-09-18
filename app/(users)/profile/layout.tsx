@@ -32,13 +32,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         initial="closed"
         animate="open"
         variants={sidebarVariants}
-        className="hidden border-r bg-muted/40 lg:block lg:w-[250px]"
+        className="hidden border-r bg-muted/40 lg:block lg:max-w-[250px]"
       >
         <div className="flex flex-col gap-2">
           <div className="flex h-[60px] items-center px-6">
-            <Link href="/profile/links" className="flex items-center gap-2 font-semibold">
+            <Link href="/" className="flex items-center gap-2 font-semibold">
               <Package2Icon />
-              <span className="">Link List</span>
+              <span className="">Back to Home</span>
             </Link>
           </div>
           <div className="flex-1">
@@ -55,7 +55,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
               <motion.div whileHover="hover" variants={linkVariants}>
                 <Link
-                  href="#"
+                  href="/profile/links"
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                 >
                   <ShoppingCartIcon />
@@ -102,13 +102,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         initial="closed"
         animate="open"
         variants={sidebarVariants}
-        className="block lg:hidden fixed z-40 top-0 left-0 w-[70%] h-full bg-muted/40"
+        className="block lg:hidden  h-full bg-muted/40"
       >
         <div className="p-4">
           <h2 className="font-bold text-lg">Menu</h2>
           <nav className="flex flex-col gap-4 mt-4">
-            <Link href="#">Home</Link>
-            <Link href="#">Links</Link>
+            <Link href="/">Home</Link>
+            <Link href="/profile/links">Links</Link>
             <Link href="#">Products</Link>
             <Link href="#">Customers</Link>
             <Link href="#">Analytics</Link>

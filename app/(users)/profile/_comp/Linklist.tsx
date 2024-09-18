@@ -23,6 +23,12 @@ export function LinkList() {
   const [confirmDLT, setConfirmDLT] = useState(false);
   const [linkId, setLinkID] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [pageSize, setPageSize] = useState(15);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("asc");
+
   
   const tableRef: any = useRef(null);
 
@@ -30,15 +36,19 @@ export function LinkList() {
     try {
       setLoading(true);
       const response = await fetch(
-        `/api/v1/code-share/all-links?userid=${auth?.userId}`
+        `/api/v1/code-share/all-links?userid=${auth?.userId}&page=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}`,
       );
       setLoading(false);
       const jsondata = await response.json();
-      if (jsondata?.result) setLinks(jsondata?.result);
+      if (jsondata?.data) {
+        setLinks(jsondata?.data);
+        setTotal(jsondata?.meta?.total);
+        setPage(jsondata?.meta?.page);
+      }
     } catch (error) {
       console.error("Error fetching links:", error);
     }
-  }, [auth?.userId]);
+  }, [auth?.userId, page, pageSize, searchTerm]);
 
   useEffect(() => {
     if (auth) fetchLinks();
@@ -118,6 +128,8 @@ export function LinkList() {
                 type="search"
                 placeholder="Search orders..."
                 className="border p-2 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </form>
             <CodeShare />
@@ -190,6 +202,52 @@ export function LinkList() {
                 </tbody>
               </table>
             )}
+
+
+           {/* pagination  */}
+        {Math.ceil(total / pageSize) > 0 && (
+          <div className="flex justify-center mt-4">
+            <select
+              className="px-4 text-sm border-blue-100 border rounded shadow-sm"
+              onChange={(e) => setPageSize(Number(e.target.value))}
+            >
+              <option value="10">15</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <div className="p-2">
+              <button
+                className={`${
+                  page === 1
+                    ? "bg-gray-200 border border-gray-200 text-gray-500"
+                    : "bg-blue-200 border border-blue-200 text-blue-600"
+                } px-2 text-sm rounded shadow-sm hover:shadow`}
+                onClick={() => setPage(page - 1)}
+                disabled={page === 1}
+                type="button"
+              >
+                Previous
+              </button>
+              <span className="px-2 ">
+                {page} <strong>of</strong> {Math.ceil(total / pageSize)}
+              </span>
+              <button
+                className={`${
+                  page === Math.ceil(total / pageSize)
+                    ? "bg-gray-200 border border-gray-200 text-gray-500"
+                    : "bg-blue-200 border border-blue-200 text-blue-600"
+                } px-2 text-sm rounded shadow-sm hover:shadow`}
+                onClick={() => setPage(page + 1)}
+                disabled={page === Math.ceil(total / pageSize)}
+                type="button"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
+
           </div>
         </main>
       </div>
