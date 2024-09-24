@@ -1,6 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState, useLayoutEffect, useRef } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  useLayoutEffect,
+  useRef,
+} from "react";
 import gsap from "gsap";
 import Link from "next/link";
 import toast from "react-hot-toast";
@@ -11,9 +17,7 @@ import PencilSVG from "@/components/svg/pencilsvg";
 import TrashSVG from "@/components/svg/trashsvg";
 import useAuth from "@/helpers/hook/useAuth";
 
-
 const HomeIcon = () => <div>🏠</div>;
-
 
 export function LinkList() {
   const { auth } = useAuth();
@@ -29,14 +33,13 @@ export function LinkList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("asc");
 
-  
   const tableRef: any = useRef(null);
 
   const fetchLinks = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `/api/v1/code-share/all-links?userid=${auth?.userId}&page=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}`,
+        `/api/v1/code-share/all-links?userid=${auth?.userId}&page=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}`
       );
       setLoading(false);
       const jsondata = await response.json();
@@ -174,7 +177,10 @@ export function LinkList() {
                 </thead>
                 <tbody>
                   {links?.map((link: any, i: number) => (
-                    <tr key={i} className="border-b hover:bg-primary_light relative">
+                    <tr
+                      key={i}
+                      className="border-b hover:bg-primary_light relative"
+                    >
                       <td className="text-start px-4 py-2">{i + 1}</td>
                       <td className="text-start">{link?.xname || "N/A"}</td>
                       <td className="text-start px-4 py-2">{link?.link}</td>
@@ -203,51 +209,51 @@ export function LinkList() {
               </table>
             )}
 
-
-           {/* pagination  */}
-        {Math.ceil(total / pageSize) > 0 && (
-          <div className="flex justify-center mt-4">
-            <select
-              className="px-4 text-sm border-blue-100 border rounded shadow-sm"
-              onChange={(e) => setPageSize(Number(e.target.value))}
-            >
-              <option value="10">15</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-            <div className="p-2">
-              <button
-                className={`${
-                  page === 1
-                    ? "bg-gray-200 border border-gray-200 text-gray-500"
-                    : "bg-blue-200 border border-blue-200 text-blue-600"
-                } px-2 text-sm rounded shadow-sm hover:shadow`}
-                onClick={() => setPage(page - 1)}
-                disabled={page === 1}
-                type="button"
-              >
-                Previous
-              </button>
-              <span className="px-2 ">
-                {page} <strong>of</strong> {Math.ceil(total / pageSize)}
-              </span>
-              <button
-                className={`${
-                  page === Math.ceil(total / pageSize)
-                    ? "bg-gray-200 border border-gray-200 text-gray-500"
-                    : "bg-blue-200 border border-blue-200 text-blue-600"
-                } px-2 text-sm rounded shadow-sm hover:shadow`}
-                onClick={() => setPage(page + 1)}
-                disabled={page === Math.ceil(total / pageSize)}
-                type="button"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        )}
-
+            {/* pagination  */}
+            {Math.ceil(total / pageSize) > 0 && (
+              <div className="flex justify-center items-center mt-4">
+                <div>
+                  <select
+                    className="px-4 text-sm border-blue-100 border rounded shadow-sm"
+                    onChange={(e) => setPageSize(Number(e.target.value))}
+                  >
+                    <option value="10">15</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+                <div className="p-2">
+                  <button
+                    className={`${
+                      page === 1
+                        ? "bg-gray-200 border border-gray-200 text-gray-500"
+                        : "bg-blue-200 border border-blue-200 text-blue-600"
+                    } px-2 text-sm rounded shadow-sm hover:shadow`}
+                    onClick={() => setPage(page - 1)}
+                    disabled={page === 1}
+                    type="button"
+                  >
+                    Previous
+                  </button>
+                  <span className="px-2 ">
+                    {page} <strong>of</strong> {Math.ceil(total / pageSize)}
+                  </span>
+                  <button
+                    className={`${
+                      page === Math.ceil(total / pageSize)
+                        ? "bg-gray-200 border border-gray-200 text-gray-500"
+                        : "bg-blue-200 border border-blue-200 text-blue-600"
+                    } px-2 text-sm rounded shadow-sm hover:shadow`}
+                    onClick={() => setPage(page + 1)}
+                    disabled={page === Math.ceil(total / pageSize)}
+                    type="button"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>
