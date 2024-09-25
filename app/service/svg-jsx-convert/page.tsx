@@ -3,16 +3,16 @@ import Converter from "./_comp/Conveter";
 import "./svg.css";
 import Action from "./_comp/action";
 
-// async function getIcons() {
-//   const response = await fetch(process.env.PUBLIC_NEXT_URL + "/api/v1/icons", {
-//     next: { tags: ["icons"] },
-//   });
-//   const data = await response.json();
-//   return data?.result;
-// }
+async function getIcons() {
+  const response = await fetch(process.env.PUBLIC_NEXT_URL + "/api/v1/icons", {
+    next: { tags: ["icons"] },
+  });
+  const data = await response.json();
+  return data?.result;
+}
 
 const SvgConverter = async () => {
-  // const icons = await getIcons();
+  const icons = await getIcons();
 
   function extractSvgContent(content: string | undefined) {
     const svgRegex = /<svg[^>]*>[\s\S]*?<\/svg>/g;
@@ -31,9 +31,9 @@ const SvgConverter = async () => {
       <Converter />
       <div>
         <h1 className="text-3xl font-bold text-center">
-          {/* Available Icons {icons?.length}{" "} */}
+          Available Icons {icons?.length}{" "}
         </h1>
-        {/* <div className="grid grid-cols-4 gap-4 lg:grid-cols-10">
+        <div className="grid grid-cols-4 gap-4 lg:grid-cols-10">
           {icons?.map(
             (icon: {
               id: React.Key | null | undefined;
@@ -44,7 +44,7 @@ const SvgConverter = async () => {
                 key={icon.id}
                 className="border p-4 border-primary_light flex flex-col items-center justify-center"
               >
-               
+                {/* Safely render the SVG content using dangerouslySetInnerHTML */}
                 <div
                   className="w-10 h-10"
                   id="svg"
@@ -59,7 +59,7 @@ const SvgConverter = async () => {
               </div>
             )
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );
