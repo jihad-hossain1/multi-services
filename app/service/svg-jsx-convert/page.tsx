@@ -24,7 +24,7 @@ const SvgConverter = async () => {
       return null;
     }
   }
-console.log("🚀 ~ SvgConverter ~ icons:")
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-center">SVG to JSX Converter</h1>

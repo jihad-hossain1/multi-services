@@ -4,6 +4,7 @@ import React, { useState, useRef, ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import svgson, { INode } from "svgson";
 import SaveSVG from "./saveSVG";
+import Image from "next/image";
 
 const SvgToJsxConverter: React.FC = () => {
   const [svgInput, setSvgInput] = useState<string>("");
@@ -12,6 +13,7 @@ const SvgToJsxConverter: React.FC = () => {
   const jsxOutputRef = useRef<HTMLPreElement>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [jsxName, setJsxName] = useState<string>("SvgComponent");
+  const [nameIndicater, setNameIndicator] = useState<boolean>(false);
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setSvgInput(e.target.value);
@@ -52,6 +54,7 @@ const SvgToJsxConverter: React.FC = () => {
 
   const convertSvgToJsx = async () => {
     try {
+      setNameIndicator(false);
       const svgJson = await svgson.parse(svgInput);
       const jsxBody = transformSvgToJsx(svgJson);
       const jsxComponent = `
@@ -75,6 +78,19 @@ const SvgToJsxConverter: React.FC = () => {
     }
   };
 
+
+
+  function extractSvgContent(content: string | undefined) {
+    const svgRegex = /<svg[^>]*>[\s\S]*?<\/svg>/g;
+    const match = content?.match(svgRegex);
+
+    if (match) {
+      return match[0];
+    } else {
+      return null;
+    }
+  }
+
   const resetInput = () => {
     setSvgInput("");
     setJsxOutput("");
@@ -84,15 +100,35 @@ const SvgToJsxConverter: React.FC = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <input
-        className="border border-primary_light bg-primary_light_4 text-white shadow-[0px_0px_5px_rgba(0,0,0,0.25)]"
-        type="file"
-        name="file"
-        onChange={handleFileChange}
-        accept="image/svg+xml"
-        style={{ marginBottom: "10px" }}
-      />
+      <div className="flex items-center gap-6">
+        <input
+          className={`border border-primary_light bg-primary_light_4 text-white shadow-[0px_0px_5px_rgba(0,0,0,0.25)]`}
+          type="file"
+          name="file"
+          onChange={handleFileChange}
+          accept="image/svg+xml"
+          style={{ marginBottom: "10px" }}
+        />
+        <div style={{ marginBottom: "10px" }} className="w-fit">
+          <label
+            htmlFor="name"
+            className="text-primary_dark px-4 py-1 rounded bg-primary_light border border-primary_light_2"
+          >
+            Component Name
+          </label>
+          <input
+            className={`border ${nameIndicater ? "border-[#f44336] animate-pulse " : "border-primary_light"} p-1 rounded `}
+            type="text"
+            name="name"
+            autoFocus={nameIndicater}
+            id="name"
 
+            value={jsxName}
+            onChange={(e) => setJsxName(e.target.value)}
+            placeholder="Component Name"
+          />
+        </div>
+      </div>
       <textarea
         className="border border-primary_light_4 bg-primary_light text-white"
         value={svgInput}
@@ -102,9 +138,9 @@ const SvgToJsxConverter: React.FC = () => {
         cols={50}
         style={{ width: "100%", marginBottom: "10px" }}
       />
-      <div style={{ marginBottom: "10px" }}>
+      <div style={{ marginBottom: "10px" }} className="flex items-center">
         <button
-          className="bg-primary_light hover:bg-primary_light_4 text-white font-bold py-1 text-xs px-4 rounded"
+          className="bg-primary_light_2/95 hover:bg-primary_light_3/90 text-primary_dark font-bold py-1 text-xs px-4 rounded"
           disabled={!svgInput}
           onClick={convertSvgToJsx}
           style={{ marginRight: "10px" }}
@@ -112,14 +148,14 @@ const SvgToJsxConverter: React.FC = () => {
           Convert to JSX
         </button>
         <button
-          className="bg-[#f44336] hover:bg-[#f44336]/90 text-white font-bold py-1 text-xs px-4 rounded"
+          className="bg-[#f44336]/20 hover:bg-[#f44336]/25 text-[#f44336] font-bold py-1 text-xs px-4 rounded"
           disabled={!jsxOutput}
           onClick={resetInput}
         >
           Reset
         </button>
         <button
-          className="bg-[#2ecc71] hover:bg-[#2ecc71]/90 text-white font-bold py-1 text-xs px-4 rounded"
+          className="bg-[#2ecc71]/20 hover:bg-[#2ecc71]/30 text-[#13a550] font-bold py-1 text-xs px-4 rounded"
           disabled={!jsxOutput}
           onClick={() => {
             navigator.clipboard.writeText(jsxOutput);
@@ -139,24 +175,20 @@ const SvgToJsxConverter: React.FC = () => {
         >
           Copy
         </button>
-        {jsxOutput && <SaveSVG svgContent={jsxOutput} jsxName={jsxName} />}
+
+        {jsxOutput && <SaveSVG setNameIndicator={setNameIndicator} svgContent={jsxOutput} jsxName={jsxName} />}
+
+        <div>
+          <div
+            className="w-10 h-10 ml-2"
+            id="svg"
+            dangerouslySetInnerHTML={{
+              __html: extractSvgContent(jsxOutput) || "",
+            }}
+          />
+        </div>
       </div>
-      <div style={{ marginBottom: "10px" }} className="w-fit">
-        <label
-          htmlFor="name"
-          className="text-white border border-primary_light p-1 rounded bg-primary_light_4"
-        >
-          Component Name
-        </label>
-        <input
-          className="border border-primary_light p-1 rounded  "
-          type="text"
-          name="name"
-          value={jsxName}
-          onChange={(e) => setJsxName(e.target.value)}
-          placeholder="Component Name"
-        />
-      </div>
+
       {error && (
         <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>
       )}
