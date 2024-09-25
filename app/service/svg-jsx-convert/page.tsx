@@ -5,7 +5,7 @@ import Action from "./_comp/action";
 
 async function getIcons() {
   const response = await fetch(process.env.PUBLIC_NEXT_URL + "/api/v1/icons", {
-    next: { tags: ["icons"] },
+    cache: "no-store",
   });
   const data = await response.json();
   return data?.result;
