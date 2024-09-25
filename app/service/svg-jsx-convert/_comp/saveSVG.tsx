@@ -1,4 +1,7 @@
+"use clinet";
+
 import { revalidateTag } from "next/cache";
+import { useRouter } from "next/navigation";
 import React from "react";
 import toast from "react-hot-toast";
 
@@ -12,6 +15,7 @@ const SaveSVG = ({
   const [loading, setLoading] = React.useState(false);
   const blob = new Blob([svgContent], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
+  const router = useRouter();
 
   const handleSave = async () => {
     try {
@@ -26,11 +30,14 @@ const SaveSVG = ({
 
       setLoading(false);
       const data = await response.json();
+      // console.log("🚀 ~ handleSave ~ data:", data);
 
-      if (data.result) {
-        toast.success("SVG saved successfully");
-        revalidateTag("icons");
-      } else toast.error("Error saving SVG");
+      if (!data.result) {
+        toast.error("Error saving SVG");
+      }
+      toast.success("SVG saved successfully");
+      router.refresh();
+      revalidateTag("icons");
     } catch (error) {
       setLoading(false);
       console.error("Error saving SVG:", (error as Error).message);

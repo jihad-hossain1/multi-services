@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const createIcon = await prisma.icon.create({
       data: {
         content: content?.trim(),
-        name: content?.trim().slice(0, 20).replace(/ /g, "-").toLowerCase(),
+        name: name?.trim().slice(0, 20).toLowerCase(),
       }
     })
 
@@ -26,11 +26,11 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     const icons = await prisma.icon.findMany({
-        orderBy: {
-            count: "asc",
-
-        }
+      orderBy: {
+        id: "desc"
+      }
     });
+    console.log("🚀 ~ GET ~ icons:", icons.length)
 
     return NextResponse.json({ result: icons }, { status: 200 });
   } catch (error) {
