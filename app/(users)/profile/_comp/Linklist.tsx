@@ -16,8 +16,11 @@ import Loader from "@/components/svg/loader";
 import PencilSVG from "@/components/svg/pencilsvg";
 import TrashSVG from "@/components/svg/trashsvg";
 import useAuth from "@/helpers/hook/useAuth";
+import { useRouter } from "next/navigation";
 
 const HomeIcon = () => <div>🏠</div>;
+const ActiveFavIcon = () => <div title="InActive Favorite"> 🤎 </div>;
+const InActiveFavIcon = () => <div title="Active Favorite"> 🤍 </div>;
 
 export function LinkList() {
   const { auth } = useAuth();
@@ -31,9 +34,8 @@ export function LinkList() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("asc");
-
   const tableRef: any = useRef(null);
+  const router = useRouter();
 
   const fetchLinks = useCallback(async () => {
     try {
@@ -114,6 +116,29 @@ export function LinkList() {
     }
   }, [links]);
 
+  const handleFav = async (id: string, isFav: string) => {
+    try {
+      const response = await fetch(`/api/v1/code-share/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          active: isFav,
+        }),
+      });
+      const jsondata = await response.json();
+      console.log("🚀 ~ handleFav ~ jsondata:", jsondata);
+      if (jsondata?.result) {
+        toast.success("Link On Favorite");
+        fetchLinks();
+        router.refresh();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="">
       <div className="">
@@ -156,9 +181,8 @@ export function LinkList() {
                   {[...Array(15)].map((_, i) => (
                     <tr key={i} className="border-b hover:bg-gray-100">
                       <td className="text-start px-4 py-2">
-                        <div className="animate-pulse bg-primary_light_3 h-4 w-8"></div>
+                        <div className="animate-pulse bg-primary_light_3 h-8 w-full"></div>
                       </td>
-                      {/* Skeleton loading rows */}
                     </tr>
                   ))}
                 </tbody>
@@ -191,6 +215,15 @@ export function LinkList() {
                         {link?.status?.toLowerCase()}
                       </td>
                       <td className="text-start px-4 py-2 flex gap-2">
+                        {link?.fav ? (
+                          <button onClick={() => handleFav(link?.id, "")}>
+                            <ActiveFavIcon />
+                          </button>
+                        ) : (
+                          <button onClick={() => handleFav(link?.id, "active")}>
+                            <InActiveFavIcon />
+                          </button>
+                        )}
                         <Link href={`/service/code-share/${link?.link}`}>
                           <PencilSVG className="w-6 h-6" stroke="green" />
                         </Link>
