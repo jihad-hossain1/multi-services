@@ -19,10 +19,10 @@ export async function GET(request: NextRequest) {
 
   let where = {};
   if (searchTerm) {
-    const searchFields = ["xname", "status"];
+    const searchFields = ["xname"];
     where = {
       OR: searchFields.map((field) => ({
-        [field]: { contains: searchTerm.toLowerCase() },
+        [field]: { contains: searchTerm , mode: "insensitive" },
       })),
     };
   }

@@ -30,12 +30,14 @@ export function LinkList() {
   const [confirmDLT, setConfirmDLT] = useState(false);
   const [linkId, setLinkID] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(20);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const tableRef: any = useRef(null);
+  const [favLoading, setFavLoading] = useState(false);
   const router = useRouter();
+  const [ind, setInd] = useState<null | number>(null);
 
   const fetchLinks = useCallback(async () => {
     try {
@@ -118,6 +120,7 @@ export function LinkList() {
 
   const handleFav = async (id: string, isFav: string) => {
     try {
+      setFavLoading(true);
       const response = await fetch(`/api/v1/code-share/${id}`, {
         method: "PATCH",
         headers: {
@@ -127,14 +130,15 @@ export function LinkList() {
           active: isFav,
         }),
       });
+      setFavLoading(false);
       const jsondata = await response.json();
-      console.log("🚀 ~ handleFav ~ jsondata:", jsondata);
       if (jsondata?.result) {
         toast.success("Link On Favorite");
-        fetchLinks();
         router.refresh();
+        fetchLinks();
       }
     } catch (error) {
+      setFavLoading(false);
       console.error(error);
     }
   };
@@ -216,12 +220,28 @@ export function LinkList() {
                       </td>
                       <td className="text-start px-4 py-2 flex gap-2">
                         {link?.fav ? (
-                          <button onClick={() => handleFav(link?.id, "")}>
-                            <ActiveFavIcon />
+                          <button
+                            disabled={favLoading}
+                            onClick={() => {
+                              setInd(i);
+                              handleFav(link?.id, "");
+                            }}
+                          >
+                            {favLoading && ind == i ? "..." : <ActiveFavIcon />}
                           </button>
                         ) : (
-                          <button onClick={() => handleFav(link?.id, "active")}>
-                            <InActiveFavIcon />
+                          <button
+                            disabled={favLoading}
+                            onClick={() => {
+                              setInd(i);
+                              handleFav(link?.id, "active");
+                            }}
+                          >
+                            {favLoading && ind == i ? (
+                              "..."
+                            ) : (
+                              <InActiveFavIcon />
+                            )}
                           </button>
                         )}
                         <Link href={`/service/code-share/${link?.link}`}>
@@ -250,8 +270,8 @@ export function LinkList() {
                     className="px-4 text-sm border-blue-100 border rounded shadow-sm"
                     onChange={(e) => setPageSize(Number(e.target.value))}
                   >
-                    <option value="10">15</option>
                     <option value="25">25</option>
+                    <option value="30">30</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
                   </select>
