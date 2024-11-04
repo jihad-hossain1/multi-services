@@ -8,10 +8,10 @@ datasource db {
 }
 
 model icon {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
   content String
-  name    String  @unique
-  count   Int     @default(0)
+  name    String @unique
+  count   Int    @default(0)
 }
 
 model ULink {
@@ -22,6 +22,7 @@ model ULink {
   secure   Boolean  @default(false)
   xdate    DateTime @default(now())
   status   xstatus  @default(ACTIVE)
+  fav      String?
   author   User     @relation(fields: [authorId], references: [id])
   authorId String   @db.ObjectId
 }

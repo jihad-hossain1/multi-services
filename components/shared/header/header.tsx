@@ -33,7 +33,7 @@ const Header = () => {
                   Admin
                 </Link>
               )}
-              <Link href="/profile" className="link">
+              <Link href="/profile/links" className="link">
                 Profile
               </Link>
               <hr className="border-2 h-5 border-gray-400 " />

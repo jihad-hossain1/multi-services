@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
           </ul>
           <div className="mt-6">
             <p>
-              © {new Date().getFullYear()} Venture Buddy. All rights reserved.
+              © {new Date().getFullYear()} Multi Services. All rights reserved.
             </p>
           </div>
         </motion.div>

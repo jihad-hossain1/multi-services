@@ -16,8 +16,11 @@ import Loader from "@/components/svg/loader";
 import PencilSVG from "@/components/svg/pencilsvg";
 import TrashSVG from "@/components/svg/trashsvg";
 import useAuth from "@/helpers/hook/useAuth";
+import { useRouter } from "next/navigation";
 
 const HomeIcon = () => <div>🏠</div>;
+const ActiveFavIcon = () => <div title="InActive Favorite"> 🤎 </div>;
+const InActiveFavIcon = () => <div title="Active Favorite"> 🤍 </div>;
 
 export function LinkList() {
   const { auth } = useAuth();
@@ -27,13 +30,14 @@ export function LinkList() {
   const [confirmDLT, setConfirmDLT] = useState(false);
   const [linkId, setLinkID] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [pageSize, setPageSize] = useState(15);
+  const [pageSize, setPageSize] = useState(20);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("asc");
-
   const tableRef: any = useRef(null);
+  const [favLoading, setFavLoading] = useState(false);
+  const router = useRouter();
+  const [ind, setInd] = useState<null | number>(null);
 
   const fetchLinks = useCallback(async () => {
     try {
@@ -114,6 +118,31 @@ export function LinkList() {
     }
   }, [links]);
 
+  const handleFav = async (id: string, isFav: string) => {
+    try {
+      setFavLoading(true);
+      const response = await fetch(`/api/v1/code-share/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          active: isFav,
+        }),
+      });
+      setFavLoading(false);
+      const jsondata = await response.json();
+      if (jsondata?.result) {
+        toast.success("Link On Favorite");
+        router.refresh();
+        fetchLinks();
+      }
+    } catch (error) {
+      setFavLoading(false);
+      console.error(error);
+    }
+  };
+
   return (
     <div className="">
       <div className="">
@@ -156,9 +185,8 @@ export function LinkList() {
                   {[...Array(15)].map((_, i) => (
                     <tr key={i} className="border-b hover:bg-gray-100">
                       <td className="text-start px-4 py-2">
-                        <div className="animate-pulse bg-primary_light_3 h-4 w-8"></div>
+                        <div className="animate-pulse bg-primary_light_3 h-8 w-full"></div>
                       </td>
-                      {/* Skeleton loading rows */}
                     </tr>
                   ))}
                 </tbody>
@@ -191,6 +219,31 @@ export function LinkList() {
                         {link?.status?.toLowerCase()}
                       </td>
                       <td className="text-start px-4 py-2 flex gap-2">
+                        {link?.fav ? (
+                          <button
+                            disabled={favLoading}
+                            onClick={() => {
+                              setInd(i);
+                              handleFav(link?.id, "");
+                            }}
+                          >
+                            {favLoading && ind == i ? "..." : <ActiveFavIcon />}
+                          </button>
+                        ) : (
+                          <button
+                            disabled={favLoading}
+                            onClick={() => {
+                              setInd(i);
+                              handleFav(link?.id, "active");
+                            }}
+                          >
+                            {favLoading && ind == i ? (
+                              "..."
+                            ) : (
+                              <InActiveFavIcon />
+                            )}
+                          </button>
+                        )}
                         <Link href={`/service/code-share/${link?.link}`}>
                           <PencilSVG className="w-6 h-6" stroke="green" />
                         </Link>
@@ -217,8 +270,8 @@ export function LinkList() {
                     className="px-4 text-sm border-blue-100 border rounded shadow-sm"
                     onChange={(e) => setPageSize(Number(e.target.value))}
                   >
-                    <option value="10">15</option>
                     <option value="25">25</option>
+                    <option value="30">30</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
                   </select>

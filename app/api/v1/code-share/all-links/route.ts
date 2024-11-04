@@ -1,4 +1,3 @@
-import { buildSearchQuery, parseQueryParams } from "@/helpers/paginationHelper";
 import prisma from "@/lib/prismalib";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -20,10 +19,10 @@ export async function GET(request: NextRequest) {
 
   let where = {};
   if (searchTerm) {
-    const searchFields = ["xname", "status"];
+    const searchFields = ["xname"];
     where = {
       OR: searchFields.map((field) => ({
-        [field]: { contains: searchTerm.toLowerCase() },
+        [field]: { contains: searchTerm , mode: "insensitive" },
       })),
     };
   }
@@ -53,7 +52,7 @@ export async function GET(request: NextRequest) {
             },
           ],
         },
-        orderBy,
+        orderBy: orderBy,
         skip: offset,
         take: parsedPageSize,
       }),
@@ -70,14 +69,22 @@ export async function GET(request: NextRequest) {
         },
       }),
     ]);
-    
-    // const result = await prisma.uLink.findMany({
-    //   where: {
-    //     authorId: userid,
-    //   },
-    // });
 
 
-    return NextResponse.json({ data: data,meta: { total: total ,page: parsedPage, pageSize: parsedPageSize} }, { status: 200 });
+    const _data = sortLists(data, parsedSortOrder);
 
+
+  return NextResponse.json({ data: _data, meta: { total: total ,page: parsedPage, pageSize: parsedPageSize} }, { status: 200 });
+
+}
+
+function sortLists(lists: any,order = 'desc') {
+  return lists?.sort((a:any, b:any) => {
+    // Sort based on fav field
+    if (order === 'desc') {
+      return (a?.fav ? 1 : 0) - (b?.fav ? 1 : 0); // Non-empty favs come after empty favs
+    } else {
+      return (b?.fav ? 1 : 0) - (a?.fav ? 1 : 0); // Non-empty favs come before empty favs
+    }
+  });
 }
