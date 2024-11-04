@@ -29,6 +29,12 @@ const ServicePage = () => {
       url: "/service/image-process",
       icon: <MediaSVG className="w-10 h-10 " stroke="#f2c94c" />,
     },
+    {
+      name: "Bangla Content Write",
+      description: "Egnlish to Bangla Content Write",
+      url: "/service/write",
+      icon: <MediaSVG className="w-10 h-10 " stroke="#f2c94c" />,
+    },
   ];
   return (
     <main className="min-h-[60vh]">

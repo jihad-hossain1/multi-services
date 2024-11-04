@@ -33,6 +33,7 @@
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
+    "react-transliterate": "^1.1.9",
     "sharp": "^0.33.5",
     "svgson": "^5.3.1",
     "ytdl-core": "^4.11.5"
