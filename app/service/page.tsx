@@ -35,6 +35,12 @@ const ServicePage = () => {
       url: "/service/write",
       icon: <MediaSVG className="w-10 h-10 " stroke="#f2c94c" />,
     },
+    {
+      name: "Free File Upload",
+      description: "Free file uploader from discord api",
+      url: "/service/free-upload-file",
+      icon: <MediaSVG className="w-10 h-10 " stroke="#f2c94c" />,
+    },
   ];
   return (
     <main className="min-h-[60vh]">
