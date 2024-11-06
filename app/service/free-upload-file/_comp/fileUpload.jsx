@@ -162,10 +162,10 @@ const FileUpload = () => {
             <div>
                 <h2>Responses</h2>
                 <div>
-                    {responses.map((response, index) => (
+                    {responses?.map((response, index) => (
                         <div key={index}>
-                            {response.attachments && response.attachments.length > 0 ? (
-                                response.attachments.map((attachment, attIndex) => (
+                            {response?.attachments && response?.attachments?.length > 0 ? (
+                                response?.attachments?.map((attachment, attIndex) => (
                                     <div key={attIndex}>
                                         <div>
                                             Response URL:{" "}
@@ -176,7 +176,7 @@ const FileUpload = () => {
                                                     cursor: "pointer",
                                                 }}
                                                 onClick={() =>
-                                                    navigator.clipboard.writeText(attachment.url)
+                                                    navigator.clipboard.writeText(attachment?.url)
                                                 }
                                             >
                                                 Copy Link
@@ -184,10 +184,10 @@ const FileUpload = () => {
                                             <span
                                                 style={{ color: "blue", cursor: "pointer" }}
                                                 onClick={() =>
-                                                    window.open(attachment.url)
+                                                    window.open(attachment?.url)
                                                 }
                                             >
-                                                {attachment.url}
+                                                {attachment?.url}
                                             </span>
                                         </div>
                                     </div>
