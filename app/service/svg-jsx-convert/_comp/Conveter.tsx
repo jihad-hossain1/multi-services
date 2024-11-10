@@ -102,7 +102,7 @@ const SvgToJsxConverter: React.FC = () => {
     <div style={{ padding: "20px" }}>
       <div className="flex items-center gap-6">
         <input
-          className={`border border-primary_light bg-primary_light_4 text-white shadow-[0px_0px_5px_rgba(0,0,0,0.25)]`}
+          className={`border border-gray-100 bg-gray-400 text-white shadow-[0px_0px_5px_rgba(0,0,0,0.25)]`}
           type="file"
           name="file"
           onChange={handleFileChange}
@@ -112,12 +112,12 @@ const SvgToJsxConverter: React.FC = () => {
         <div style={{ marginBottom: "10px" }} className="w-fit">
           <label
             htmlFor="name"
-            className="text-primary_dark px-4 py-1 rounded bg-primary_light border border-primary_light_2"
+            className="text-gray-600 px-4 py-1 rounded bg-gray-100 border border-gray-200"
           >
             Component Name
           </label>
           <input
-            className={`border ${nameIndicater ? "border-[#f44336] animate-pulse " : "border-primary_light"} p-1 rounded `}
+            className={`border ${nameIndicater ? "border-[#f44336] animate-pulse " : "border-gray-100"} p-1 rounded `}
             type="text"
             name="name"
             autoFocus={nameIndicater}
@@ -130,7 +130,7 @@ const SvgToJsxConverter: React.FC = () => {
         </div>
       </div>
       <textarea
-        className="border border-primary_light_4 bg-primary_light text-white"
+        className="border border-gray-400 bg-gray-100 text-white"
         value={svgInput}
         onChange={handleInputChange}
         placeholder="Paste your SVG code here"
@@ -140,7 +140,7 @@ const SvgToJsxConverter: React.FC = () => {
       />
       <div style={{ marginBottom: "10px" }} className="flex items-center">
         <button
-          className="bg-primary_light_2/95 hover:bg-primary_light_3/90 text-primary_dark font-bold py-1 text-xs px-4 rounded"
+          className="bg-gray-200/95 hover:bg-gray-300/90 text-gray-600 font-bold py-1 text-xs px-4 rounded"
           disabled={!svgInput}
           onClick={convertSvgToJsx}
           style={{ marginRight: "10px" }}

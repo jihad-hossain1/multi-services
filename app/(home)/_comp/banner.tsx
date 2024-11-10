@@ -38,10 +38,10 @@ const LandingBanner: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative bg-primary_light_3 rounded-xl text-white py-16 md:py-24 lg:py-32">
+    <div className="relative bg-gray-300 rounded-xl text-white py-16 md:py-24 lg:py-32">
       {/* Background Image (Optional) */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-90 rounded-xl bg-primary_light_3"
+        className="absolute inset-0 bg-cover bg-center opacity-90 rounded-xl bg-gray-300"
         // Uncomment below line if you want to add background image
         // style={{ backgroundImage: `url(${bgImage.src})` }}
       ></div>
@@ -51,13 +51,13 @@ const LandingBanner: React.FC = () => {
           className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
           ref={headingRef}
         >
-          Venture Buddy - Your Trusted Technology Partner
+          Multi Service - Your Trusted Technology Partner
         </h1>
         <p
           className="text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed"
           ref={paragraphRef}
         >
-          At Venture Buddy, we turn your innovative ideas into reality. As your
+          At Multi Service, we turn your innovative ideas into reality. As your
           trusted technology partner, we specialize in providing cutting-edge
           solutions to drive your business forward. From startups to established
           enterprises, our team of experts is dedicated to helping you succeed
@@ -65,7 +65,7 @@ const LandingBanner: React.FC = () => {
           scalable digital transformation.
         </p>
         <button
-          className="bg-primary_dark hover:bg-primary_light_5 text-primary_light py-3 px-6 rounded-lg font-semibold transition duration-300 transform hover:scale-105"
+          className="bg-gray-600 hover:bg-gray-500 text-gray-100 py-3 px-6 rounded-lg font-semibold transition duration-300 transform hover:scale-105"
           ref={buttonRef}
         
         >

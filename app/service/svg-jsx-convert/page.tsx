@@ -42,7 +42,7 @@ const SvgConverter = async () => {
             }) => (
               <div
                 key={icon.id}
-                className="border p-4 border-primary_light flex flex-col items-center justify-center"
+                className="border p-4 border-gray-100 flex flex-col items-center justify-center"
               >
                 {/* Safely render the SVG content using dangerouslySetInnerHTML */}
                 <div
