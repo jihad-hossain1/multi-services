@@ -4,27 +4,27 @@
 
 @layer components {
   .input-form {
-    @apply w-full px-2 py-1 rounded-md border border-l-primary_light focus:outline-none focus:outline-1 focus:ring-1 bg-primary_light_2 text-primary_light_5 shadow-sm;
+    @apply w-full px-2 py-1 rounded-md border border-l-gray-100 focus:outline-none focus:outline-1 focus:ring-1 bg-gray-200 text-gray-500 shadow-sm;
   }
 
   .input-btn {
-    @apply w-full p-2 rounded-md border border-primary_light_5 focus:outline-none focus:border-primary_light_4 bg-primary_light_4 text-primary_light_2 md:w-[200px] hover:border-primary_light_5 hover:bg-primary_light_5 transition-all duration-300;
+    @apply w-full p-2 rounded-md border border-gray-500 focus:outline-none focus:border-gray-400 bg-gray-400 text-gray-200 md:w-[200px] hover:border-gray-500 hover:bg-gray-500 transition-all duration-300;
   }
 
   .link-copy {
-    @apply bg-primary_light border flex items-center justify-center border-primary_light_4 rounded-md p-1 h-10 w-10;
+    @apply bg-gray-100 border flex items-center justify-center border-gray-400 rounded-md p-1 h-10 w-10;
     /* Manually add the shadow */
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 
   .link_copy_success {
-    @apply bg-primary_light_5 border flex items-center justify-center border-primary_light_4 rounded-md p-1 h-10 w-10;
+    @apply bg-gray-500 border flex items-center justify-center border-gray-400 rounded-md p-1 h-10 w-10;
     /* Manually add the shadow */
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
   }
 
   .input_btn_2 {
-    @apply w-full border py-2 hover:bg-primary_light_2/20 transition-all duration-200 bg-primary_light_2/15;
+    @apply w-full border py-2 hover:bg-gray-200/20 transition-all duration-200 bg-gray-200/15;
     /* Manually add the shadow */
     box-shadow: 0 3px 6px -4px rgba(59, 113, 202, 0.3), 0 2px 8px 0 rgba(59, 113, 202, 0.2);
   }
@@ -35,13 +35,13 @@
 }
 
 .text_area {
-  @apply w-full h-screen bg-primary_dark text-primary_light p-4 font-mono text-sm border-2 border-primary_light_5 rounded-lg shadow-md resize-none focus:outline-none focus:ring-2 focus:ring-primary_light_3 selection:bg-primary_light_4 selection:text-primary_light;
+  @apply w-full h-screen bg-gray-600 text-gray-100 p-4 font-mono text-sm border-2 border-gray-500 rounded-lg shadow-md resize-none focus:outline-none focus:ring-2 focus:ring-gray-300 selection:bg-gray-400 selection:text-gray-100;
 }
 
 .input-label {
-  @apply text-primary_light_5 flex gap-1 text-sm;
+  @apply text-gray-500 flex gap-1 text-sm;
 }
 
 .input {
-  @apply w-full p-2 rounded-md border border-primary_light_5 focus:outline-none focus:border-primary_light_4 bg-primary_light text-primary_light_2 md:w-[430px];
+  @apply w-full p-2 rounded-md border border-gray-500 focus:outline-none focus:border-gray-400 bg-gray-100 text-gray-200 md:w-[430px];
 }

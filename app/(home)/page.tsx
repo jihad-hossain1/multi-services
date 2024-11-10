@@ -71,7 +71,7 @@ const HomePage: React.FC = () => {
     <main>
       <LandingBanner />
       <div className="my-10">
-        <h4 className="py-4 text-3xl text-center font-bold text-primary_dark mb-8 bg-primary_light_2 fade-in">
+        <h4 className="py-4 text-3xl text-center font-bold text-gray-600 mb-8 bg-gray-200 fade-in">
           Services
         </h4>
         <div className="fade-in">
@@ -79,7 +79,7 @@ const HomePage: React.FC = () => {
         </div>
       </div>
       <div className="my-10">
-        <h4 className="py-4 bg-primary_light_2 text-3xl text-center font-bold text-primary_dark mb-8 slide-in">
+        <h4 className="py-4 bg-gray-200 text-3xl text-center font-bold text-gray-600 mb-8 slide-in">
           Custom Services
         </h4>
         <div className="slide-in">
@@ -87,7 +87,7 @@ const HomePage: React.FC = () => {
         </div>
       </div>
       <div className="my-10">
-        <h4 className="py-4 bg-primary_light_2 text-3xl text-center font-bold text-primary_dark mb-8 scale-in">
+        <h4 className="py-4 bg-gray-200 text-3xl text-center font-bold text-gray-600 mb-8 scale-in">
           Common Services
         </h4>
         <div className="scale-in">
@@ -98,7 +98,7 @@ const HomePage: React.FC = () => {
         <Testimonial />
       </div>
       <div>
-        <h4 className="py-4 bg-primary_light_2 text-3xl text-center font-bold text-primary_dark mb-8">
+        <h4 className="py-4 bg-gray-200 text-3xl text-center font-bold text-gray-600 mb-8">
           Our Team
         </h4>
         <OurTeam />

@@ -21,17 +21,17 @@ const Footer: React.FC = () => {
   return (
     <footer
       ref={footerRef}
-      className="bg-primary_light_4 text-primary_light py-6 mt-10"
+      className="bg-gray-400 text-gray-100 py-6 mt-10"
     >
       <div className="container px-4  mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col items-center"
+          className="flex flex-col md:items-center items-start"
         >
           <h4 className="text-xl font-bold mb-4">Our IT Services</h4>
-          <ul className="flex gap-3 list-disc-none">
+          <ul className="flex gap-3 list-disc-none flex-col md:flex-row ">
             <li>Custom Software Development</li>
             <li>Cloud Solutions</li>
             <li>IT Consulting</li>

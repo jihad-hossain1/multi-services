@@ -50,7 +50,7 @@ export default function CommonService() {
             scale: 1.05,
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
           }}
-          className="bg-primary_light border border-primary_light_2 rounded-lg shadow-md"
+          className="bg-gray-100 border border-gray-200 rounded-lg shadow-md"
         >
           <Link
             href={service.url}
@@ -64,14 +64,14 @@ export default function CommonService() {
               {service.icon}
             </motion.div>
             <motion.h3
-              className="text-xl font-semibold text-primary_dark mb-2"
+              className="text-xl font-semibold text-gray-600 mb-2"
               whileHover={{ color: "#3b82f6" }}
               transition={cardTransition}
             >
               {service.name}
             </motion.h3>
             <motion.p
-              className="text-primary_dark"
+              className="text-gray-600"
               whileHover={{ color: "#1f2937" }}
               transition={cardTransition}
             >

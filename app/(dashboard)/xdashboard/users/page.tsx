@@ -163,7 +163,7 @@ const UserPage = () => {
         <input
           type="text"
           placeholder="Search"
-          className="border border-primary_light_4 focus:outline-primary_dark rounded-lg px-4 py-2 w-full"
+          className="border border-gray-400 focus:outline-gray-600 rounded-lg px-4 py-2 w-full"
           value={searchTerm}
           onChange={handleSearchChange}
         />
@@ -178,50 +178,50 @@ const UserPage = () => {
                   key={i}
                   className="border-b hover:bg-gray-100 animate-pulse"
                 >
-                  <td className="px-4 py-2 text-left border-b border-primary_light_4">
-                    <div className="h-4 bg-primary_light_4 rounded w-3/4"></div>
+                  <td className="px-4 py-2 text-left border-b border-gray-400">
+                    <div className="h-4 bg-gray-400 rounded w-3/4"></div>
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_4">
-                    <div className="h-4 bg-primary_light_4 rounded w-2/4"></div>
+                  <td className="px-4 py-2 text-left border-b border-gray-400">
+                    <div className="h-4 bg-gray-400 rounded w-2/4"></div>
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_4">
-                    <div className="h-4 bg-primary_light_4 rounded w-1/4"></div>
+                  <td className="px-4 py-2 text-left border-b border-gray-400">
+                    <div className="h-4 bg-gray-400 rounded w-1/4"></div>
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_4">
-                    <div className="h-4 bg-primary_light_4 rounded w-1/4"></div>
+                  <td className="px-4 py-2 text-left border-b border-gray-400">
+                    <div className="h-4 bg-gray-400 rounded w-1/4"></div>
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_4">
-                    <div className="h-4 bg-primary_light_4 rounded w-1/4"></div>
+                  <td className="px-4 py-2 text-left border-b border-gray-400">
+                    <div className="h-4 bg-gray-400 rounded w-1/4"></div>
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_4">
-                    <div className="h-4 bg-primary_light_4 rounded w-1/4"></div>
+                  <td className="px-4 py-2 text-left border-b border-gray-400">
+                    <div className="h-4 bg-gray-400 rounded w-1/4"></div>
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_4">
-                    <div className="h-4 bg-primary_light_4 rounded w-1/4"></div>
+                  <td className="px-4 py-2 text-left border-b border-gray-400">
+                    <div className="h-4 bg-gray-400 rounded w-1/4"></div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         ) : (
-          <table className="w-full border border-primary_light_3 border-t-none rounded-md ">
+          <table className="w-full border border-gray-300 border-t-none rounded-md ">
             <thead>
               <tr className="shadow-[0_1px_2px_rgba(0,0,0,0.1)]">
-                <th className="px-4 py-2 text-left bg-primary_light_3">Name</th>
-                <th className="px-4 py-2 text-left bg-primary_light_3">
+                <th className="px-4 py-2 text-left bg-gray-300">Name</th>
+                <th className="px-4 py-2 text-left bg-gray-300">
                   Email
                 </th>
-                <th className="px-4 py-2 text-left bg-primary_light_3">Role</th>
-                <th className="px-4 py-2 text-left bg-primary_light_3">
+                <th className="px-4 py-2 text-left bg-gray-300">Role</th>
+                <th className="px-4 py-2 text-left bg-gray-300">
                   Status
                 </th>
-                <th className="px-4 py-2 text-left bg-primary_light_3">
+                <th className="px-4 py-2 text-left bg-gray-300">
                   Count
                 </th>
-                <th className="px-4 py-2 text-left bg-primary_light_3">
+                <th className="px-4 py-2 text-left bg-gray-300">
                   Verified
                 </th>
-                <th className="px-4 py-2 text-left bg-primary_light_3">
+                <th className="px-4 py-2 text-left bg-gray-300">
                   Action
                 </th>
               </tr>
@@ -229,25 +229,25 @@ const UserPage = () => {
             <tbody>
               {users?.map((user: any) => (
                 <tr key={user?.id}>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_2">
+                  <td className="px-4 py-2 text-left border-b border-gray-200">
                     {user?.name}
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_2">
+                  <td className="px-4 py-2 text-left border-b border-gray-200">
                     {user?.email}
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_2">
+                  <td className="px-4 py-2 text-left border-b border-gray-200">
                     {user?.xrole}
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_2">
+                  <td className="px-4 py-2 text-left border-b border-gray-200">
                     {user?.status}
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_2">
+                  <td className="px-4 py-2 text-left border-b border-gray-200">
                     {user?.count}
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_2">
+                  <td className="px-4 py-2 text-left border-b border-gray-200">
                     {user?.verify}
                   </td>
-                  <td className="px-4 py-2 text-left border-b border-primary_light_2">
+                  <td className="px-4 py-2 text-left border-b border-gray-200">
                     <button
                       onClick={() => {
                         openModal();
@@ -266,7 +266,7 @@ const UserPage = () => {
         {/* pagination  */}
         {Math.ceil(totals / pageSize) > 0 && (
           <div className="flex justify-center mt-4">
-            <div className="bg-primary_light_2 px-3">Total {totals}</div>
+            <div className="bg-gray-200 px-3">Total {totals}</div>
             {/* <div>
               <select
                 className="px-4 py-1 text-sm border-blue-100 border rounded shadow-sm"
@@ -283,8 +283,8 @@ const UserPage = () => {
               <button
                 className={`${
                   page === 1
-                    ? "bg-primary_light_2 border border-primary_light_2 text-primary_dark"
-                    : "bg-primary_light_2 border border-primary_light_2 text-blue-600"
+                    ? "bg-gray-200 border border-gray-200 text-gray-600"
+                    : "bg-gray-200 border border-gray-200 text-blue-600"
                 } px-2 text-sm rounded shadow-sm hover:shadow`}
                 onClick={() => setPage(page - 1)}
                 disabled={page === 1}
@@ -298,8 +298,8 @@ const UserPage = () => {
               <button
                 className={`${
                   page === Math.ceil(totals / pageSize)
-                    ? "bg-primary_light_2 border border-primary_light_2 text-primary_dark"
-                    : "bg-primary_light_2 border border-primary_light_2 text-blue-600"
+                    ? "bg-gray-200 border border-gray-200 text-gray-600"
+                    : "bg-gray-200 border border-gray-200 text-blue-600"
                 } px-2 text-sm rounded shadow-sm hover:shadow`}
                 onClick={() => setPage(page + 1)}
                 disabled={page === Math.ceil(totals / pageSize)}
@@ -323,7 +323,7 @@ const UserPage = () => {
               <div className="flex flex-col gap-2">
                 <label>Verified</label>
                 <select
-                  className="p-2 w-full border border-primary_light_5"
+                  className="p-2 w-full border border-gray-500"
                   onChange={(e) =>
                     setFormValue({ ...formValue, verify: e.target.value })
                   }
@@ -338,7 +338,7 @@ const UserPage = () => {
               <div className="flex flex-col gap-2">
                 <label>Status</label>
                 <select
-                  className="p-2 w-full border border-primary_light_5"
+                  className="p-2 w-full border border-gray-500"
                   onChange={(e) =>
                     setFormValue({ ...formValue, status: e.target.value })
                   }
@@ -357,13 +357,13 @@ const UserPage = () => {
                     <button
                       disabled={delLoading}
                       onClick={() => handleDelete(userInfo?.id)}
-                      className="hover:bg-[#f44336] border border-[#f44336] hover:text-[#fff]  text-primary_dark rounded shadow-sm hover:shadow px-3 py-1"
+                      className="hover:bg-[#f44336] border border-[#f44336] hover:text-[#fff]  text-gray-600 rounded shadow-sm hover:shadow px-3 py-1"
                     >
                       {delLoading ? "Removing..." : "Remove"}
                     </button>
                     <button
                       onClick={() => setDeleteConfirm(false)}
-                      className="bg-primary_dark  text-[#fff] rounded shadow-sm hover:shadow px-3 py-1"
+                      className="bg-gray-600  text-[#fff] rounded shadow-sm hover:shadow px-3 py-1"
                     >
                       Cancel
                     </button>
@@ -383,7 +383,7 @@ const UserPage = () => {
             <button
               disabled={upLoading}
               onClick={handleUserUpdate}
-              className="input-btn text-primary_light px-4 bg-primary_dark_deep w-fit"
+              className="input-btn text-gray-100 px-4 bg-gray-700 w-fit"
             >
               {upLoading ? "Saving..." : "Save"}
             </button>

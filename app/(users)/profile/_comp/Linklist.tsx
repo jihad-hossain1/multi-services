@@ -185,7 +185,7 @@ export function LinkList() {
                   {[...Array(15)].map((_, i) => (
                     <tr key={i} className="border-b hover:bg-gray-100">
                       <td className="text-start px-4 py-2">
-                        <div className="animate-pulse bg-primary_light_3 h-8 w-full"></div>
+                        <div className="animate-pulse bg-gray-300 h-8 w-full"></div>
                       </td>
                     </tr>
                   ))}
@@ -207,7 +207,7 @@ export function LinkList() {
                   {links?.map((link: any, i: number) => (
                     <tr
                       key={i}
-                      className="border-b hover:bg-primary_light relative"
+                      className="border-b hover:bg-gray-100 relative"
                     >
                       <td className="text-start px-4 py-2">{i + 1}</td>
                       <td className="text-start">{link?.xname || "N/A"}</td>
