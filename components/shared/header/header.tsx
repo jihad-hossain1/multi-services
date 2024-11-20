@@ -14,6 +14,7 @@ const Header = () => {
   const paths = ["/service/code-share"];
 
   const hiddenPath = paths.some((item) => path.startsWith(item));
+
   return (
     <nav className="p-4 bg-gray-50 shadow-[0_1px_5px_0_rgba(0,0,0,0.1)] border-b border-gray-300 text-gray-900 flex items-center justify-center gap-5 ">
       <div className="flex items-center gap-4 text-xs md:text-sm lg:text-lg">

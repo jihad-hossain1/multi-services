@@ -26,7 +26,7 @@ const FileUpload = () => {
 
     const uploadFile = async (file) => {
         const url = await getCookiesData(cookieApiUrl,secretKey);
-        console.log(url)
+
         if(!cookieApiUrl || !url){
             return alert('Please Set first Api Url')
         }

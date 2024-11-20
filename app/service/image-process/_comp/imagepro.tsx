@@ -49,7 +49,7 @@ function ImageProcess() {
 
             setLoading(false);
             const data = await response.json();
-            console.log("🚀 ~ handleUpload ~ data:", data);
+           
             if (data.imageLinks) {
                 setCompressedImagePaths(data.imageLinks); // Array of paths
             }

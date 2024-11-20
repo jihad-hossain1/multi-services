@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 
-const customHeaders =  process.env.NEXTAUTH_SECRET as string
+const customHeaders =  process.env.NEXT_PUBLIC_NEXT_SECRET as string
 
 
 

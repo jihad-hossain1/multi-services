@@ -46,8 +46,7 @@ const ContactUs: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle form submission logic
-      console.log("Form submitted", formData);
+
     }
   };
 

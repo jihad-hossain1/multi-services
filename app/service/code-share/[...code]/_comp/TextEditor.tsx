@@ -10,7 +10,7 @@ import useAuth from "@/helpers/hook/useAuth";
 import Loader from "@/components/svg/loader";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
-const customHeaders =  process.env.NEXTAUTH_SECRET as string
+const customHeaders =  process.env.NEXT_PUBLIC_NEXT_SECRET as string
 
 export const TextEditor = ({ params }: { params: { code: string[] } }) => {
     const [content, setContent] = useState("");
