@@ -14,7 +14,7 @@ const generateUniqueCode = () => {
     .slice(0, 16); // Adjust the length to your needs
 };
 
-const customHeaders =  process.env.NEXTAUTH_SECRET as string
+const customHeaders =  process.env.NEXT_PUBLIC_NEXT_SECRET as string
 
 const CodeShare = () => {
   const [code, setCode] = useState("");

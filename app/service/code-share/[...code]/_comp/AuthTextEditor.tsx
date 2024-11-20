@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 import useAuth from "@/helpers/hook/useAuth";
 import Loader from "@/components/svg/loader";
-const customHeaders =  process.env.NEXTAUTH_SECRET as string
+const customHeaders =  process.env.NEXT_PUBLIC_NEXT_SECRET as string
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
 export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {

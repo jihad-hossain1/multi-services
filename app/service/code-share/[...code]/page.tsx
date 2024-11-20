@@ -9,7 +9,7 @@ const CodeSharePage = async ({ params }: { params: { code: string[] } }) => {
   const findAuthLink = await fetch(`${process.env.PUBLIC_NEXT_URL}/api/v1/code-share?code=${params?.code[0]}&type=permanent`,{
     headers: {
       "Content-Type": "application/json",
-     "Custom-Header": process.env.NEXTAUTH_SECRET as string,
+     "Custom-Header": process.env.NEXT_PUBLIC_NEXT_SECRET as string,
     
     },
   });

@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 
 
-const customHeaders =  process.env.NEXTAUTH_SECRET as string
+const customHeaders =  process.env.NEXT_PUBLIC_NEXT_SECRET as string
 
 const HomeIcon = () => <div>🏠</div>;
 const ActiveFavIcon = () => <div title="InActive Favorite"> 🤎 </div>;
@@ -55,6 +55,8 @@ export function LinkList() {
          "Custom-Header": customHeaders,
         
         },
+        method: "GET",
+        cache: "no-store",
       });
       setLoading(false);
       const jsondata = await response.json();

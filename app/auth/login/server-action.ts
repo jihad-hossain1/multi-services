@@ -13,7 +13,7 @@ export async function userLogin(formData: {
       method: "POST",
         headers: {
           "Content-Type": "application/json",
-         "Custom-Header": process.env.NEXTAUTH_SECRET as string,
+         "Custom-Header": process.env.NEXT_PUBLIC_NEXT_SECRET as string,
         
         },
       body: JSON.stringify({ ...formData}),

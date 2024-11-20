@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
         id: "desc"
       }
     });
-    console.log("🚀 ~ GET ~ icons:", icons.length)
+   
 
     return NextResponse.json({ result: icons }, { status: 200 });
   } catch (error) {

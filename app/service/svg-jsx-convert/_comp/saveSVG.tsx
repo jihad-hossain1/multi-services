@@ -33,7 +33,7 @@ const SaveSVG = ({
 
       setLoading(false);
       const data = await response.json();
-      // console.log("🚀 ~ handleSave ~ data:", data);
+      
 
       if (data.error) {
         toast.error(data?.error);
