@@ -9,7 +9,7 @@
 
 //   if (isAuth) {
 //     return NextResponse.next();
-//   } 
+//   }
 //   return NextResponse.redirect(loginUrl);
 // }
 
@@ -20,33 +20,77 @@
 //   ],
 // };
 
+import { NextResponse, NextRequest } from "next/server";
+import { rateLimit } from "@/utils/rateLimit"; // Import the rate limit function
+import { serverAuth } from "./lib/server_session"; // Import your server authentication function
 
-import { NextResponse , NextRequest} from 'next/server';
-import { rateLimit } from '@/utils/rateLimit';  // Import the rate limit function
-import { validateCustomHeader } from '@/utils/headerValidation';  // Import header validation function
+// Define allowed origins
+const allowedOrigins = ["http://localhost:3000", "https://onuragi.vercel.app"];
 
-export function middleware(request: NextRequest) {
-  try {
-    const ip = request.headers.get('x-real-ip') || request.ip;
-
-    // Check if the rate limit has been exceeded for the given IP
-    if (rateLimit(ip)) {
-      return NextResponse.json({ error: 'Rate limit exceeded' }, { status: 429 });
-    }
-
-    // Check for the custom header using the validate function
-    const headerValidation = validateCustomHeader(request);
-    if (!headerValidation.isValid) {
-      return NextResponse.json({ error: headerValidation.message }, { status: 401 });
-    }
-
-    // Allow the request to proceed if all checks pass
-    return NextResponse.next();
-  } catch (error) {
-    return NextResponse.json({ error: (error as Error).message }, { status: 400 });
-  }
+// Helper to set CORS headers
+function setCorsHeaders(response: NextResponse, origin: string | null) {
+    response.headers.set("Access-Control-Allow-Origin", origin || "*");
+    response.headers.set(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, OPTIONS",
+    );
+    response.headers.set(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization",
+    );
+    response.headers.set("Access-Control-Max-Age", "86400"); // Cache preflight for 1 day
+    return response;
 }
 
+export async function middleware(request: NextRequest) {
+    try {
+        const origin = request.headers.get("Origin");
+        const method = request.method;
+
+        // 1. Validate Origin
+        if (origin && !allowedOrigins.includes(origin)) {
+            return NextResponse.json(
+                { error: `Origin ${origin} is not allowed by CORS` },
+                { status: 403 },
+            );
+        }
+
+        // 2. Handle Preflight (OPTIONS) Request
+        if (method === "OPTIONS") {
+            const response = NextResponse.json(null, { status: 204 }); 
+            return setCorsHeaders(response, origin);
+        }
+
+        // 3. Check Rate Limiting
+        const ip = request.headers.get("x-real-ip") || request.ip;
+        if (rateLimit(ip)) {
+            return NextResponse.json(
+                { error: "Rate limit exceeded" },
+                { status: 429 },
+            );
+        }
+
+        // // 4. Authentication Logic
+        const isAuth = await serverAuth(); 
+        if (!isAuth && request.nextUrl.pathname.startsWith("/profile")) {
+            const loginUrl = new URL("/auth/login", request.url);
+            return NextResponse.redirect(loginUrl); 
+        }
+
+        // 5. Set CORS Headers for Valid Requests
+        let response = NextResponse.next();
+        return setCorsHeaders(response, origin);
+    } catch (error) {
+        return NextResponse.json(
+            { error: (error as Error).message || "An unknown error occurred" },
+            { status: 500 },
+        );
+    }
+}
+
+
 export const config = {
-  matcher: ['/api/:path*'],
+    matcher: ["/api/:path*"],
 };
+
+

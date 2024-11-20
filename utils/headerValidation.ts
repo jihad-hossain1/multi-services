@@ -15,16 +15,16 @@ export function validateCustomHeader(request: NextRequest) {
 
     // Check if the header is missing or doesn't match the secret key
     if (!customHeader) {
-        return { isValid: false, message: "Custom header is missing" };
+        return { isValid: false, message: "Define a header" };
     }
 
-    if (decrypted !== secretKey) {
+    if (decrypted == secretKey && key == customHeader) {
+        return { isValid: true };
+    } else{
         return {
             isValid: false,
-            message: "Unauthorized: Invalid custom header",
+            message: "Unauthorized: Invalid header",
         };
     }
 
-    // If the header is valid
-    return { isValid: true };
 }

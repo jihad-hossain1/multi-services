@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { RESET_INTERVAL_HOURS, RESET_INTERVAL_MINUTES, SAVED_USER_LIMIT, MAC_ADDRESS_LIMIT } from "@/constant";
 
+
 export async function POST(request: NextRequest) {
     const { code, type, osInfo, uid, userid } = await request.json();
     // generate date
@@ -220,7 +221,7 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get("type");
 
     try {
-        
+
         if (type == "lmTmLnk") {
 
             let result = await prisma.lmTmLnk.findFirst({
