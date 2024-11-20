@@ -14,6 +14,8 @@ const generateUniqueCode = () => {
     .slice(0, 16); // Adjust the length to your needs
 };
 
+const customHeaders =  process.env.NEXTAUTH_SECRET as string
+
 const CodeShare = () => {
   const [code, setCode] = useState("");
   const [localUid, setLocalUid] = useState("");
@@ -49,6 +51,7 @@ const CodeShare = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Custom-Header": customHeaders,
         },
         body: JSON.stringify(jsonBody),
       });

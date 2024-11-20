@@ -6,7 +6,13 @@ import { TextView } from './_comp/TextView';
 
 const CodeSharePage = async ({ params }: { params: { code: string[] } }) => {
   const isAuth:any = await serverAuth();
-  const findAuthLink = await fetch(`${process.env.PUBLIC_NEXT_URL}/api/v1/code-share?code=${params?.code[0]}&type=permanent`);
+  const findAuthLink = await fetch(`${process.env.PUBLIC_NEXT_URL}/api/v1/code-share?code=${params?.code[0]}&type=permanent`,{
+    headers: {
+      "Content-Type": "application/json",
+     "Custom-Header": process.env.NEXTAUTH_SECRET as string,
+    
+    },
+  });
   const auth_link_json = await findAuthLink.json();
 
   const isAuthLink = auth_link_json?.result?.authorId !== isAuth?.userId
