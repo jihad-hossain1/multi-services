@@ -27,6 +27,8 @@ export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
 );
 
+const customHeaders =  process.env.NEXTAUTH_SECRET as string
+
 const AuthContextProvider: FC<IAuthContext> = ({ children }) => {
   const [auth, setAuth] = useState<any>(null);
   const [error, setError] = useState<any>(null);
@@ -39,7 +41,13 @@ const AuthContextProvider: FC<IAuthContext> = ({ children }) => {
       try {
         setLoading(true);
         const response = await fetch(
-          `/api/v1/auth/login/auth`);
+          `/api/v1/auth/login/auth`,{
+            headers: {
+              "Content-Type": "application/json",
+             "Custom-Header": customHeaders,
+            
+            },
+          });
         if (!response.ok) {
           console.error(`Error: ${response.statusText}`);
         }

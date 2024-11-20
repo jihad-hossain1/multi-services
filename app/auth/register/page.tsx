@@ -6,6 +6,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
+
+const customHeaders =  process.env.NEXTAUTH_SECRET as string
+
+
+
 const RegisterForm = () => {
   const [state, setState] = useState<any>({
     name: "",
@@ -27,6 +32,7 @@ const RegisterForm = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Custom-Header": customHeaders,
         },
         body: JSON.stringify({...state}),
       });

@@ -11,9 +11,11 @@ export async function userLogin(formData: {
     `${process.env.PUBLIC_NEXT_URL}/api/v1/auth/login`,
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+        headers: {
+          "Content-Type": "application/json",
+         "Custom-Header": process.env.NEXTAUTH_SECRET as string,
+        
+        },
       body: JSON.stringify({ ...formData}),
     }
   );

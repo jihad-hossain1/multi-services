@@ -18,6 +18,10 @@ import TrashSVG from "@/components/svg/trashsvg";
 import useAuth from "@/helpers/hook/useAuth";
 import { useRouter } from "next/navigation";
 
+
+
+const customHeaders =  process.env.NEXTAUTH_SECRET as string
+
 const HomeIcon = () => <div>🏠</div>;
 const ActiveFavIcon = () => <div title="InActive Favorite"> 🤎 </div>;
 const InActiveFavIcon = () => <div title="Active Favorite"> 🤍 </div>;
@@ -40,11 +44,18 @@ export function LinkList() {
   const [ind, setInd] = useState<null | number>(null);
 
   const fetchLinks = useCallback(async () => {
+   
     try {
       setLoading(true);
       const response = await fetch(
         `/api/v1/code-share/all-links?userid=${auth?.userId}&page=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}`
-      );
+      , {
+        headers: {
+          "Content-Type": "application/json",
+         "Custom-Header": customHeaders,
+        
+        },
+      });
       setLoading(false);
       const jsondata = await response.json();
       if (jsondata?.data) {
