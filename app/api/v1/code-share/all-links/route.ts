@@ -1,7 +1,13 @@
 import prisma from "@/lib/prismalib";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
+  // Apply CORS middleware
+  const handler = NextResponse.next()
+
+
+
   const { searchParams } = new URL(request.nextUrl);
   const userid = searchParams.get("userid") as string;
   const page = parseInt(searchParams.get("page") || "1", 10);
@@ -16,6 +22,8 @@ export async function GET(request: NextRequest) {
 
   const parsedPageSize = parseInt(pageSize.toString(), 10) || 10;
   const parsedSortOrder = (sortOrder as string) || "asc";
+
+   
 
   let where = {};
   if (searchTerm) {
