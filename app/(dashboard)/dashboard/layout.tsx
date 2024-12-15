@@ -43,7 +43,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
           <div className="flex-1">
             <nav className="grid items-start px-4 text-sm font-medium">
-              <motion.div whileHover="hover" variants={linkVariants}>
+              {/* <motion.div whileHover="hover" variants={linkVariants}>
                 <Link
                   href="#"
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
@@ -51,11 +51,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   <HomeIcon />
                   Home
                 </Link>
-              </motion.div>
+              </motion.div> */}
 
               <motion.div whileHover="hover" variants={linkVariants}>
                 <Link
-                  href="/profile/links"
+                  href="/dashboard/profile/links"
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                 >
                   <ShoppingCartIcon />
@@ -65,11 +65,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
               <motion.div whileHover="hover" variants={linkVariants}>
                 <Link
-                  href="#"
+                  href="/dashboard/expense"
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                 >
                   <PackageIcon />
-                  Products
+                  Expense
                 </Link>
               </motion.div>
 

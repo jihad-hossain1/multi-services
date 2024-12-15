@@ -60,6 +60,36 @@ model User {
   links    ULink[]
 }
 
+model Expense {
+  id       String        @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  amount   Float         @default(0)
+  xdate    DateTime      @default(now())
+  xuserid  String
+  xbank    BankInfo?
+  catid    String        @db.ObjectId
+  category Expensecat    @relation(fields: [catid], references: [id], onDelete: Cascade)
+  payment  PaymentMethod @default(CASH)
+  note     String?
+}
+
+model Expensecat {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  xuserid  String
+  expenses Expense[]
+  xdate    DateTime  @default(now())
+
+  @@unique([xuserid, name], map: "xuserid_name")
+}
+
+type BankInfo {
+  xcardno         String?
+  xcardholdername String?
+  xaccno          String?
+  xbankname       String?
+}
+
 // Address is an embedded document
 type Address {
   street String?
@@ -98,4 +128,9 @@ enum xstatus {
 enum uverify {
   VERIFIED @map("verified")
   PENDING  @map("pending")
+}
+
+enum PaymentMethod {
+  CASH @map("cash")
+  CARD @map("card")
 }
