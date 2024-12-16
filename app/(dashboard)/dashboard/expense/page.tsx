@@ -87,7 +87,7 @@ const Page = () => {
 
                     <div className='flex gap-4 items-center mt-[45px]'>
                         <div>
-                            <button className={summaryVisible ? "btn_comp_color_violet" : "btn_comp_color_cyan"} onClick={() => setSummaryVisible(!summaryVisible)}>
+                            <button className={summaryVisible ? "btn" : "btn"} onClick={() => setSummaryVisible(!summaryVisible)}>
                                 {summaryVisible ? `View Expenses` : `View Summary`}
                             </button>
                         </div>

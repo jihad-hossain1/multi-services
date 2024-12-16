@@ -36,7 +36,7 @@ const ExpenseSummary: React.FC = () => {
     const handleFetchSummary = async ({ index, summaryId }: { index: number; summaryId: string }) => {
         try {
             setIsLoadingSummary(true);
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/backend/expense/summary?businessId=${auth?.bizid}&summaryId=${summaryId}&summary=summary&from=${fromDate}&to=${toDate}`, { cache: "no-store" });
+            const response = await fetch(`/api/v1/expense/summary?userId=${auth?.userId}&summaryId=${summaryId}&summary=summary&from=${fromDate}&to=${toDate}`, { cache: "no-store" });
             const data = await response.json();
             setSummaryData(data?.result || []);
         } catch (error) {
@@ -59,7 +59,7 @@ const ExpenseSummary: React.FC = () => {
         const fetchSummaries = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch(`/api/backend/expense/summary?businessId=${auth?.bizid}&group=${JSON.stringify(groupItems)}&from=${fromDate}&to=${toDate}`, { cache: "no-store" });
+                const response = await fetch(`/api/v1/expense/summary?userId=${auth?.userId}&group=${JSON.stringify(groupItems)}&from=${fromDate}&to=${toDate}`, { cache: "no-store" });
                 const data = await response.json();
                 setSummaries(data);
             } catch (error) {
@@ -69,8 +69,8 @@ const ExpenseSummary: React.FC = () => {
             }
         };
 
-        if (auth?.bizid) fetchSummaries();
-    }, [auth?.bizid, groupItems, fromDate, toDate]);
+        if (auth?.userId) fetchSummaries();
+    }, [auth?.userId, groupItems, fromDate, toDate]);
 
     const handleSelectionChange = (selectedOptions: any) => {
         if (!selectedOptions.length) return;
@@ -97,28 +97,28 @@ const ExpenseSummary: React.FC = () => {
                 </div>
             </div>
             {isLoading ? (
-                <div className='overflow-x-auto rounded-lg border border-violet-200 shadow-lg animate-pulse'>
-                    <table className='min-w-full bg-white divide-y divide-violet-200'>
-                        <thead className='bg-violet-100'>
-                            <tr className='bg-violet-200/70'>
-                                <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-violet-700 uppercase tracking-wider'>
-                                    <div className='h-4 bg-violet-300 rounded w-24'></div>
+                <div className='overflow-x-auto rounded-lg border border-cyan-200 shadow-lg animate-pulse'>
+                    <table className='min-w-full bg-white divide-y divide-cyan-200'>
+                        <thead className='bg-cyan-100'>
+                            <tr className='bg-cyan-200/70'>
+                                <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-cyan-700 uppercase tracking-wider'>
+                                    <div className='h-4 bg-cyan-300 rounded w-24'></div>
                                 </th>
-                                <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-violet-700 uppercase tracking-wider'>
-                                    <div className='h-4 bg-violet-300 rounded w-24'></div>
+                                <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-cyan-700 uppercase tracking-wider'>
+                                    <div className='h-4 bg-cyan-300 rounded w-24'></div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className='divide-y divide-violet-200'>
+                        <tbody className='divide-y divide-cyan-200'>
                             {Array(5)
                                 .fill(null)
                                 .map((_, index) => (
-                                    <tr key={index} className='hover:bg-violet-200/30'>
-                                        <td className='px-6 py-4 text-sm text-violet-900 font-medium'>
-                                            <div className='h-4 bg-violet-300 rounded w-32'></div>
+                                    <tr key={index} className='hover:bg-cyan-200/30'>
+                                        <td className='px-6 py-4 text-sm text-cyan-900 font-medium'>
+                                            <div className='h-4 bg-cyan-300 rounded w-32'></div>
                                         </td>
-                                        <td className='px-6 py-4 text-sm text-violet-500'>
-                                            <div className='h-4 bg-violet-300 rounded w-20'></div>
+                                        <td className='px-6 py-4 text-sm text-cyan-500'>
+                                            <div className='h-4 bg-cyan-300 rounded w-20'></div>
                                         </td>
                                     </tr>
                                 ))}
@@ -128,8 +128,8 @@ const ExpenseSummary: React.FC = () => {
             ) : (
                 <div className='overflow-x-auto rounded-lg border border-gray-200 shadow-lg'>
                     <table className='min-w-full bg-white divide-y divide-gray-200'>
-                        <thead className='bg-violet-100'>
-                            <tr className='bg-violet-200/70'>
+                        <thead className='bg-cyan-100'>
+                            <tr className='bg-cyan-200/70'>
                                 <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider'>
                                     Category
                                 </th>
@@ -149,7 +149,7 @@ const ExpenseSummary: React.FC = () => {
 
                                             return (
                                                 <React.Fragment key={index}>
-                                                    <tr className='relative hover:bg-violet-200/20 cursor-pointer' onClick={() => toggleRow(index, value.id)}>
+                                                    <tr className='relative hover:bg-cyan-200/20 cursor-pointer' onClick={() => toggleRow(index, value.id)}>
                                                         <td className='px-6 py-4 text-sm text-gray-900 font-medium relative overflow-hidden'>
                                                             <div
                                                                 className='absolute inset-0 bg-green-100'
@@ -174,19 +174,19 @@ const ExpenseSummary: React.FC = () => {
                                                                         .map((_, idx) => (
                                                                             <tr key={`loading-${idx}`}>
                                                                                 <td className='px-6 py-4 text-sm'>
-                                                                                    <div className='h-4 bg-violet-200 rounded w-32'></div>
+                                                                                    <div className='h-4 bg-cyan-200 rounded w-32'></div>
                                                                                 </td>
                                                                                 <td className='px-6 py-4 text-sm'>
-                                                                                    <div className='h-4 bg-violet-200 rounded w-20'></div>
+                                                                                    <div className='h-4 bg-cyan-200 rounded w-20'></div>
                                                                                 </td>
                                                                                 <td className='px-6 py-4 text-sm'>
-                                                                                    <div className='h-4 bg-violet-200 rounded w-24'></div>
+                                                                                    <div className='h-4 bg-cyan-200 rounded w-24'></div>
                                                                                 </td>
                                                                                 <td className='px-6 py-4 text-sm'>
-                                                                                    <div className='h-4 bg-violet-200 rounded w-20'></div>
+                                                                                    <div className='h-4 bg-cyan-200 rounded w-20'></div>
                                                                                 </td>
                                                                                 <td className='px-6 py-4 text-sm'>
-                                                                                    <div className='h-4 bg-violet-200 rounded w-40'></div>
+                                                                                    <div className='h-4 bg-cyan-200 rounded w-40'></div>
                                                                                 </td>
                                                                             </tr>
                                                                         ))
@@ -288,18 +288,18 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onCh
 
     return (
         <div className='relative w-full md:w-[400px]' ref={dropdownRef}>
-            <button className='w-full bg-violet-200/60 text-left px-4 py-2 rounded-lg shadow-md focus:outline-none flex justify-between items-center' onClick={toggleDropdown}>
+            <button className='w-full bg-cyan-200/60 text-left px-4 py-2 rounded-lg shadow-md focus:outline-none flex justify-between items-center' onClick={toggleDropdown}>
                 <span>{selectedOptions.length > 0 ? selectedOptions.map((id) => Object.keys(options).find((key) => options[key].id === id)).join(", ") : "Select Group"}</span>
                 <svg xmlns='http://www.w3.org/2000/svg' className={`w-5 h-5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} viewBox='0 0 20 20' fill='currentColor'>
                     <path fillRule='evenodd' d='M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clipRule='evenodd' />
                 </svg>
             </button>
             {isOpen && (
-                <div className='absolute mt-2 w-full bg-violet-50 drop-shadow border-violet-300 rounded-lg shadow-lg z-30 max-h-60 overflow-y-auto animate-fade-in'>
+                <div className='absolute mt-2 w-full bg-cyan-50 drop-shadow border-cyan-300 rounded-lg shadow-lg z-30 max-h-60 overflow-y-auto animate-fade-in'>
                     {Object.keys(options).map((key) => {
                         const option = options[key];
                         return (
-                            <div key={key} className='px-4 py-2 cursor-pointer hover:bg-violet-100 flex items-center' onClick={() => handleOptionClick(key)}>
+                            <div key={key} className='px-4 py-2 cursor-pointer hover:bg-cyan-100 flex items-center' onClick={() => handleOptionClick(key)}>
                                 <input
                                     type='checkbox'
                                     checked={selectedOptions.includes(option.id)} // Check if the option id is selected
@@ -378,28 +378,28 @@ export default ExpenseSummary;
 //     return (
 //         <div>
 //             {isLoading ? (
-//                 <div className='overflow-x-auto rounded-lg border border-violet-200 shadow-lg animate-pulse'>
-//                     <table className='min-w-full bg-white divide-y divide-violet-200'>
-//                         <thead className='bg-violet-100'>
-//                             <tr className='bg-violet-200/70'>
-//                                 <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-violet-700 uppercase tracking-wider'>
-//                                     <div className='h-4 bg-violet-300 rounded w-24'></div>
+//                 <div className='overflow-x-auto rounded-lg border border-cyan-200 shadow-lg animate-pulse'>
+//                     <table className='min-w-full bg-white divide-y divide-cyan-200'>
+//                         <thead className='bg-cyan-100'>
+//                             <tr className='bg-cyan-200/70'>
+//                                 <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-cyan-700 uppercase tracking-wider'>
+//                                     <div className='h-4 bg-cyan-300 rounded w-24'></div>
 //                                 </th>
-//                                 <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-violet-700 uppercase tracking-wider'>
-//                                     <div className='h-4 bg-violet-300 rounded w-24'></div>
+//                                 <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-cyan-700 uppercase tracking-wider'>
+//                                     <div className='h-4 bg-cyan-300 rounded w-24'></div>
 //                                 </th>
 //                             </tr>
 //                         </thead>
-//                         <tbody className='divide-y divide-violet-200'>
+//                         <tbody className='divide-y divide-cyan-200'>
 //                             {Array(5)
 //                                 .fill(null)
 //                                 .map((_, index) => (
-//                                     <tr key={index} className='hover:bg-violet-200/30'>
-//                                         <td className='px-6 py-4 text-sm text-violet-900 font-medium'>
-//                                             <div className='h-4 bg-violet-300 rounded w-32'></div>
+//                                     <tr key={index} className='hover:bg-cyan-200/30'>
+//                                         <td className='px-6 py-4 text-sm text-cyan-900 font-medium'>
+//                                             <div className='h-4 bg-cyan-300 rounded w-32'></div>
 //                                         </td>
-//                                         <td className='px-6 py-4 text-sm text-violet-500'>
-//                                             <div className='h-4 bg-violet-300 rounded w-20'></div>
+//                                         <td className='px-6 py-4 text-sm text-cyan-500'>
+//                                             <div className='h-4 bg-cyan-300 rounded w-20'></div>
 //                                         </td>
 //                                     </tr>
 //                                 ))}
@@ -409,8 +409,8 @@ export default ExpenseSummary;
 //             ) : (
 //                 <div className='overflow-x-auto rounded-lg border border-gray-200 shadow-lg'>
 //                     <table className='min-w-full bg-white divide-y divide-gray-200'>
-//                         <thead className='bg-violet-100'>
-//                             <tr className='bg-violet-200/70'>
+//                         <thead className='bg-cyan-100'>
+//                             <tr className='bg-cyan-200/70'>
 //                                 <th scope='col' className='px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider'>
 //                                     Category
 //                                 </th>
@@ -431,7 +431,7 @@ export default ExpenseSummary;
 //                                             return (
 //                                                 <React.Fragment key={index}>
 //                                                     <tr
-//                                                         className='relative hover:bg-violet-200/20'
+//                                                         className='relative hover:bg-cyan-200/20'
 //                                                         onClick={() => {
 //                                                             toggleRow(index);
 //                                                             handleFetchSummary({ index, summaryId: value?.id });

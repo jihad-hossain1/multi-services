@@ -10,19 +10,5 @@ export async function createExpense(info: any) {
         actionData: { ...info },
     })
     return result;
-    // try {
-    //     const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/backend/expense`, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify({ ...info }),
-    //     });
-
-    //     const result = await response.json();
-
-    //     return result;
-    // } catch (error) {
-    //     console.error("Error creating expense:", error);
-    // }
+    
 }

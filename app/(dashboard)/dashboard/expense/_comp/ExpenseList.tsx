@@ -31,7 +31,7 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
         <div className='overflow-x-auto md:overflow-visible text-balance md:text-nowrap'>
             <table className="w-full ">
                 <thead>
-                    <tr className="border-b bg-violet-200/60">
+                    <tr className="border-b bg-cyan-200/60">
                         <th className="py-3 px-4 text-left">#</th>
                         <th className="py-3 px-4 text-left">{("Name")}</th>
                         <th className="py-3 px-4 text-left">{("Category")}</th>
@@ -49,9 +49,9 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
                                 animationFillMode: 'forwards',
                                 animationIterationCount: 'infinite',
                             }}>
-                                <td className="py-2 px-4 bg-gray-200/95 h-10" colSpan={5}></td>
-                                <td className="py-2 px-4 bg-gray-200/95 h-10" colSpan={2}></td>
-                                <td className="py-2 px-4 bg-gray-200/95 h-10" colSpan={2}></td>
+                                <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={5}></td>
+                                <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={2}></td>
+                                <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={2}></td>
                             </tr>
                         ))
                     ) : expenses?.map((expense: ExpenseSchemaType, index: number) => (
@@ -80,7 +80,7 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
             {
                 expenses?.length === 0 && !expnsLoading && (
                     <div className="flex justify-center items-center h-40">
-                        <p className="text-2xl text-gray-600">{("No Data Found")}</p>
+                        <p className="text-2xl text-cyan-600">{("No Data Found")}</p>
                     </div>
                 )
             }
@@ -89,7 +89,7 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
                 totalPages > 1 && (
                     <div className="flex justify-center mt-4 items-center gap-2">
                         <button
-                            className={page === 1 ? "hidden" : "bg-violet-100 hover:bg-violet-200 text-violet-700 font-bold py-1 px-4 rounded shadow-sm hover:shadow"}
+                            className={page === 1 ? "hidden" : "bg-cyan-100 hover:bg-cyan-200 text-cyan-700 font-bold py-1 px-4 rounded shadow-sm hover:shadow"}
                             onClick={handlePrevious}
                             disabled={page === 1}
                         >
@@ -97,7 +97,7 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
                         </button>
                         <span>{("Page")} {page} {("of")} {totalPages}</span>
                         <button
-                            className={page === totalPages ? "hidden" : "bg-violet-100 hover:bg-violet-200 text-violet-700 font-bold py-1 px-4 rounded shadow-sm hover:shadow"}
+                            className={page === totalPages ? "hidden" : "bg-cyan-100 hover:bg-cyan-200 text-cyan-700 font-bold py-1 px-4 rounded shadow-sm hover:shadow"}
                             onClick={handleNext}
                             disabled={page === totalPages}
                         >

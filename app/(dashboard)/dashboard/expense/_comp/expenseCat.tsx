@@ -3,7 +3,7 @@
 import Modal from '@/components/modal/Modal';
 import {InputField} from '@/components/ui/InputField';
 import useAuth from '@/helpers/hook/useAuth';
-import { ExpenseCategory, ExpenseCategoryType } from '@/helpers/schemas/schemas'
+import { ExpenseCategory } from '@/helpers/schemas/schemas'
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import toast from 'react-hot-toast';
@@ -41,12 +41,13 @@ const ExpenseCat: React.FC<Props> = ({ categories, setIsCatAdd, setFilterby, fil
     try {
       setActionLoader(true);
       setIsCatAdd(false)
-      const response = await createExpenseCategory({ ...parsedData.data, xuserid: auth?.userId });
+      const response = await createExpenseCategory({ name: parsedData.data.name, xuserid: auth?.userId });
       setActionLoader(false);
 
       if (response?.result) {
         setIsCatAdd(true)
         setModal(false);
+        setFormData({ name: "" });
         router.refresh();
         toast.success("Expense category created successfully");
       } else {
@@ -98,7 +99,7 @@ const ExpenseCat: React.FC<Props> = ({ categories, setIsCatAdd, setFilterby, fil
         </div>
 
         <div className='mt-7'>
-          <button className='btn_comp_color_violet' onClick={() => setModal(true)}>{`${("New")} ${("Category")}`}</button>
+          <button className='btn' onClick={() => setModal(true)}>{`${("New")} ${("Category")}`}</button>
         </div>
       </div>
 
@@ -125,10 +126,10 @@ const ExpenseCat: React.FC<Props> = ({ categories, setIsCatAdd, setFilterby, fil
             <div className="flex justify-end mt-3">
               <button
                 type="submit"
-                className="btn_comp_color_violet"
+                className="btn"
               >
                 {
-                  actionLoader ? <span className='flex items-center gap-2'>
+                  actionLoader ? <span className='flex items-center gap-2 '>
                     <span>Saving</span>
                     {/* <TbLoaderQuarter className='animate-spin' />
                      */}

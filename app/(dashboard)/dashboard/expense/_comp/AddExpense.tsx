@@ -27,13 +27,14 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
         category: "",
         payment: "",
         note: "",
+        xdate: ''
     });
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrors({});
 
-        const parsedData = ExpenseSchema.safeParse({ ...formData, amount: Number(formData.amount), catid: Number(formData.category) });
+        const parsedData = ExpenseSchema.safeParse({ ...formData,xdate: new Date(formData.xdate), amount: Number(formData.amount), catid: formData.category });
 
         if (!parsedData.success) {
             const errors = parsedData.error.flatten().fieldErrors;
@@ -44,7 +45,7 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
         try {
             setActionLoader(true);
             setIsExpnsAdd(false)
-            const response = await createExpense({ ...parsedData.data, xuserid: auth?.userId, bizid: auth?.bizid });
+            const response = await createExpense({ ...parsedData.data, xuserid: auth?.userId });
             setActionLoader(false);
 
             if (response?.result) {
@@ -52,7 +53,7 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
                 setIsExpnsAdd(true)
                 router.refresh();
                 toast.success("Expense created successfully");
-                setFormData({ title: "", amount: "", category: "", payment: "", note: "" });
+                setFormData({ title: "", amount: "", category: "", payment: "", note: "", xdate: '' });
             } else {
                 toast.error('something went wrong');
                 return;
@@ -65,7 +66,7 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
 
     return (
         <div>
-            <button className='btn_comp_color_violet' onClick={() => setModal(true)}>
+            <button className='btn' onClick={() => setModal(true)}>
                 Add Expenses
             </button>
 
@@ -120,6 +121,13 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
                         </select>
                     </div>
 
+                    <div>
+                        <label htmlFor='date' id='date' className='input-label'>
+                            Select Date <span className='text-cyan-600'> ( date is optional )</span>
+                        </label>
+                        <input type='date' name='date' id='date' className='input-form' onChange={(e) => setFormData({ ...formData, xdate: e.target.value })}  />
+                    </div>
+
                     <div className='flex flex-col gap-1'>
                         <label htmlFor='note' id='note' className='input-label'>
                             Write Note
@@ -129,7 +137,7 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
                     </div>
 
                     <div className={`my-4 flex justify-end`}>
-                        <button disabled={actionLoader} type='submit' className='flex items-center gap-2 justify-center btn_comp_color_violet'>
+                        <button disabled={actionLoader} type='submit' className='flex items-center gap-2 justify-center btn'>
                             Submit {actionLoader ? 'loading...' : ""}
                         </button>
                     </div>

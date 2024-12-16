@@ -5,20 +5,18 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     const reqFromBody = await req.json();
-    console.log("🚀 ~ POST ~ reqFromBody:", reqFromBody)
+    
     try {
-        // const { isValid, message } = await validateActionRequest({ req, userId: reqFromBody?.xuserid });
+        const { isValid, message } = await validateActionRequest({ req, userId: reqFromBody?.xuserid });
 
-
-        // if (!isValid) {
-        //     return NextResponse.json(
-        //         { error: message },
-        //         { status: message == "wrong" ? 500 : 401 },
-        //     );
-        // }
+        if (!isValid) {
+            return NextResponse.json(
+                { error: message },
+                { status: message == "wrong" ? 500 : 401 },
+            );
+        }
 
         const parsedData = ExpenseCategory.safeParse({name: reqFromBody?.name, xuserid: reqFromBody?.xuserid});
-
 
         if (!parsedData.success) {
             return NextResponse.json(
@@ -33,7 +31,7 @@ export async function POST(req: NextRequest) {
             where: {
                 xuserid_name: {
                     xuserid: xuserid?.toString() as string,
-                    name: name?.trim()?.toLowerCase(),
+                    name: name?.trim(),
                 },
             },
         });

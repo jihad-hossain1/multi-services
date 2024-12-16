@@ -12,10 +12,10 @@ export const ExpenseSchema = z.object({
     amount: z.number().default(0),
     payment: z.string().trim(),
     note: z.string().trim().max(500, { message: "Note must be under 500 Char" }).optional(),
-    xuserid: z.number().optional(),
-    id: z.number().optional(),
-    catid: z.number().optional(),
-    xdate: z.string().trim().optional(),
+    xuserid: z.string().optional(),
+    id: z.string().optional(),
+    catid: z.string().optional(),
+    xdate: z.date().optional(),
     xbank: BankInfoSchema.optional(),
 });
 
@@ -23,7 +23,7 @@ export const ExpenseCategory = z.object({
     name: z.string().trim().min(1, { message: "Name is Required" }).max(50, { message: "Name will be under 50 char." }),
     xuserid: z.string().optional(),
     xdate: z.string().time().optional(),
-    id: z.number().optional(),
+    id: z.string().optional(),
 });
 
 
