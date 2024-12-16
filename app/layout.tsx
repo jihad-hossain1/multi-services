@@ -22,10 +22,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthContextProvider>
-          <main className="bg-gray-100 text-gray-700">
+          <main className="bg-cyan-50/70 text-gray-700">
             <ToasterComponent />
             <Header />
-            <div className=" min-h-screen w-11/12 m-auto p-4 ">{children}</div>
+            <div className=" min-h-screen">{children}</div>
             <Footer />
           </main>
         </AuthContextProvider>
