@@ -61,7 +61,7 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
                                 <td className="py-2 px-4">{expense?.title?.length > 30 ? expense?.title?.slice(0, 30) + '...' : expense?.title}</td>
                                 <td className="py-2 px-4">{(expense as any)?.category?.name}</td>
                                 <td className="py-2 px-4">{expense?.payment}</td>
-                                <td className="py-2 px-4">{new Date(expense?.xdate as string).toLocaleDateString()}</td>
+                                <td className="py-2 px-4">{new Date(expense?.xdate as Date).toLocaleDateString()}</td>
                                 <td className="py-2 px-4">{expense?.amount}</td>
                                 <td className="py-2 px-4">{(expense?.note as string)?.length > 20 ? expense?.note?.slice(0, 20) + '...' : expense?.note}</td>
                             </tr>
