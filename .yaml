@@ -1,1 +1,0 @@
-name: Run reset-count function every minuteon:  schedule:    - cron: "*/1 * * * *"jobs:  reset-count:    runs-on: ubuntu-latest    steps:      - name: Trigger reset-count function        run: curl -X POST https://multi-services.vercel.app/api/v1/reset-count

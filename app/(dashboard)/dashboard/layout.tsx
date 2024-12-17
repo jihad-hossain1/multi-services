@@ -14,12 +14,12 @@ const UsersIcon = () => <div>👥</div>;
 const LineChartIcon = () => <div>📈</div>;
 const Package2Icon = () => <div>📦</div>;
 
-export const sidebarVariants = {
+ const sidebarVariants = {
   open: { x: 0, opacity: 1, transition: { duration: 0.5 } },
   closed: { x: '-100%', opacity: 0, transition: { duration: 0.5 } },
 };
 
-export const linkVariants = {
+ const linkVariants = {
   hover: {
     scale: 1.1,
     transition: { type: 'spring', stiffness: 300 },
@@ -27,7 +27,7 @@ export const linkVariants = {
 };
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   return (
     <div className="flex flex-col">
@@ -113,17 +113,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           variants={sidebarVariants}
           className="block lg:hidden  h-full bg-muted/40"
         >
-          <div className="">
-            {/* <h2 className="font-bold text-lg">Menu</h2> */}
-            {/* <nav className="flex flex-col gap-4 mt-4">
-            <Link href="/dashboard">Dashboard</Link>
-            <Link href="/dashboard/profile/links">Links</Link>
-            <Link href="/dashboard/expense">Expense</Link>
-            <Link href="#">Customers</Link>
-            <Link href="#">Analytics</Link>
-          </nav> */}
-            <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
-          </div>
+         <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
         </motion.div>
 
         {/* Main content */}
