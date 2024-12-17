@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { use } from "react";
+import React from "react";
 
 import useAuth from "../../../helpers/hook/useAuth";
 import Logout from "./logout";
@@ -12,7 +12,7 @@ import { authConfig } from "@/config/auth.config";
 const Header = () => {
     const { auth } = useAuth();
     const path = usePathname();
-    const paths = ["/service/code-share"];
+    const paths = ["/xdashboard",'/dashboard','/auth/login', '/auth/register'];
     const openRef = React.useRef<HTMLDivElement>(null);
 
     const hiddenPath = paths.some((item) => path.startsWith(item));
@@ -39,7 +39,7 @@ const Header = () => {
     }, [open]);
 
     return (
-        <nav className='p-4 bg-gray-50 shadow-[0_1px_5px_0_rgba(0,0,0,0.1)] border-b border-gray-300 text-gray-900 flex items-center justify-center gap-5 '>
+        <nav className={hiddenPath ? "hidden" : 'p-4 bg-gray-50 shadow-[0_1px_5px_0_rgba(0,0,0,0.1)] border-b border-gray-300 text-gray-900 flex items-center justify-center gap-5 '}>
             <div className='flex items-center gap-4 text-xs md:text-sm lg:text-lg'>
                 {navLinks?.map((item) => (
                     <Link href={item?.href} key={item?.name} className='link'>
