@@ -1,16 +1,19 @@
 import React from "react";
+import ExpenseReports from "./_comp/expenseReports";
 
-const Profile = async () => {
+const Page = async () => {
   return (
-    <div className="w-11/12 mx-auto">
+    <div className="w-11/12 mx-auto flex flex-col gap-4">
+      <div className='flex flex-col gap-4 '>
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <p className="text-lg">Welcome to your dashboard</p>
+      </div>
       <div>
-       <div className="text-center">
-       <h4 className="text-3xl font-bold">Opps </h4>
-       <h4>this page is under construction</h4>
-       </div>
+        {/* expense reports  */}
+        <ExpenseReports />
       </div>
     </div>
   );
 };
 
-export default Profile;
+export default Page;

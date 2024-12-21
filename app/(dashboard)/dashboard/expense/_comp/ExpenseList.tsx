@@ -28,55 +28,53 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
     };
 
     return (
-        <div className='overflow-x-auto md:overflow-visible text-balance md:text-nowrap'>
-            <table className="w-full ">
-                <thead>
-                    <tr className="border-b bg-cyan-200/60">
-                        <th className="py-3 px-4 text-left">#</th>
-                        <th className="py-3 px-4 text-left">{("Name")}</th>
-                        <th className="py-3 px-4 text-left">{("Category")}</th>
-                        <th className="py-3 px-4 text-left">{`${("Payment")} ${("Type")}`}</th>
-                        <th className="py-3 px-4 text-left">{("Date")}</th>
-                        <th className="py-3 px-4 text-left">{("Amount")}</th>
-                        <th className="py-3 px-4 text-left">{("Note")}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {expnsLoading ? (
-                        [...Array(10)].map((_, index) => (
-                            <tr key={index} className="border-b animate-pulse" style={{
-                                animationDelay: `${index * 0.1}s`,
-                                animationFillMode: 'forwards',
-                                animationIterationCount: 'infinite',
-                            }}>
-                                <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={5}></td>
-                                <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={2}></td>
-                                <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={2}></td>
-                            </tr>
-                        ))
-                    ) : expenses?.map((expense: ExpenseSchemaType, index: number) => (
-                        <React.Fragment key={index}>
-                            <tr className="border-b">
-                                <td className="py-2 px-4">{(page - 1) * limit + index + 1}</td>
-                                <td className="py-2 px-4">{expense?.title?.length > 30 ? expense?.title?.slice(0, 30) + '...' : expense?.title}</td>
-                                <td className="py-2 px-4">{(expense as any)?.category?.name}</td>
-                                <td className="py-2 px-4">{expense?.payment}</td>
-                                <td className="py-2 px-4">{new Date(expense?.xdate as Date).toLocaleDateString()}</td>
-                                <td className="py-2 px-4">{expense?.amount}</td>
-                                <td className="py-2 px-4">{(expense?.note as string)?.length > 20 ? expense?.note?.slice(0, 20) + '...' : expense?.note}</td>
-                            </tr>
-                        </React.Fragment>
-                    ))}
-                </tbody>
-                {/* total expenses */}
-                <tfoot>
-                    <tr>
-                        <td className="py-2 px-4 font-bold" colSpan={5}>{`${("Total")} ${("Expenses")}`}</td>
-                        <td className="py-2 px-4 font-bold">{expenses?.reduce((total: number, expense: ExpenseSchemaType) => total + expense?.amount, 0)}</td>
-                        <td className="py-2 px-4 font-bold" colSpan={2}></td>
-                    </tr>
-                </tfoot>
-            </table>
+        <div className='w-full'>
+            <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200 text-nowrap">
+                    <thead className="bg-cyan-200/60">
+                        <tr>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{("Name")}</th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{("Category")}</th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{`${("Payment")} ${("Type")}`}</th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{("Date")}</th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{("Amount")}</th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{("Note")}</th>
+                        </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                        {expnsLoading ? (
+                            [...Array(10)].map((_, index) => (
+                                <tr key={index} className="animate-pulse">
+                                    <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={5}></td>
+                                    <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={2}></td>
+                                    <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={2}></td>
+                                </tr>
+                            ))
+                        ) : expenses?.map((expense: ExpenseSchemaType, index: number) => (
+                            <React.Fragment key={index}>
+                                <tr>
+                                    <td className="py-2 px-4">{(page - 1) * limit + index + 1}</td>
+                                    <td className="py-2 px-4">{expense?.title?.length > 30 ? expense?.title?.slice(0, 30) + '...' : expense?.title}</td>
+                                    <td className="py-2 px-4">{(expense as any)?.category?.name}</td>
+                                    <td className="py-2 px-4">{expense?.payment}</td>
+                                    <td className="py-2 px-4">{new Date(expense?.xdate as Date).toLocaleDateString()}</td>
+                                    <td className="py-2 px-4">{expense?.amount}</td>
+                                    <td className="py-2 px-4">{(expense?.note as string)?.length > 20 ? expense?.note?.slice(0, 20) + '...' : expense?.note}</td>
+                                </tr>
+                            </React.Fragment>
+                        ))}
+                    </tbody>
+                    {/* total expenses */}
+                    <tfoot>
+                        <tr>
+                            <td className="py-2 px-4 font-bold" colSpan={5}>{`${("Total")} ${("Expenses")}`}</td>
+                            <td className="py-2 px-4 font-bold">{expenses?.reduce((total: number, expense: ExpenseSchemaType) => total + expense?.amount, 0)}</td>
+                            <td className="py-2 px-4 font-bold" colSpan={2}></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
             {
                 expenses?.length === 0 && !expnsLoading && (
                     <div className="flex justify-center items-center h-40">
@@ -106,8 +104,6 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
                     </div>
                 )
             }
-
-
         </div>
     )
 }

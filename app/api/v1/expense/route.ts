@@ -16,11 +16,6 @@ export async function GET(req: NextRequest) {
     const limit = searchParams.get("limit") || "10";
     const filterby = searchParams.get("filterby") || "";
 
-    if (!userId) {
-        return NextResponse.json({
-            error: "Not allow, required parameters needed",
-        });
-    }
 
     const { isValid, message } = await validateRequest(userId);
 
@@ -36,7 +31,7 @@ export async function GET(req: NextRequest) {
 
     const findCat = await prisma.expensecat.findFirst({
         where: {
-            xuserid: userId,
+            xuserid: userId as string,
             name: filterby,
         },
     });

@@ -27,7 +27,7 @@ const DashNavbar = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen:  React.
             <div
                 ref={menuRef}
                 className={`${isOpen ? "transform translate-x-0" : "transform translate-x-full"
-                    } fixed top-0 right-0 w-8/12 h-full bg-violet-50 shadow-lg transition-transform duration-300 ease-in-out md:hidden z-50`}
+                    } fixed top-0 right-0 w-8/12 h-full bg-cyan-100 shadow-lg transition-transform duration-300 ease-in-out md:hidden z-50`}
             >
                 <div
                     className="block lg:hidden  h-full bg-muted/40"
