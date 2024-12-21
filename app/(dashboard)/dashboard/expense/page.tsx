@@ -76,7 +76,7 @@ const Page = () => {
 
 
     return (
-        <div className="">
+        <div className="max-sm:p-3">
             <section className="">
                 <h2 className='max-sm:text-2xl md:text-3xl lg:text-4xl font-bold max-sm:text-center max-sm:mb-10'>{'Expense'}</h2>
                 <div className={summaryVisible ? "flex justify-end" : 'block md:flex md:justify-between md:items-center mb-4 items-center'}>
@@ -101,18 +101,18 @@ const Page = () => {
                         <>
                             <section className='flex md:items-center flex-col gap-3 md:flex-row md:justify-between my-4'>
                                 {/* search  */}
-                                <div className=''>
+                                <div className='max-sm:max-w-[350px]'>
                                     <InputField label={`Search Expense`} name='search' id='search' autoComplete='off' onChange={(e) => setSearchTerm(e.target.value)} value={searchTerm} type='text' />
                                 </div>
                                 {/* filter title  */}
                                 {filterby && <p className='md:text-xl font-semibold text-violet-700'>{filterby}</p>}
                                 {/* date filter  */}
                                 <div className='flex flex-col md:flex-row gap-3 md:items-center'>
-                                    <div className='flex md:items-start items-center gap-1 md:flex-col flex-row'>
+                                    <div className='flex md:items-start items-center gap-1 md:flex-col flex-row '>
                                         <label htmlFor="fromDate">{'From'}:</label>
                                         <DatePicker className='input-form w-full lg:w-[150px] text-center' dateFormat={"dd-MM-yyyy"} selected={fromDate as any} onChange={(date: any) => setFromDate(date)} />
                                     </div>
-                                    <div className='flex md:items-start items-center gap-1 md:flex-col flex-row'>
+                                    <div className='flex md:items-start items-center gap-1 md:flex-col flex-row '>
                                         <label htmlFor="toDate">{'To'}:</label>
                                         <DatePicker className='input-form w-full lg:w-[150px] text-center' dateFormat={"dd-MM-yyyy"} selected={toDate as any} onChange={(date: any) => setToDate(date)} />
                                     </div>
