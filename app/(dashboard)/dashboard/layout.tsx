@@ -117,14 +117,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </motion.div>
 
         {/* Main content */}
-        <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex-1 lg:p-6 p-0"
+        <div
+          className="flex-1 w-full min-h-screen lg:p-6 p-0"
         >
           {children}
-        </motion.div>
+        </div>
       </div>
 
     </div>

@@ -28,9 +28,9 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
     };
 
     return (
-        <div className='w-full'>
-            <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200 text-nowrap">
+        <div className='overflow-auto'>
+            <div className="w-full">
+                <table className="min-w-full border-collapse mt-6 w-full lg:max-w-full overflow-x-auto max-sm:text-nowrap">
                     <thead className="bg-cyan-200/60">
                         <tr>
                             <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>

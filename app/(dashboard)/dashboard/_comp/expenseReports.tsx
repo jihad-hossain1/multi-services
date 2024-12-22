@@ -90,7 +90,7 @@ const ExpenseReports = () => {
             },
             tooltip: {
                 callbacks: {
-                    label: (context: any) => `${context.raw} `, // Customize tooltip for currency
+                    label: (context: any) => `${context.raw} tk.`, // Customize tooltip for currency
                 },
             },
         },
@@ -132,7 +132,7 @@ const ExpenseReports = () => {
                 <div className='flex justify-center'>
 
                     {chartData && (
-                        <div style={{ height: '600px', width: '100%' }}>
+                        <div className='w-full max-sm:h-fit lg:max-h-[600px]'>
                             <ChartComponent data={chartData} options={options} />
                         </div>
                     )}

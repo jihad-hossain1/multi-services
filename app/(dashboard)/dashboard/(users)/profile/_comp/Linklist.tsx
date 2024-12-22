@@ -160,11 +160,11 @@ export function LinkList() {
     <div className="">
       <div className="">
         <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6">
-          <Link href="#" className="lg:hidden">
+          <Link href="#" className="max-sm:hidden">
             <HomeIcon />
             <span className="sr-only">Home</span>
           </Link>
-          <div className="flex-1">
+          <div className="flex-1 max-sm:hidden">
             <h1 className="font-semibold text-lg">Recent Lists</h1>
           </div>
           <div className="flex flex-1 items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
@@ -181,7 +181,7 @@ export function LinkList() {
           </div>
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-          <div className=" shadow-sm rounded-lg p-2 max-sm:overflow-auto">
+          <div className=" shadow-sm rounded-lg p-2 max-sm:overflow-auto max-sm:text-nowrap">
             {loading ? (
               <table className="w-full overflow-auto">
                 <thead>

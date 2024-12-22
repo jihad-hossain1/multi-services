@@ -130,7 +130,7 @@ const CodeShare = () => {
         <button
           disabled={loading}
           onClick={handleGenerateCode}
-          className="w-fit border flex gap-2 items-center text-violet-50 bg-violet-800 rounded-md shadow hover:shadow-lg py-2 px-5"
+          className="w-fit border flex gap-2 items-center text-violet-50 bg-violet-800 rounded-md shadow hover:shadow-lg py-2 px-5 max-sm:px-3 max-sm:py-1 max-sm:text-xs"
         >
           {loading ? (
             <Image
@@ -144,7 +144,7 @@ const CodeShare = () => {
             <span className="text-nowrap">Create Link</span>
           )}
         </button>
-        {path == "/profile/links" ? (
+        {path == "/dashboard/profile/links" ? (
           <>
             {errors?.length > 0 ? (
               <div
