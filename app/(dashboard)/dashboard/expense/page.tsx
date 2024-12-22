@@ -98,7 +98,7 @@ const Page = () => {
                     {summaryVisible ? (
                         <ExpenseSummary />
                     ) : (
-                        <>
+                        <div className=''>
                             <section className='flex md:items-center flex-col gap-3 md:flex-row md:justify-between my-4'>
                                 {/* search  */}
                                 <div className='max-sm:max-w-[350px]'>
@@ -119,8 +119,11 @@ const Page = () => {
                                 </div>
                             </section>
                             {/* expense list  */}
+                            <div className='w-full'>
+
                             <ExpenseList expnsLoading={expnsLoading} expenses={expenses} page={page} setPage={setPage} limit={limit} totalCount={totalCount} />
-                        </>
+                            </div>
+                        </div>
 
                     )}
                 </div>
