@@ -1,7 +1,7 @@
 "use client";
 
 import Modal from "@/components/modal/Modal";
-import {InputField} from "@/components/ui/InputField";
+import { InputField } from "@/components/ui/InputField";
 import { ExpenseSchema, ExpenseCategoryType } from "@/helpers/schemas/schemas";
 import React from "react";
 import toast from "react-hot-toast";
@@ -14,27 +14,30 @@ interface Props {
     setIsExpnsAdd: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
+
+
+const AddExpense: React.FC<Props> = ({ categories, setIsExpnsAdd }) => {
     const { auth } = useAuth()
     const router = useRouter()
     const [modal, setModal] = React.useState(false);
     const closeModal = () => setModal(false);
     const [errors, setErrors] = React.useState<any>({});
     const [actionLoader, setActionLoader] = React.useState(false);
-    const [formData, setFormData] = React.useState({
+    const [formData, setFormData] = React.useState<any>({
         title: "",
         amount: "",
         category: "",
         payment: "",
         note: "",
-        xdate: ''
+        xdate: new Date(),
     });
+
+
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         setErrors({});
-
-        const parsedData = ExpenseSchema.safeParse({ ...formData,xdate: new Date(formData.xdate), amount: Number(formData.amount), catid: formData.category });
+        const parsedData = ExpenseSchema.safeParse({ ...formData, xdate: formData.xdate ? new Date(formData.xdate) : "", amount: Number(formData.amount), catid: formData.category });
 
         if (!parsedData.success) {
             const errors = parsedData.error.flatten().fieldErrors;
@@ -74,19 +77,13 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
                 <h4 className=' mt-3 text-2xl max-sm:text-xl font-bold text-center text-[#333333]'>
                     New Expense
                 </h4>
-                <form action='' onSubmit={handleSubmit} className='px-3 flex flex-col gap-2'>
-                    <InputField label='Head' onChange={(e) => setFormData({ ...formData, title: e.target.value })} value={formData.title} type='text' name='xname' id='name' className='input-form w-full' required={true} error={errors?.xname ? errors?.xname[0] : ""} />
+                <form onSubmit={handleSubmit} className='px-3 flex flex-col gap-2'>
+
+                    <InputField label='Name of Expense' onChange={(e) => setFormData({ ...formData, title: e.target.value })} value={formData.title} type='text' name='xname' id='name' className='input-form w-full' required={true} error={errors?.xname ? errors?.xname[0] : ""} />
                     {errors?.title && <span className='text-red-500'>{errors?.title[0]}</span>}
 
-                    <InputField label='Amount' name="amount" value={formData.amount}
-                        onChange={(e) =>
-                            setFormData((prev) => ({
-                                ...prev,
-                                amount: e.target.value.replace(/[^0-9]/g, ""),
-                            }))
-                        }
-                        id="amount"
-                        type="number" />
+                    <AmountForm formData={formData} setFormData={setFormData} />
+
                     {errors?.amount && <span className='text-red-500'>{errors?.amount[0]}</span>}
 
                     <div className='my-2'>
@@ -125,7 +122,7 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
                         <label htmlFor='date' id='date' className='input-label'>
                             Select Date <span className='text-cyan-600'> ( date is optional )</span>
                         </label>
-                        <input type='date' name='date' id='date' className='input-form' onChange={(e) => setFormData({ ...formData, xdate: e.target.value })}  />
+                        <input type='date' placeholder="DD/MM/YYYY" value={formData.xdate} name='date' id='date' className='input-form' onChange={(e) => setFormData({ ...formData, xdate: e.target.value })} />
                     </div>
 
                     <div className='flex flex-col gap-1'>
@@ -138,7 +135,7 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
 
                     <div className={`my-4 flex justify-end`}>
                         <button disabled={actionLoader} type='submit' className='flex items-center gap-2 justify-center btn'>
-                            Submit {actionLoader ? 'loading...' : ""}
+                            {actionLoader ? 'Submitting...' : "Submit"}
                         </button>
                     </div>
                 </form>
@@ -146,5 +143,62 @@ const AddExpense: React.FC<Props> = ({ categories,setIsExpnsAdd }) => {
         </div>
     );
 };
+
+
+
+
+
+
+const AmountForm = ({ formData, setFormData }: any) => {
+    const [amount, setAmount] = React.useState<string>("");
+
+    const handleChangeAmountWithSanitization = (
+        e: React.FormEvent<HTMLInputElement>
+    ) => {
+        const target = e.target as HTMLInputElement;
+        const { value } = target;
+
+        // Allow only numbers, +, and . and ensure two decimal places
+        const modValue = value
+            .replace(/[^0-9+.]/g, "") // Remove invalid characters
+            .replace(/(\.\d{2})\d+/g, "$1"); // Restrict to 2 decimal places
+
+        setAmount(modValue);
+
+        try {
+            // Calculate total
+            const sanitizedValue = modValue.replace(/^\.+|\.+$/g, ""); // Remove leading/trailing dots
+            const calculatedTotal = eval(sanitizedValue);
+            if (!isNaN(calculatedTotal)) {
+                // Limit the calculated total to two decimal places
+                setFormData({ ...formData, amount: parseFloat(calculatedTotal.toFixed(2)) });
+            } else {
+                setFormData({ ...formData, amount: 0 });
+            }
+        } catch {
+            // If the expression is invalid, set total to 0
+            setFormData({ ...formData, amount: 0 });
+        }
+    };
+
+    return (
+        <div className="relative">
+            <InputField
+                name="amount"
+                id="amount"
+                type="text"
+                value={amount}
+                onChange={handleChangeAmountWithSanitization}
+                label={"Enter Amount:  You can use + and . (e.g., 5+5+43.5)"}
+            />
+            <div className="absolute bottom-[-18px] right-0 text-xs md:text-sm font-semibold">Total Amount: <span className="text-red-500"> {formData?.amount || 0}</span></div>
+        </div>
+    );
+};
+
+
+
+
+
 
 export default AddExpense;

@@ -1,5 +1,7 @@
 'use client'
 
+import DialogComponent from '@/components/modal/Modal';
+import { Icons } from '@/components/ui/icons';
 import { ExpenseSchemaType } from '@/helpers/schemas/schemas';
 import React from 'react'
 
@@ -14,6 +16,9 @@ interface Props {
 
 const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, totalCount, setPage, }) => {
     const totalPages = Math.ceil(totalCount / limit);
+    const [detailsOpen, setDetailsOpen] = React.useState(false);
+    const [detailsIndex, setDetailsIndex] = React.useState(0);
+    const [detailsInfo, setDetailsInfo] = React.useState<any>({});
 
     const handlePrevious = () => {
         if (page > 1) {
@@ -40,15 +45,16 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
                             <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{("Date")}</th>
                             <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{("Amount")}</th>
                             <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{("Note")}</th>
+                            <th className="py-3 px-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{("Details")}</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {expnsLoading ? (
                             [...Array(10)].map((_, index) => (
                                 <tr key={index} className="animate-pulse">
-                                    <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={5}></td>
-                                    <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={2}></td>
-                                    <td className="py-2 px-4 bg-cyan-200/95 h-10" colSpan={2}></td>
+                                    <td className="py-2 px-4 bg-cyan-100/95 h-10" colSpan={5}></td>
+                                    <td className="py-2 px-4 bg-cyan-100/95 h-10" colSpan={2}></td>
+                                    <td className="py-2 px-4 bg-cyan-100/95 h-10" colSpan={2}></td>
                                 </tr>
                             ))
                         ) : expenses?.map((expense: ExpenseSchemaType, index: number) => (
@@ -61,6 +67,24 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
                                     <td className="py-2 px-4">{new Date(expense?.xdate as Date).toLocaleDateString()}</td>
                                     <td className="py-2 px-4">{expense?.amount}</td>
                                     <td className="py-2 px-4">{(expense?.note as string)?.length > 20 ? expense?.note?.slice(0, 20) + '...' : expense?.note}</td>
+                                    <td className="py-2 px-4 text-right">
+                                        <button onClick={() => {setDetailsOpen(true); setDetailsIndex(index); setDetailsInfo(expense)} }>
+                                        <Icons.details className='w-5 h-5' strokeColor='green'  />
+                                        </button>
+                                        {
+                                            index == detailsIndex && detailsOpen && <DialogComponent isOpen={detailsOpen} onClose={() => setDetailsOpen(false)}>
+                                                <div className="p-4 flex flex-col gap-3 text-start">
+                                                    <h4 className='text-lg text-center'>Expense Details</h4>
+                                                    <p>Head:  {detailsInfo?.title}</p>
+                                                    <p>Category:  {detailsInfo?.category?.name}</p>
+                                                    <p>Payment by:  {detailsInfo?.payment}</p>
+                                                    <p>Date: {new Date(detailsInfo?.xdate as Date).toLocaleDateString()}</p>
+                                                    <p>Amount: {detailsInfo?.amount}</p>
+                                                    <p className='text-gray-600 text-sm'>Note: {detailsInfo?.note}</p>
+                                                </div>
+                                            </DialogComponent>
+                                        }
+                                    </td>
                                 </tr>
                             </React.Fragment>
                         ))}
@@ -107,5 +131,7 @@ const ExpenseList: React.FC<Props> = ({ expenses, expnsLoading, page, limit, tot
         </div>
     )
 }
+
+
 
 export default ExpenseList;

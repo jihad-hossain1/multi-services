@@ -24,10 +24,13 @@ const Page = () => {
     const [limit, setLimit] = useState(10);
     const [totalCount, setTotalCount] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
-    const [fromDate, setFromDate] = useState(new Date().toISOString().split('T')[0]);
-    const [toDate, setToDate] = useState(new Date().toISOString().split('T')[0]);
+    // const [fromDate, setFromDate] = useState(new Date().toISOString().split('T')[0]);
+    const [fromDate, setFromDate] = useState('');
+    // const [toDate, setToDate] = useState(new Date().toISOString().split('T')[0]);
+    const [toDate, setToDate] = useState('');
     const [filterby, setFilterby] = useState('');
     const [summaryVisible, setSummaryVisible] = useState(false);
+    const [totalAmount, setTotalAmount] = useState(0);
 
 
     // fetch cetegory
@@ -44,7 +47,7 @@ const Page = () => {
         } catch (error) {
             console.error("Error fetching categories:", (error as Error).message);
         }
-    }, [ auth?.userId])
+    }, [auth?.userId])
 
     useLayoutEffect(() => {
         if (auth?.userId && isCatAdd) fetchCategories()
@@ -64,10 +67,11 @@ const Page = () => {
             setPage(jsonData?.result?.meta?.page)
             setLimit(jsonData?.result?.meta?.limit)
             setTotalCount(jsonData?.result?.meta?.total)
+            setTotalAmount(jsonData?.result?.totalAmount)
         } catch (error) {
             console.error("Error fetching expenses:", (error as Error).message);
         }
-    }, [ auth?.userId, page, limit, searchTerm, fromDate, toDate, filterby])
+    }, [auth?.userId, page, limit, searchTerm, fromDate, toDate, filterby])
 
     useLayoutEffect(() => {
         if (auth?.userId && isExpnsAdd) fetchExpenses()
@@ -94,6 +98,7 @@ const Page = () => {
                         {!summaryVisible && <AddExpense setIsExpnsAdd={setIsExpnsAdd} categories={categories} />}
                     </div>
                 </div>
+
                 <div>
                     {summaryVisible ? (
                         <ExpenseSummary />
@@ -110,18 +115,20 @@ const Page = () => {
                                 <div className='flex flex-col md:flex-row gap-3 md:items-center'>
                                     <div className='flex md:items-start items-center gap-1 md:flex-col flex-row '>
                                         <label htmlFor="fromDate">{'From'}:</label>
-                                        <DatePicker className='input-form w-full lg:w-[150px] text-center' dateFormat={"dd-MM-yyyy"} selected={fromDate as any} onChange={(date: any) => setFromDate(date)} />
+                                        <DatePicker placeholderText='dd-mm-yyyy' className='input-form w-full lg:w-[150px] text-center' dateFormat={"dd-MM-yyyy"} selected={fromDate as any} onChange={(date: any) => setFromDate(date)} />
                                     </div>
                                     <div className='flex md:items-start items-center gap-1 md:flex-col flex-row '>
                                         <label htmlFor="toDate">{'To'}:</label>
-                                        <DatePicker className='input-form w-full lg:w-[150px] text-center' dateFormat={"dd-MM-yyyy"} selected={toDate as any} onChange={(date: any) => setToDate(date)} />
+                                        <DatePicker placeholderText='dd-mm-yyyy' className='input-form w-full lg:w-[150px] text-center' dateFormat={"dd-MM-yyyy"} selected={toDate as any} onChange={(date: any) => setToDate(date)} />
                                     </div>
                                 </div>
                             </section>
                             {/* expense list  */}
                             <div className='w-full'>
-
-                            <ExpenseList expnsLoading={expnsLoading} expenses={expenses} page={page} setPage={setPage} limit={limit} totalCount={totalCount} />
+                                <div>
+                                    <h4><span>{'Total Amount: '}</span><span className='text-green-600 bg-green-100 p-1 text-sm'>{totalAmount} tk.</span></h4>
+                                </div>
+                                <ExpenseList expnsLoading={expnsLoading} expenses={expenses} page={page} setPage={setPage} limit={limit} totalCount={totalCount} />
                             </div>
                         </div>
 

@@ -1,100 +1,114 @@
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import "./style.css";
-import Image from "next/image";
-import { close } from "@/public/inpoter";
+import { Icons } from "../ui/icons";
 
 interface DialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title?: string;
-  children: ReactNode;
-  footer?: ReactNode;
-  size?: "sm" | "md" | "lg";
-  closeOnOverlayClick?: boolean;
+    isOpen: boolean;
+    onClose: () => void;
+    title?: string;
+    children: ReactNode;
+    footer?: ReactNode;
+    size?: "sm" | "md" | "lg";
+    closeOnOverlayClick?: boolean;
 }
 
 const DialogComponent: React.FC<DialogProps> = ({
-  isOpen,
-  onClose,
-  title,
-  children,
-  footer,
-  size = "md",
-  closeOnOverlayClick = true,
+    isOpen,
+    onClose,
+    children,
+    closeOnOverlayClick = true,
 }) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const [isClosing, setIsClosing] = useState(false);
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const [isClosing, setIsClosing] = useState(false);
+    const [mouseDownTarget, setMouseDownTarget] = useState<EventTarget | null>(null);
 
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        handleClose();
-      }
+    const handleClose = useCallback(() => {
+        if (!isClosing) {
+            setIsClosing(true);
+            setTimeout(() => {
+                setIsClosing(false);
+                onClose();
+            }, 300);
+        }
+    },[isClosing, onClose]);
+
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                handleClose();
+            }
+        };
+
+        if (isOpen) {
+            dialogRef.current?.showModal();
+            document.addEventListener("keydown", handleEscape);
+            document.body.style.overflow = 'hidden'; // Prevent background scroll
+        } else {
+            dialogRef.current?.close();
+            document.body.style.overflow = 'unset';
+        }
+
+        return () => {
+            document.removeEventListener("keydown", handleEscape);
+            document.body.style.overflow = 'unset';
+        };
+    }, [handleClose, isOpen]);
+
+
+
+    const handleMouseDown = (event: React.MouseEvent) => {
+        setMouseDownTarget(event.target);
     };
 
-    if (isOpen) {
-      dialogRef.current?.showModal();
-      document.addEventListener("keydown", handleEscape);
-    } else {
-      dialogRef.current?.close();
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
+    const handleMouseUp = (event: React.MouseEvent) => {
+        if (
+            closeOnOverlayClick &&
+            mouseDownTarget === dialogRef.current &&
+            event.target === dialogRef.current &&
+            !contentRef.current?.contains(event.target as Node)
+        ) {
+            handleClose();
+        }
+        setMouseDownTarget(null);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
 
-  const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setIsClosing(false);
-      onClose();
-    }, 300); // Duration of the close animation
-  };
-
-  const handleOverlayClick = (event: React.MouseEvent) => {
-    if (
-      closeOnOverlayClick &&
-      dialogRef.current &&
-      event.target === dialogRef.current
-    ) {
-      handleClose();
-    }
-  };
-
-  return (
-    <dialog
-      ref={dialogRef}
-      className={clsx(
-        "rounded-lg overflow-hidden shadow-xl transform transition-transform",
-        "bg-gray-100 border border-gray-400 p-0",
-        size === "sm" && "max-w-sm",
-        size === "md" && "max-w-md",
-        size === "lg" && "max-w-lg",
-        "w-full",
-        isClosing ? "animate-close" : "animate-open"
-      )}
-      onClick={handleOverlayClick}
-    >
-      <div className="px-4 py-2 flex border-gray-400 justify-between items-center border-b">
-        <h2 className="text-lg font-semibold">{title}</h2>
-        <button
-          onClick={handleClose}
-          className="bg-gray-600 border p-1 shadow-md rounded-md"
+    return (
+        <dialog
+            ref={dialogRef}
+            className={clsx(
+                "rounded-md shadow-xl transform transition-transform relative",
+                "bg-white p-0 max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl",
+                "w-full backdrop:bg-black/50",
+                isClosing ? "animate-close" : "animate-open",
+            )}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
         >
-          <Image src={close} alt="close" width={24} height={24} />
-        </button>
-      </div>
-      <div className="p-4">{children}</div>
-      {footer && (
-        <div className="px-4 py-2 flex justify-end border-t border-gray-400">
-          {footer}
-        </div>
-      )}
-    </dialog>
-  );
+            <div 
+                ref={contentRef}
+                className="relative"
+            >
+                <div className='absolute top-2 right-2'>
+                    <button
+                        onClick={handleClose}
+                        className='bg-red-500 p-1 shadow-sm rounded-md hover:bg-red-600 transition-colors'
+                    >
+                        <Icons.close
+                            className='w-5 h-5'
+                            color='white'
+                            strokeColor='white'
+                            size={16}
+                        />
+                    </button>
+                </div>
+                <div className='p-4'>
+                    {children}
+                </div>
+            </div>
+        </dialog>
+    );
 };
 
 export default DialogComponent;

@@ -4,7 +4,7 @@
 
 @layer components {
   .input-form {
-    @apply w-full px-2 py-1 rounded-md border border-l-cyan-100 focus:outline-none focus:outline-1 focus:ring-1 bg-cyan-200 text-gray-500 shadow-sm;
+    @apply w-full px-2 py-1 rounded-md border border-l-cyan-100 focus:outline-none focus:outline-1 focus:ring-1 bg-cyan-50/30 text-gray-500 shadow-sm;
   }
 
   .input-btn {
@@ -46,5 +46,5 @@
 }
 
 .input {
-  @apply w-full p-2 rounded-md border border-cyan-500 focus:outline-none focus:border-cyan-400 bg-cyan-100 text-gray-200 md:w-[430px];
+  @apply w-full p-2 rounded-md border border-cyan-300 focus:outline-none focus:border-cyan-400 bg-cyan-50 text-gray-200 md:w-[430px];
 }

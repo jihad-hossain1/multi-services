@@ -109,6 +109,24 @@ export async function GET(req: NextRequest) {
         },
     });
 
+    const aggregates = await prisma.expense.aggregate({
+        _sum: {
+            amount: true,
+        },
+        where: {
+            AND: [
+                where,
+                {
+                    xuserid: {
+                        in: [userId],
+                    },
+                },
+            ],
+        },
+    });
+
+    const totalAmount = aggregates._sum.amount || 0;
+
     return NextResponse.json(
         {
             result: {
@@ -118,6 +136,7 @@ export async function GET(req: NextRequest) {
                     limit: parsedPageSize,
                 },
                 data,
+                totalAmount,
             },
         },
         {
