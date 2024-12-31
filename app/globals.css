@@ -31,6 +31,9 @@
   .btn {
     @apply align-middle text-white select-none font-sans font-bold text-center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs flex items-center justify-center py-2 px-6 rounded-lg bg-cyan-500 shadow-md shadow-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none;
   }
+  .btn_2 {
+    @apply align-middle text-white select-none font-sans font-bold text-center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs flex items-center justify-center py-2 px-6 rounded-lg bg-blue-500 shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none;
+  }
 }
 
 .link {
