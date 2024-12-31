@@ -14,7 +14,7 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
-  const { auth,setIsAdd } = useAuth()
+  const { auth, setIsAdd } = useAuth()
   const [stateErrors, setStateErrors] = useState<any>('');
 
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ const LoginForm = () => {
       if (response?.success) {
         toast.success("Login Successful");
         setIsAdd(true)
-        router.push("/");
+        router.push("/dashboard");
       }
     } catch (error) {
       setLoading(false);
@@ -70,6 +70,7 @@ const LoginForm = () => {
 
           <div className='mt-6 w-full'>
             <button
+              disabled={loading}
               type='submit'
               className='input_btn_2 flex items-center justify-center'
             >
@@ -87,6 +88,11 @@ const LoginForm = () => {
               Register
             </Link>
           </h4>
+        </div>
+        <div className="text-center mt-2">
+          <a href="/auth/forget-password" className="text-blue-600 hover:underline">
+            Forgot Password ?
+          </a>
         </div>
       </main>
     </section>
