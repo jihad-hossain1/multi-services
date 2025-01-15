@@ -47,7 +47,7 @@ const ServiceCard: React.FC = () => {
     const handleMouseEnter = (card: HTMLDivElement) => {
       gsap.to(card, {
         scale: 1.1,
-        backgroundColor: "#e0e0e0",
+        // backgroundColor: "#000000",
         duration: 0.3,
         ease: "power1.out",
       });
@@ -56,7 +56,7 @@ const ServiceCard: React.FC = () => {
     const handleMouseLeave = (card: HTMLDivElement) => {
       gsap.to(card, {
         scale: 1,
-        backgroundColor: "#fff",
+        // backgroundColor: "#000000",
         duration: 0.3,
         ease: "power1.out",
       });
@@ -89,16 +89,16 @@ const ServiceCard: React.FC = () => {
               cardRefs.current[index] = el;
             }
           }}
-          className="bg-white shadow-lg rounded-lg p-6 w-full md:w-1/3 lg:w-1/4 transition-transform transform hover:-translate-y-2 hover:shadow-2xl hover:bg-blue-100 duration-300"
+          className="bg-zinc-800 shadow-lg rounded-lg p-6 w-full md:w-1/3 lg:w-1/4 transition-transform transform hover:-translate-y-2 hover:shadow-2xl duration-300"
         >
-          <h2 className="text-xl font-bold text-gray-800 mb-4">
+          <h2 className="text-xl font-bold  mb-4">
             {service.name}
           </h2>
-          <p className="text-gray-600 mb-4">{service.description}</p>
+          <p className=" mb-4">{service.description}</p>
           <p className="font-semibold text-blue-500 mb-4">
             Cost: {service.cost}
           </p>
-          <ul className="list-disc list-inside text-gray-500">
+          <ul className="list-disc list-inside ">
             {service.features.map((feature, featureIndex) => (
               <li key={featureIndex}>{feature}</li>
             ))}
@@ -110,48 +110,3 @@ const ServiceCard: React.FC = () => {
 };
 
 export default ServiceCard;
-
-// "use client";
-
-// import React, { useEffect, useRef } from "react";
-// import { services } from "@/public/servicejson";
-// import { gsap } from "gsap";
-
-// const ServiceCard: React.FC = () => {
-//   const cardRefs = useRef<HTMLDivElement[]>([]);
-
-//   useEffect(() => {
-//     gsap.fromTo(
-//       cardRefs.current,
-//       { opacity: 0, y: 50 },
-//       { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", stagger: 0.2 }
-//     );
-//   }, []);
-
-//   return (
-//     <div className="flex flex-wrap justify-center gap-6 p-4">
-//       {services?.services?.map((service, index) => (
-//         <div
-//           key={index}
-//           ref={(el) => (cardRefs.current[index] = el!)}
-//           className="bg-white shadow-lg rounded-lg p-6 w-full md:w-1/3 lg:w-1/4 transition-transform transform hover:-translate-y-2 hover:shadow-2xl hover:bg-blue-100 duration-300"
-//         >
-//           <h2 className="text-xl font-bold text-gray-800 mb-4">
-//             {service.name}
-//           </h2>
-//           <p className="text-gray-600 mb-4">{service.description}</p>
-//           <p className="font-semibold text-blue-500 mb-4">
-//             Cost: {service.cost}
-//           </p>
-//           <ul className="list-disc list-inside text-gray-500">
-//             {service.features.map((feature, featureIndex) => (
-//               <li key={featureIndex}>{feature}</li>
-//             ))}
-//           </ul>
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default ServiceCard;

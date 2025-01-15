@@ -50,7 +50,7 @@ export default function CommonService() {
             scale: 1.05,
             boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.2)",
           }}
-          className="bg-gray-100 border border-gray-200 rounded-lg shadow-md"
+          className=" border border-gray-200 rounded-lg shadow-md"
         >
           <Link
             href={service.url}

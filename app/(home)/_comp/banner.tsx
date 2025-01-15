@@ -38,12 +38,12 @@ const LandingBanner: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative bg-gray-300 rounded-xl text-white py-16 md:py-24 lg:py-32">
+    <div className="relative  rounded-xl  py-16 md:py-24 lg:py-32">
       {/* Background Image (Optional) */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-90 rounded-xl bg-gray-300"
-        // Uncomment below line if you want to add background image
-        // style={{ backgroundImage: `url(${bgImage.src})` }}
+        className="absolute inset-0 bg-cover bg-center  rounded-xl "
+      // Uncomment below line if you want to add background image
+      // style={{ backgroundImage: `url(${bgImage.src})` }}
       ></div>
 
       <div className="relative container mx-auto px-4 text-center">
@@ -65,9 +65,9 @@ const LandingBanner: React.FC = () => {
           scalable digital transformation.
         </p>
         <button
-          className="bg-gray-600 hover:bg-gray-500 text-gray-100 py-3 px-6 rounded-lg font-semibold transition duration-300 transform hover:scale-105"
+          className="border py-3 px-6 rounded-lg font-semibold transition duration-300 transform hover:scale-105"
           ref={buttonRef}
-        
+
         >
           Let’s Build the Future Together
         </button>

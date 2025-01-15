@@ -15,9 +15,9 @@ const Action = ({ content }: { content: any }) => {
   }
 
   return (
-    <div>
+    <div className="">
       <button
-        className="bg-[#cdd00b]/20  text-[#a2a41b] font-bold py-1 text-xs px-4 rounded"
+        className=" font-bold py-1 text-xs px-4 rounded border border-gray-300 hover:shadow-lg shadow-sm "
         // href={url}
         // download={`Component.jsx`}
         onClick={handleSave}

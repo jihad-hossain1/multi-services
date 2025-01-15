@@ -3,11 +3,11 @@ import Form from './_comp/Form'
 
 const WriteTextPage = () => {
   return (
-    <div>
-        <h4>
-        Write Text 
-        </h4>
-        <Form />
+    <div className='w-11/12 mx-auto'>
+      <h4>
+        Write Text
+      </h4>
+      <Form />
     </div>
   )
 }

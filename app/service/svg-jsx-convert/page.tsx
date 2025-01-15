@@ -26,7 +26,7 @@ const SvgConverter = async () => {
   }
 
   return (
-    <div>
+    <div className="w-11/12 mx-auto">
       <h1 className="text-3xl font-bold text-center">SVG to JSX Converter</h1>
       <Converter />
       <div>
@@ -42,7 +42,7 @@ const SvgConverter = async () => {
             }) => (
               <div
                 key={icon.id}
-                className="border p-4 border-gray-100 flex flex-col items-center justify-center"
+                className="relative border p-4 bg-zinc-50/60 border-gray-700 rounded-md flex flex-col items-center justify-center"
               >
                 {/* Safely render the SVG content using dangerouslySetInnerHTML */}
                 <div
@@ -52,7 +52,7 @@ const SvgConverter = async () => {
                     __html: extractSvgContent(icon?.content) || "",
                   }}
                 />
-                <p className="text-center">{icon?.name}</p>
+                <p className="text-center text-xs py-2">{icon?.name}</p>
                 <Action
                   content={{ content: icon?.content, name: icon?.name }}
                 />

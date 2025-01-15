@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 
 
 const getCookiesData = async (token, skey) => {
-    if(!token){
+    if (!token) {
         return alert('api url not found')
     }
     const { payload } = await jwtVerify(token, skey);
@@ -25,17 +25,17 @@ const FileUpload = () => {
     const [discordCdn, setDiscordCdn] = useState(null);
 
     const uploadFile = async (file) => {
-        const url = await getCookiesData(cookieApiUrl,secretKey);
+        const url = await getCookiesData(cookieApiUrl, secretKey);
 
-        if(!cookieApiUrl || !url){
+        if (!cookieApiUrl || !url) {
             return alert('Please Set first Api Url')
         }
-        
+
         const formData = new FormData();
         formData.append("file", file); // Append each file to FormData
 
         try {
-            if(!url?.discordCdn){
+            if (!url?.discordCdn) {
                 return alert("Reload the page and set discord api, try again")
             }
 
@@ -95,21 +95,21 @@ const FileUpload = () => {
 
         setTimeout(() => {
             const mailFromCookie = Cookies.get("apiUrl");
-            if(mailFromCookie) {
+            if (mailFromCookie) {
                 setDiscordCdn(null)
             }
         }, 2000);
     }
 
-    const handleResetApi = async()=>{
+    const handleResetApi = async () => {
         Cookies.remove("apiUrl")
         alert('Susscessfull')
         return
     }
 
-    const handleShowApi = async()=>{
-        const url = await getCookiesData(cookieApiUrl,secretKey)
-        if(url?.discordCdn){
+    const handleShowApi = async () => {
+        const url = await getCookiesData(cookieApiUrl, secretKey)
+        if (url?.discordCdn) {
             return alert(`${url?.discordCdn}`)
         }
         return alert('No api found')
@@ -119,14 +119,14 @@ const FileUpload = () => {
         <div className="min-h-[70vh] container mx-auto">
             <h1 className="text-2xl text-center my-4">Select files to upload</h1>
             <div className="flex gap-3 item-center">
-                <button className="px-3 py-1 rounded bg-red-500 text-white text-xs" onClick={()=>handleResetApi()}>Reset Api</button>
-                <button onClick={()=>handleShowApi()} className="px-3 py-1 rounded bg-green-500 text-white text-xs">Show Api</button>
+                <button className="px-3 py-1 rounded bg-red-500 text-white text-xs" onClick={() => handleResetApi()}>Reset Api</button>
+                <button onClick={() => handleShowApi()} className="px-3 py-1 rounded bg-green-500 text-white text-xs">Show Api</button>
             </div>
             <div>
                 <div className="w-full flex flex-col gap-2">
 
                     <h1>Paste Your discord webhook url</h1>
-                    <input className="my-2 border focus:outline-none py-1 px-2 " type="text" name="" id="" onChange={(e) => setDiscordCdn(e.target.value)} value={discordCdn} />
+                    <input className="bg-zinc-800 my-2 border focus:outline-none py-1 px-2 " type="text" name="" id="" onChange={(e) => setDiscordCdn(e.target.value)} value={discordCdn} />
                     <div>
                         <button className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded" onClick={handleApiUrlSet}>Set Webhook Url</button>
                     </div>

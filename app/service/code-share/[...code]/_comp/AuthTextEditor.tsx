@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 import useAuth from "@/helpers/hook/useAuth";
 import Loader from "@/components/svg/loader";
-const customHeaders =  process.env.NEXT_PUBLIC_NEXT_SECRET as string
+const customHeaders = process.env.NEXT_PUBLIC_NEXT_SECRET as string
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
 export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
@@ -110,11 +110,11 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
             `/api/v1/code-share?code=${params?.code[0]}&type=${type}`,
             {
                 headers: {
-                  "Content-Type": "application/json",
-                 "Custom-Header": customHeaders,
-                
+                    "Content-Type": "application/json",
+                    "Custom-Header": customHeaders,
+
                 },
-              }
+            }
         );
         const data = await response.json();
         setContent(data?.result?.content || "");
@@ -165,7 +165,7 @@ export const AuthTextEditor = ({ params }: { params: { code: string[] } }) => {
         );
 
     return (
-        <main>
+        <main className="w-11/12 mx-auto">
             <h4 className="text-center m-4 my-2 font-bold text-2xl md:text-4xl">
                 Share your Code Link
             </h4>

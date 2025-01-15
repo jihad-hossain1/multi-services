@@ -43,177 +43,177 @@ const ExpenseList: React.FC<Props> = ({
         <div className='overflow-auto'>
             <div className='w-full'>
                 <table className='min-w-full border-collapse mt-6 w-full lg:max-w-full overflow-x-auto max-sm:text-nowrap'>
-                    <thead className='bg-cyan-200/60'>
+                    <thead className=''>
                         <tr>
-                            <th className='py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                            <th className='py-3 px-4 text-left text-xs font-medium uppercase tracking-wider'>
                                 #
                             </th>
-                            <th className='py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                            <th className='py-3 px-4 text-left text-xs font-medium uppercase tracking-wider'>
                                 {"Name"}
                             </th>
-                            <th className='py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                            <th className='py-3 px-4 text-left text-xs font-medium uppercase tracking-wider'>
                                 {"Category"}
                             </th>
-                            <th className='py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>{`${"Payment"} ${"Type"}`}</th>
-                            <th className='py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                            <th className='py-3 px-4 text-left text-xs font-medium uppercase tracking-wider'>{`${"Payment"} ${"Type"}`}</th>
+                            <th className='py-3 px-4 text-left text-xs font-medium uppercase tracking-wider'>
                                 {"Date"}
                             </th>
-                            <th className='py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                            <th className='py-3 px-4 text-left text-xs font-medium uppercase tracking-wider'>
                                 {"Amount"}
                             </th>
-                            <th className='py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                            <th className='py-3 px-4 text-left text-xs font-medium uppercase tracking-wider'>
                                 {"Note"}
                             </th>
-                            <th className='py-3 px-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                            <th className='py-3 px-4 text-right text-xs font-medium uppercase tracking-wider'>
                                 {"Details"}
                             </th>
                         </tr>
                     </thead>
-                    <tbody className='bg-white divide-y divide-gray-200'>
+                    <tbody className=' divide-y divide-gray-200'>
                         {expnsLoading
                             ? [...Array(10)].map((_, index) => (
-                                  <tr key={index} className='animate-pulse'>
-                                      <td
-                                          className='py-2 px-4 bg-cyan-100/95 h-10'
-                                          colSpan={5}
-                                      ></td>
-                                      <td
-                                          className='py-2 px-4 bg-cyan-100/95 h-10'
-                                          colSpan={2}
-                                      ></td>
-                                      <td
-                                          className='py-2 px-4 bg-cyan-100/95 h-10'
-                                          colSpan={2}
-                                      ></td>
-                                  </tr>
-                              ))
+                                <tr key={index} className='animate-pulse'>
+                                    <td
+                                        className='py-2 px-4 bg-zinc-700/90 h-10'
+                                        colSpan={5}
+                                    ></td>
+                                    <td
+                                        className='py-2 px-4 bg-zinc-700/90 h-10'
+                                        colSpan={2}
+                                    ></td>
+                                    <td
+                                        className='py-2 px-4 bg-zinc-700/90 h-10'
+                                        colSpan={2}
+                                    ></td>
+                                </tr>
+                            ))
                             : expenses?.map(
-                                  (
-                                      expense: ExpenseSchemaType,
-                                      index: number,
-                                  ) => (
-                                      <React.Fragment key={index}>
-                                          <tr>
-                                              <td className='py-2 px-4'>
-                                                  {(page - 1) * limit +
-                                                      index +
-                                                      1}
-                                              </td>
-                                              <td className='py-2 px-4'>
-                                                  {expense?.title?.length > 30
-                                                      ? expense?.title?.slice(
-                                                            0,
-                                                            30,
-                                                        ) + "..."
-                                                      : expense?.title}
-                                              </td>
-                                              <td className='py-2 px-4'>
-                                                  {
-                                                      (expense as any)?.category
-                                                          ?.name
-                                                  }
-                                              </td>
-                                              <td className='py-2 px-4'>
-                                                  {expense?.payment}
-                                              </td>
-                                              <td className='py-2 px-4'>
-                                                  {new Date(
-                                                      expense?.xdate as Date,
-                                                  ).toLocaleDateString()}
-                                              </td>
-                                              <td className='py-2 px-4'>
-                                                  {expense?.amount}
-                                              </td>
-                                              <td className='py-2 px-4'>
-                                                  {(expense?.note as string)
-                                                      ?.length > 20
-                                                      ? expense?.note?.slice(
-                                                            0,
-                                                            20,
-                                                        ) + "..."
-                                                      : expense?.note}
-                                              </td>
-                                              <td className='py-2 px-4 text-right'>
-                                                  <button
-                                                      onClick={() => {
-                                                          setDetailsOpen(true);
-                                                          setDetailsIndex(
-                                                              index,
-                                                          );
-                                                          setDetailsInfo(
-                                                              expense,
-                                                          );
-                                                      }}
-                                                  >
-                                                      <Icons.details
-                                                          className='w-5 h-5'
-                                                          strokeColor='green'
-                                                      />
-                                                  </button>
-                                                  {index == detailsIndex &&
-                                                      detailsOpen && (
-                                                          <DialogComponent
-                                                              isOpen={
-                                                                  detailsOpen
-                                                              }
-                                                              onClose={() =>
-                                                                  setDetailsOpen(
-                                                                      false,
-                                                                  )
-                                                              }
-                                                          >
-                                                              <div className='p-4 flex flex-col gap-3 text-start overflow-x-auto'>
-                                                                  <h4 className='text-lg text-center'>
-                                                                      Expense
-                                                                      Details
-                                                                  </h4>
-                                                                  <p>
-                                                                      Head:
-                                                                      {
-                                                                          detailsInfo?.title
-                                                                      }
-                                                                  </p>
-                                                                  <p>
-                                                                      Category:
-                                                                      {
-                                                                          detailsInfo
-                                                                              ?.category
-                                                                              ?.name
-                                                                      }
-                                                                  </p>
-                                                                  <p>
-                                                                      Payment
-                                                                      by:
-                                                                      {
-                                                                          detailsInfo?.payment
-                                                                      }
-                                                                  </p>
-                                                                  <p>
-                                                                      Date:
-                                                                      {new Date(
-                                                                          detailsInfo?.xdate as Date,
-                                                                      ).toLocaleDateString()}
-                                                                  </p>
-                                                                  <p>
-                                                                      Amount:
-                                                                      {
-                                                                          detailsInfo?.amount
-                                                                      }
-                                                                  </p>
-                                                                  <p className='text-gray-600 text-sm break-all'>
-                                                                      Note:
-                                                                      {
-                                                                          detailsInfo?.note
-                                                                      }
-                                                                  </p>
-                                                              </div>
-                                                          </DialogComponent>
-                                                      )}
-                                              </td>
-                                          </tr>
-                                      </React.Fragment>
-                                  ),
-                              )}
+                                (
+                                    expense: ExpenseSchemaType,
+                                    index: number,
+                                ) => (
+                                    <React.Fragment key={index}>
+                                        <tr>
+                                            <td className='py-2 px-4'>
+                                                {(page - 1) * limit +
+                                                    index +
+                                                    1}
+                                            </td>
+                                            <td className='py-2 px-4'>
+                                                {expense?.title?.length > 30
+                                                    ? expense?.title?.slice(
+                                                        0,
+                                                        30,
+                                                    ) + "..."
+                                                    : expense?.title}
+                                            </td>
+                                            <td className='py-2 px-4'>
+                                                {
+                                                    (expense as any)?.category
+                                                        ?.name
+                                                }
+                                            </td>
+                                            <td className='py-2 px-4'>
+                                                {expense?.payment}
+                                            </td>
+                                            <td className='py-2 px-4'>
+                                                {new Date(
+                                                    expense?.xdate as Date,
+                                                ).toLocaleDateString()}
+                                            </td>
+                                            <td className='py-2 px-4'>
+                                                {expense?.amount}
+                                            </td>
+                                            <td className='py-2 px-4'>
+                                                {(expense?.note as string)
+                                                    ?.length > 20
+                                                    ? expense?.note?.slice(
+                                                        0,
+                                                        20,
+                                                    ) + "..."
+                                                    : expense?.note}
+                                            </td>
+                                            <td className='py-2 px-4 text-right'>
+                                                <button
+                                                    onClick={() => {
+                                                        setDetailsOpen(true);
+                                                        setDetailsIndex(
+                                                            index,
+                                                        );
+                                                        setDetailsInfo(
+                                                            expense,
+                                                        );
+                                                    }}
+                                                >
+                                                    <Icons.details
+                                                        className='w-5 h-5'
+                                                        strokeColor='green'
+                                                    />
+                                                </button>
+                                                {index == detailsIndex &&
+                                                    detailsOpen && (
+                                                        <DialogComponent
+                                                            isOpen={
+                                                                detailsOpen
+                                                            }
+                                                            onClose={() =>
+                                                                setDetailsOpen(
+                                                                    false,
+                                                                )
+                                                            }
+                                                        >
+                                                            <div className='p-4 flex flex-col gap-3 text-start overflow-x-auto'>
+                                                                <h4 className='text-lg text-center'>
+                                                                    Expense
+                                                                    Details
+                                                                </h4>
+                                                                <p>
+                                                                    Head:
+                                                                    {
+                                                                        detailsInfo?.title
+                                                                    }
+                                                                </p>
+                                                                <p>
+                                                                    Category:
+                                                                    {
+                                                                        detailsInfo
+                                                                            ?.category
+                                                                            ?.name
+                                                                    }
+                                                                </p>
+                                                                <p>
+                                                                    Payment
+                                                                    by:
+                                                                    {
+                                                                        detailsInfo?.payment
+                                                                    }
+                                                                </p>
+                                                                <p>
+                                                                    Date:
+                                                                    {new Date(
+                                                                        detailsInfo?.xdate as Date,
+                                                                    ).toLocaleDateString()}
+                                                                </p>
+                                                                <p>
+                                                                    Amount:
+                                                                    {
+                                                                        detailsInfo?.amount
+                                                                    }
+                                                                </p>
+                                                                <p className='text-gray-600 text-sm break-all'>
+                                                                    Note:
+                                                                    {
+                                                                        detailsInfo?.note
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                        </DialogComponent>
+                                                    )}
+                                            </td>
+                                        </tr>
+                                    </React.Fragment>
+                                ),
+                            )}
                     </tbody>
                     {/* total expenses */}
                     <tfoot>
@@ -241,7 +241,7 @@ const ExpenseList: React.FC<Props> = ({
             </div>
             {expenses?.length === 0 && !expnsLoading && (
                 <div className='flex justify-center items-center h-40'>
-                    <p className='text-2xl text-cyan-600'>{"No Data Found"}</p>
+                    <p className='text-2xl '>{"No Data Found"}</p>
                 </div>
             )}
 
@@ -251,7 +251,7 @@ const ExpenseList: React.FC<Props> = ({
                         className={
                             page === 1
                                 ? "hidden"
-                                : "bg-cyan-100 hover:bg-cyan-200 text-cyan-700 font-bold py-1 px-4 rounded shadow-sm hover:shadow"
+                                : "bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-1 px-4 rounded shadow-sm hover:shadow"
                         }
                         onClick={handlePrevious}
                         disabled={page === 1}
@@ -265,7 +265,7 @@ const ExpenseList: React.FC<Props> = ({
                         className={
                             page === totalPages
                                 ? "hidden"
-                                : "bg-cyan-100 hover:bg-cyan-200 text-cyan-700 font-bold py-1 px-4 rounded shadow-sm hover:shadow"
+                                : "bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold py-1 px-4 rounded shadow-sm hover:shadow"
                         }
                         onClick={handleNext}
                         disabled={page === totalPages}

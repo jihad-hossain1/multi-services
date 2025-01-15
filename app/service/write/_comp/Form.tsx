@@ -11,7 +11,7 @@ const Form = () => {
     const [lang, setLang] = useState<any>("bn");
 
     const handleLanguageToggle = () => {
-        setLang((prevLanguage:any) => (prevLanguage === "bn" ? "en" : "bn"));
+        setLang((prevLanguage: any) => (prevLanguage === "bn" ? "en" : "bn"));
     };
 
     const handleSetEvent = () => {
@@ -20,7 +20,7 @@ const Form = () => {
     };
 
     useEffect(() => {
-        const handleKeyDown = (event:any) => {
+        const handleKeyDown = (event: any) => {
             if (event.ctrlKey) {
                 if (event.key === 'b') {
                     event.preventDefault(); // Prevent default action (like browser behavior)
@@ -71,7 +71,7 @@ const Form = () => {
                         <button onClick={() => {
                             navigator.clipboard.writeText(formData.content);
                             toast.success('Successfully copied to clipboard');
-                        }} className='text-[white] border bg-[green] px-3 text-sm py-1 shadow-sm hover:underline'>Copy Content</button>
+                        }} className=' border bg-[green] px-3 text-sm py-1 shadow-sm hover:underline'>Copy Content</button>
                         <div className='text-sm overflow-auto'>
                             <p>
                                 {formData?.content}

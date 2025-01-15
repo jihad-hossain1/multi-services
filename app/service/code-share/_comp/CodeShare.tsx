@@ -14,7 +14,7 @@ const generateUniqueCode = () => {
     .slice(0, 16); // Adjust the length to your needs
 };
 
-const customHeaders =  process.env.NEXT_PUBLIC_NEXT_SECRET as string
+const customHeaders = process.env.NEXT_PUBLIC_NEXT_SECRET as string
 
 const CodeShare = () => {
   const [code, setCode] = useState("");
@@ -130,7 +130,7 @@ const CodeShare = () => {
         <button
           disabled={loading}
           onClick={handleGenerateCode}
-          className="w-fit border flex gap-2 items-center text-violet-50 bg-violet-800 rounded-md shadow hover:shadow-lg py-2 px-5 max-sm:px-3 max-sm:py-1 max-sm:text-xs"
+          className="w-fit border border-zinc-600 flex gap-2 items-center  bg-zinc-700 rounded-md shadow hover:shadow-lg py-2 px-5 max-sm:px-3 max-sm:py-1 max-sm:text-xs"
         >
           {loading ? (
             <Image

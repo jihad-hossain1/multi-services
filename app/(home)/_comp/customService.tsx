@@ -8,8 +8,8 @@ const CustomServiceCard: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="bg-white shadow-xl rounded-lg p-6 w-full max-w-3xl transform transition-all hover:-translate-y-2 hover:shadow-2xl duration-300">
-        <h2 className="text-3xl font-bold text-gray-600 text-center mb-4">
+      <div className="border-[1px]  border-zinc-700 shadow-[0_1.2px_1.2px_rgba(66,155,43,0.2)] rounded-lg p-6 w-full max-w-3xl ">
+        <h2 className="text-3xl font-bold text-center mb-4">
           {services?.custom_service.name}
         </h2>
 
@@ -19,11 +19,10 @@ const CustomServiceCard: React.FC = () => {
             <button
               key={index}
               onClick={() => setSelectedPlan(index)}
-              className={`py-2 px-4 font-semibold rounded-lg focus:outline-none transition-all ${
-                selectedPlan === index
-                  ? "bg-gray-600 text-[#fff]"
-                  : "bg-gray-200 text-gray-600 hover:bg-gray-200"
-              }`}
+              className={`py-2 px-4 font-semibold rounded-lg focus:outline-none transition-all ${selectedPlan === index
+                ? "bg-zinc-700/95"
+                : " hover:bg-zinc-700"
+                }`}
             >
               {plan.plan_name}
             </button>
@@ -46,14 +45,14 @@ const CustomServiceCard: React.FC = () => {
                 className="flex-shrink-0 w-full"
                 style={{ width: "100%" }}
               >
-                <h3 className="text-xl font-semibold text-gray-600 mb-2">
+                <h3 className="text-xl font-semibold mb-2">
                   {plan.plan_name}
                 </h3>
-                <p className="text-gray-600 mb-4">{plan.description}</p>
-                <p className="font-semibold text-blue-500 mb-4">
+                <p className=" mb-4">{plan.description}</p>
+                <p className="font-semibold mb-4">
                   Cost: ${plan.cost.min} - ${plan.cost.max}
                 </p>
-                <ul className="list-disc list-inside text-gray-600 mb-4">
+                <ul className="list-disc list-inside mb-4">
                   {plan.features.map((feature, featureIndex) => (
                     <li key={featureIndex}>{feature}</li>
                   ))}

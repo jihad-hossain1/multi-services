@@ -102,7 +102,7 @@ const SvgToJsxConverter: React.FC = () => {
     <div style={{ padding: "20px" }}>
       <div className="flex items-center gap-6">
         <input
-          className={`border border-gray-100 bg-gray-400 text-white shadow-[0px_0px_5px_rgba(0,0,0,0.25)]`}
+          className={`border border-gray-100  shadow-[0px_0px_5px_rgba(0,0,0,0.25)]`}
           type="file"
           name="file"
           onChange={handleFileChange}
@@ -112,12 +112,12 @@ const SvgToJsxConverter: React.FC = () => {
         <div style={{ marginBottom: "10px" }} className="w-fit">
           <label
             htmlFor="name"
-            className="text-gray-600 px-4 py-1 rounded bg-gray-100 border border-gray-200"
+            className=" px-4 py-1 rounded  border border-gray-200"
           >
             Component Name
           </label>
           <input
-            className={`border ${nameIndicater ? "border-[#f44336] animate-pulse " : "border-gray-100"} p-1 rounded `}
+            className={`border bg-zinc-800 ${nameIndicater ? "border-[#f44336] animate-pulse " : "border-gray-100"} p-1 rounded `}
             type="text"
             name="name"
             autoFocus={nameIndicater}
@@ -130,7 +130,7 @@ const SvgToJsxConverter: React.FC = () => {
         </div>
       </div>
       <textarea
-        className="border border-gray-400 bg-gray-100 text-white"
+        className="border border-gray-400 bg-zinc-800 "
         value={svgInput}
         onChange={handleInputChange}
         placeholder="Paste your SVG code here"
@@ -140,7 +140,7 @@ const SvgToJsxConverter: React.FC = () => {
       />
       <div style={{ marginBottom: "10px" }} className="flex items-center">
         <button
-          className="bg-gray-200/95 hover:bg-gray-300/90 text-gray-600 font-bold py-1 text-xs px-4 rounded"
+          className="  font-bold py-1 text-xs px-4 rounded"
           disabled={!svgInput}
           onClick={convertSvgToJsx}
           style={{ marginRight: "10px" }}
@@ -193,13 +193,14 @@ const SvgToJsxConverter: React.FC = () => {
         <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>
       )}
       <pre
-        className={"overflow-auto text-white"}
+        className={"overflow-auto border border-zinc-600"}
         ref={jsxOutputRef}
         style={{
-          backgroundColor: "#f0f0f0",
+          // backgroundColor: "#f0f0f0",
           padding: "10px",
           borderRadius: "5px",
         }}
+
       >
         {jsxOutput || "JSX output will be displayed here"}
       </pre>

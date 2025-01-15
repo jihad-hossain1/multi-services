@@ -11,7 +11,7 @@ import Loader from "@/components/svg/loader";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
-export const TextView = ({auth_link_json}: {
+export const TextView = ({ auth_link_json }: {
     auth_link_json: any
 }) => {
     const [content, setContent] = useState(auth_link_json?.content);
@@ -63,7 +63,7 @@ export const TextView = ({auth_link_json}: {
         <Loader />
     </div>
     return (
-        <main>
+        <main className="w-11/12 mx-auto">
             <h4 className="text-center m-4 my-2 font-bold text-2xl md:text-4xl">
                 Share your Code Link
             </h4>
@@ -123,7 +123,7 @@ export const TextView = ({auth_link_json}: {
                         </button>
                     </div>
                 </div>
-               
+
                 <div className="mt-4 border border-gray-400 shadow-[0px_0px_5px_rgba(0,0,0,0.25)] rounded-sm p-2">
                     <Editor
                         height="90vh"

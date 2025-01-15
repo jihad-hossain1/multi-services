@@ -4,6 +4,7 @@ import React from "react";
 
 import { ReactTransliterate, Language } from "react-transliterate";
 import "react-transliterate/dist/index.css";
+import './styles.css';
 
 interface IProps {
     formData: any
@@ -17,7 +18,7 @@ const ContentWrite: React.FC<IProps> = ({ formData, setFormData, lang }) => {
         <div style={{ padding: "5px", maxWidth: "100%" }}>
 
             <ReactTransliterate
-                renderComponent={(props) => <textarea {...props} rows={4} />}
+                renderComponent={(props) => <textarea className="" {...props} rows={4} />}
                 value={formData.content}
                 onChangeText={(text) => setFormData({ ...formData, content: text })}
                 lang={lang}
@@ -28,6 +29,8 @@ const ContentWrite: React.FC<IProps> = ({ formData, setFormData, lang }) => {
                     borderRadius: "5px",
                     border: "1px solid #ccc",
                 }}
+                className="bg-zinc-800"
+
             />
         </div>
     );
