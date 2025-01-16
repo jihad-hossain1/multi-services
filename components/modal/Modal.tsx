@@ -32,7 +32,7 @@ const DialogComponent: React.FC<DialogProps> = ({
                 onClose();
             }, 300);
         }
-    },[isClosing, onClose]);
+    }, [isClosing, onClose]);
 
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
@@ -79,14 +79,14 @@ const DialogComponent: React.FC<DialogProps> = ({
             ref={dialogRef}
             className={clsx(
                 "rounded-md shadow-xl transform transition-transform relative",
-                "bg-white p-0 max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl",
+                " p-0 max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl 2xl:max-w-2xl bg-zinc-700",
                 "w-full backdrop:bg-black/50",
                 isClosing ? "animate-close" : "animate-open",
             )}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
         >
-            <div 
+            <div
                 ref={contentRef}
                 className="relative"
             >

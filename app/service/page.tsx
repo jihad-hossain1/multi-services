@@ -43,12 +43,12 @@ const ServicePage = () => {
     },
   ];
   return (
-    <main className="min-h-[60vh]">
+    <main className="min-h-[60vh] w-11/12 mx-auto">
       <div className="grid max-sm:grid-cols-1 grid-cols-2 lg:grid-cols-3 gap-4">
         {services.map((service) => (
           <div
             key={service.name}
-            className=" transition-all duration-300 border border-gray-300 p-4 rounded-md shadow-[0px_0px_2px_rgba(0,0,0,0.25)] hover:shadow-[0px_0px_5px_rgba(0,0,0,0.25)] bg-white"
+            className=" transition-all duration-300 border border-gray-300 p-4 rounded-md shadow-[0px_0px_2px_rgba(0,0,0,0.25)] hover:shadow-[0px_0px_5px_rgba(0,0,0,0.25)]"
           >
             <Link
               href={service.url}

@@ -102,8 +102,8 @@ const ExpenseCat: React.FC<Props> = ({
                                     a.name == "All"
                                         ? -1
                                         : b.name == "All"
-                                        ? 1
-                                        : 0,
+                                            ? 1
+                                            : 0,
                                 )
                                 .map((cat: any, index: number) => (
                                     <option

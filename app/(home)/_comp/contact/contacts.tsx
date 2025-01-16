@@ -20,21 +20,21 @@ const Contacts = () => {
 
     return (
         <div>
-            <h1 className='text-3xl font-bold text-center py-4 bg-gray-200'>Contact Us</h1>
-        
+            <h1 className='text-3xl font-bold text-center py-4 '>Contact Us</h1>
+
             <div className='flex justify-center gap-3 mt-10'>
                 <button
-                    className='bg-gray-200 border border-gray-200 text-gray-600 px-6 py-2 rounded shadow-sm hover:shadow'
+                    className=' border border-gray-600  px-6 py-2 rounded shadow-sm hover:shadow'
                     onClick={() => openModal(<ContactUs />, 'Contact Us')}
                 >
                     Contact Us
                 </button>
 
                 <button
-                    className='bg-gray-200 border border-gray-200 text-gray-600 px-6 py-2 rounded shadow-sm hover:shadow'
+                    className=' border border-gray-600  px-6 py-2 rounded shadow-sm hover:shadow'
                     onClick={() => openModal(<Quotation />, 'Request For Quotation')}
                 >
-                    Request For Quotation 
+                    Request For Quotation
                 </button>
             </div>
 

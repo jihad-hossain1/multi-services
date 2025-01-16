@@ -129,13 +129,12 @@ const TestimonialCarousel: React.FC = () => {
                   return (
                     <div
                       key={index}
-                      className={`testimonial-card bg-gray-100 shadow-lg rounded-lg p-6 w-full md:w-1/2 lg:w-1/3 flex-shrink-0 transition-transform duration-300 ${
-                        isMiddleCard ? "active-card" : ""
-                      }`}
+                      className={` border  shadow-lg rounded-lg p-6 w-full md:w-1/2 lg:w-1/3 flex-shrink-0 transition-transform duration-300 ${isMiddleCard ? "active-card" : ""
+                        }`}
                       onMouseEnter={(event) => handleCardMouseEnter(event, isMiddleCard)}
                       onMouseLeave={(event) => handleCardMouseLeave(event, isMiddleCard)}
                     >
-                      <p className="text-gray-500 mb-4">
+                      <p className=" mb-4">
                         {testimonial.testimonial}
                       </p>
                       <div className="flex items-center">
@@ -151,10 +150,10 @@ const TestimonialCarousel: React.FC = () => {
                           />
                         </div>
                         <div>
-                          <p className="font-semibold text-gray-600">
+                          <p className="font-semibold ">
                             {testimonial.name}
                           </p>
-                          <p className="text-gray-500">
+                          <p className="">
                             {testimonial.company}
                           </p>
                         </div>
@@ -192,11 +191,10 @@ const TestimonialCarousel: React.FC = () => {
               <button
                 key={index}
                 onClick={() => handleIndicatorClick(index)}
-                className={`w-8 h-2 rounded-full transition-colors duration-300 ease-in-out ${
-                  index === currentPage
-                    ? "bg-gray-500"
-                    : "bg-gray-200"
-                }`}
+                className={`w-8 h-2 rounded-full transition-colors duration-300 ease-in-out ${index === currentPage
+                  ? "bg-gray-500"
+                  : "bg-gray-200"
+                  }`}
               ></button>
             ))}
           </div>

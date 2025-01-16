@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
   return (
     <footer
       ref={footerRef}
-      className="bg-gray-400 text-gray-100 py-6 mt-10"
+      className=" py-6 mt-10"
     >
       <div className="container px-4  mx-auto">
         <motion.div

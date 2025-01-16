@@ -19,7 +19,7 @@ interface TeamCardProps {
 const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
   return (
     <motion.div
-      className="bg-white shadow-lg rounded-lg overflow-hidden"
+      className="border border-gray-600 shadow-lg rounded-lg overflow-hidden"
       whileHover={{ scale: 1.05, boxShadow: "0 15px 30px rgba(0, 0, 0, 0.2)" }}
       transition={{ duration: 0.3 }}
     >
@@ -30,7 +30,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ member }) => {
       />
       <div className="p-6">
         <h3 className="text-lg font-semibold mb-2">{member.name}</h3>
-        <p className="text-gray-600">{member.role}</p>
+        <p className="">{member.role}</p>
       </div>
     </motion.div>
   );
@@ -61,7 +61,7 @@ const teamMembers = [
 
 const OurTeam: React.FC = () => {
   return (
-    <section className="py-10 my-10">
+    <section className="py-10 my-10 ">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {teamMembers.map((member, index) => (
           <TeamCard key={index} member={member} />

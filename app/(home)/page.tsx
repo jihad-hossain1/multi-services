@@ -71,7 +71,7 @@ const HomePage: React.FC = () => {
     <main>
       <LandingBanner />
       <div className="my-10">
-        <h4 className="py-4 text-3xl text-center font-bold text-gray-600 mb-8 bg-gray-200 fade-in">
+        <h4 className="py-4 text-3xl text-center font-bold  mb-8 fade-in">
           Services
         </h4>
         <div className="fade-in">
@@ -79,15 +79,15 @@ const HomePage: React.FC = () => {
         </div>
       </div>
       <div className="my-10">
-        <h4 className="py-4 bg-gray-200 text-3xl text-center font-bold text-gray-600 mb-8 slide-in">
+        <h4 className="py-4 text-3xl text-center font-bold  mb-8 slide-in">
           Custom Services
         </h4>
         <div className="slide-in">
           <CustomServiceCard />
         </div>
       </div>
-      <div className="my-10">
-        <h4 className="py-4 bg-gray-200 text-3xl text-center font-bold text-gray-600 mb-8 scale-in">
+      <div className="my-10 container mx-auto">
+        <h4 className="py-4 text-3xl text-center font-bold  mb-8 scale-in">
           Common Services
         </h4>
         <div className="scale-in">
@@ -97,15 +97,15 @@ const HomePage: React.FC = () => {
       <div>
         <Testimonial />
       </div>
-      <div>
-        <h4 className="py-4 bg-gray-200 text-3xl text-center font-bold text-gray-600 mb-8">
+      <div className="container mx-auto">
+        <h4 className="py-4 text-3xl text-center font-bold  mb-8">
           Our Team
         </h4>
         <OurTeam />
       </div>
 
-      <div className="my-10 scale-in">
-    <Contacts />
+      <div className="my-10 scale-in container mx-auto">
+        <Contacts />
       </div>
 
       {/* <div className="my-10"></div> */}

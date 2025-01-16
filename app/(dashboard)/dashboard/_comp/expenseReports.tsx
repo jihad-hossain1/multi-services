@@ -104,7 +104,7 @@ const ExpenseReports = () => {
     const ChartComponent = chartType === 'Bar' ? Bar : chartType === 'Line' ? Line : Pie;
 
     return (
-        <div className='bg-white p-4 rounded-md shadow-xl drop-shadow'>
+        <div className='bg-zinc-800 p-4 rounded-md shadow-xl drop-shadow'>
             <h4>Expense Reports</h4>
 
             <div className='flex flex-col gap-4 mt-4'>
@@ -117,12 +117,12 @@ const ExpenseReports = () => {
                         onChange={handleYearChange}
                         min="2000"
                         max={new Date().getFullYear()}
-                        className='border border-cyan-100 bg-inherit rounded-md px-2 text-center'
+                        className='border border-zinc-100 bg-inherit rounded-md px-2 text-center'
                     />
                 </div>
                 <div className='flex gap-4'>
                     <label htmlFor="chartType">Select Chart Type:</label>
-                    <select style={{width: "100px"}} id="chartType" value={chartType} onChange={handleChartTypeChange} className='border border-cyan-100 bg-inherit rounded-md px-2 '>
+                    <select style={{ width: "100px" }} id="chartType" value={chartType} onChange={handleChartTypeChange} className='text-zinc-400 border border-zinc-100 bg-inherit bg-zinc-700 rounded-md px-2 '>
                         <option value="Bar">Bar</option>
                         <option value="Line">Line</option>
                         <option value="Pie">Pie</option>
@@ -130,9 +130,9 @@ const ExpenseReports = () => {
                 </div>
                 {isLoading && <div>
                     <div className="flex items-center justify-center h-screen">
-                        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+                        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-400"></div>
                     </div>
-                </div> }
+                </div>}
                 <div className='flex justify-center'>
 
                     {chartData && (

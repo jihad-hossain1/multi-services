@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 
 
-const customHeaders =  process.env.NEXT_PUBLIC_NEXT_SECRET as string
+const customHeaders = process.env.NEXT_PUBLIC_NEXT_SECRET as string
 
 const HomeIcon = () => <div>🏠</div>;
 const ActiveFavIcon = () => <div title="InActive Favorite"> 🤎 </div>;
@@ -44,20 +44,20 @@ export function LinkList() {
   const [ind, setInd] = useState<null | number>(null);
 
   const fetchLinks = useCallback(async () => {
-   
+
     try {
       setLoading(true);
       const response = await fetch(
         `/api/v1/code-share/all-links?userid=${auth?.userId}&page=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}`
-      , {
-        headers: {
-          "Content-Type": "application/json",
-         "Custom-Header": customHeaders,
-        
-        },
-        method: "GET",
-        cache: "no-store",
-      });
+        , {
+          headers: {
+            "Content-Type": "application/json",
+            "Custom-Header": customHeaders,
+
+          },
+          method: "GET",
+          cache: "no-store",
+        });
       setLoading(false);
       const jsondata = await response.json();
       if (jsondata?.data) {
@@ -172,7 +172,7 @@ export function LinkList() {
               <input
                 type="search"
                 placeholder="Search orders..."
-                className="border p-2 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+                className="border p-2 sm:w-[300px] md:w-[200px] lg:w-[300px] border-zinc-500 bg-zinc-700"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -196,9 +196,9 @@ export function LinkList() {
                 </thead>
                 <tbody>
                   {[...Array(15)].map((_, i) => (
-                    <tr key={i} className="border-b hover:bg-gray-100">
+                    <tr key={i} className="w-full">
                       <td className="text-start px-4 py-2">
-                        <div className="animate-pulse bg-gray-300 h-8 w-full"></div>
+                        <div className="animate-pulse bg-gray-600 h-8 w-full"></div>
                       </td>
                     </tr>
                   ))}
@@ -220,9 +220,9 @@ export function LinkList() {
                   {links?.map((link: any, i: number) => (
                     <tr
                       key={i}
-                      className="border-b hover:bg-gray-100 relative"
+                      className="border-b border-zinc-600 hover:bg-zinc-800/90 relative"
                     >
-                      <td className="text-start px-4 py-2">{i + 1}</td>
+                      <td className="text-start px-4 py-2">{(i + 1)}</td>
                       <td className="text-start">{link?.xname || "N/A"}</td>
                       <td className="text-start px-4 py-2">{link?.link}</td>
                       <td className="text-start px-4 py-2">
@@ -258,7 +258,7 @@ export function LinkList() {
                           </button>
                         )}
                         <Link href={`/service/code-share/${link?.link}`}>
-                          <PencilSVG className="w-6 h-6" stroke="green" />
+                          <PencilSVG className="w-6 h-6" stroke="gray" />
                         </Link>
                         <button
                           onClick={() => {
@@ -280,10 +280,10 @@ export function LinkList() {
               <div className="flex justify-center items-center mt-4">
                 <div>
                   <select
-                    className="px-4 text-sm border-blue-100 border rounded shadow-sm"
+                    className="px-4 text-sm border-blue-100 bg-zinc-500 border rounded shadow-sm"
                     onChange={(e) => setPageSize(Number(e.target.value))}
                   >
-                    <option value="25">25</option>
+                    <option value="25">20</option>
                     <option value="30">30</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
@@ -291,11 +291,10 @@ export function LinkList() {
                 </div>
                 <div className="p-2">
                   <button
-                    className={`${
-                      page === 1
-                        ? "bg-gray-200 border border-gray-200 text-gray-500"
-                        : "bg-blue-200 border border-blue-200 text-blue-600"
-                    } px-2 text-sm rounded shadow-sm hover:shadow`}
+                    className={`${page === 1
+                      ? "bg-gray-200 border border-gray-200 text-gray-500"
+                      : "bg-blue-200 border border-blue-200 text-blue-600"
+                      } px-2 text-sm rounded shadow-sm hover:shadow`}
                     onClick={() => setPage(page - 1)}
                     disabled={page === 1}
                     type="button"
@@ -306,11 +305,10 @@ export function LinkList() {
                     {page} <strong>of</strong> {Math.ceil(total / pageSize)}
                   </span>
                   <button
-                    className={`${
-                      page === Math.ceil(total / pageSize)
-                        ? "bg-gray-200 border border-gray-200 text-gray-500"
-                        : "bg-blue-200 border border-blue-200 text-blue-600"
-                    } px-2 text-sm rounded shadow-sm hover:shadow`}
+                    className={`${page === Math.ceil(total / pageSize)
+                      ? "bg-gray-200 border border-gray-200 text-gray-500"
+                      : "bg-blue-200 border border-blue-200 text-blue-600"
+                      } px-2 text-sm rounded shadow-sm hover:shadow`}
                     onClick={() => setPage(page + 1)}
                     disabled={page === Math.ceil(total / pageSize)}
                     type="button"

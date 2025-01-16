@@ -10,7 +10,7 @@ import useAuth from "@/helpers/hook/useAuth";
 import Loader from "@/components/svg/loader";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
-const customHeaders =  process.env.NEXT_PUBLIC_NEXT_SECRET as string
+const customHeaders = process.env.NEXT_PUBLIC_NEXT_SECRET as string
 
 export const TextEditor = ({ params }: { params: { code: string[] } }) => {
     const [content, setContent] = useState("");
@@ -57,7 +57,7 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
         abortControllerRef.current = abortController;
 
         try {
-         
+
             const response = await fetch(`/api/v1/code-share`, {
                 method: "PATCH",
                 headers: {
@@ -126,23 +126,23 @@ export const TextEditor = ({ params }: { params: { code: string[] } }) => {
         <Loader />
     </div>
     return (
-        <main>
+        <main className="w-11/12 mx-auto">
             <h4 className="text-center m-4 my-2 font-bold text-2xl md:text-4xl">
                 Share your Code Link
             </h4>
             <h4 className="text-center m-4 my-2 text-sm">
-                        <span>
-                            You can share the link with your friends. Limited to{" "}
-                            <strong>5 links per 24.</strong>
-                        </span>
-                    </h4>
-                    <h4 className="text-center m-4 my-2 text-sm">
-                        <strong>Save your link and share</strong> it with your friends.{" "}
-                        <a className="text-blue-500 hover:underline" href="/auth/login">
-                            Login required
-                        </a>
-                    </h4>
-           
+                <span>
+                    You can share the link with your friends. Limited to{" "}
+                    <strong>5 links per 24.</strong>
+                </span>
+            </h4>
+            <h4 className="text-center m-4 my-2 text-sm">
+                <strong>Save your link and share</strong> it with your friends.{" "}
+                <a className="text-blue-500 hover:underline" href="/auth/login">
+                    Login required
+                </a>
+            </h4>
+
             <div>
                 <div className="flex justify-end gap-4">
                     <div className="flex gap-2">
