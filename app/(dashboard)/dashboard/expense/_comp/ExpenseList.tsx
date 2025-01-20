@@ -162,7 +162,7 @@ const ExpenseList: React.FC<Props> = ({
                                                                 )
                                                             }
                                                         >
-                                                            <div className='p-4 flex flex-col gap-3 text-start overflow-x-auto'>
+                                                            <div className='p-4 flex flex-col gap-3 text-start overflow-x-auto text-white max-sm:text-sm'>
                                                                 <h4 className='text-lg text-center'>
                                                                     Expense
                                                                     Details
@@ -200,7 +200,7 @@ const ExpenseList: React.FC<Props> = ({
                                                                         detailsInfo?.amount
                                                                     }
                                                                 </p>
-                                                                <p className='text-gray-600 text-sm break-all'>
+                                                                <p className='text-gray-100 text-sm break-all'>
                                                                     Note:
                                                                     {
                                                                         detailsInfo?.note

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { createExpense } from "./action/createExpense";
 import useAuth from "@/helpers/hook/useAuth";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface Props {
     categories: [];
@@ -74,12 +75,12 @@ const AddExpense: React.FC<Props> = ({ categories, setIsExpnsAdd }) => {
             </button>
 
             <Modal isOpen={modal} onClose={closeModal}>
-                <h4 className=' mt-3 text-2xl max-sm:text-xl font-bold text-center text-[#333333]'>
+                <h4 className=' mb-6 text-2xl max-sm:text-xl font-bold text-center text-white'>
                     New Expense
                 </h4>
                 <form onSubmit={handleSubmit} className='px-3 flex flex-col gap-2'>
 
-                    <InputField label='Name of Expense' onChange={(e) => setFormData({ ...formData, title: e.target.value })} value={formData.title} type='text' name='xname' id='name' className='input-form w-full' required={true} error={errors?.xname ? errors?.xname[0] : ""} />
+                    <InputField labelClassName={cn('text-sm', 'text-white')} label='Name of Expense' onChange={(e) => setFormData({ ...formData, title: e.target.value })} value={formData.title} type='text' name='xname' id='name' className={cn('input-form w-full', 'text-white')} required={true} error={errors?.xname ? errors?.xname[0] : ""} />
                     {errors?.title && <span className='text-red-500'>{errors?.title[0]}</span>}
 
                     <AmountForm formData={formData} setFormData={setFormData} />
@@ -87,10 +88,10 @@ const AddExpense: React.FC<Props> = ({ categories, setIsExpnsAdd }) => {
                     {errors?.amount && <span className='text-red-500'>{errors?.amount[0]}</span>}
 
                     <div className='my-2'>
-                        <label htmlFor='cat' id='cat' className='input-label'>
+                        <label htmlFor='cat' id='cat' className={cn('text-sm ', 'text-white')}>
                             Select Category
                         </label>
-                        <select className='input-form' id='cat' onChange={(e) => setFormData({ ...formData, category: e.target.value })} value={formData.category}>
+                        <select className={cn('input-form', 'text-white')} id='cat' onChange={(e) => setFormData({ ...formData, category: e.target.value })} value={formData.category}>
                             <option disabled value={""}>
                                 Select Category
                             </option>
@@ -103,10 +104,10 @@ const AddExpense: React.FC<Props> = ({ categories, setIsExpnsAdd }) => {
                     </div>
 
                     <div className='flex flex-col gap-1'>
-                        <label htmlFor='cat' id='cat' className='input-label'>
+                        <label htmlFor='cat' id='cat' className={cn('text-sm ', 'text-zinc-200')}>
                             Select Payment
                         </label>
-                        <select className='input-form' id='pay' onChange={(e) => setFormData({ ...formData, payment: e.target.value })} value={formData.payment}>
+                        <select className={cn('input-form', 'text-white')} id='pay' onChange={(e) => setFormData({ ...formData, payment: e.target.value })} value={formData.payment}>
                             <option value='' disabled>
                                 Select Payment
                             </option>
@@ -119,22 +120,22 @@ const AddExpense: React.FC<Props> = ({ categories, setIsExpnsAdd }) => {
                     </div>
 
                     <div>
-                        <label htmlFor='date' id='date' className='input-label'>
+                        <label htmlFor='date' id='date' className={cn('text-sm ', 'text-white')}>
                             Select Date <span className='text-cyan-600'> ( date is optional )</span>
                         </label>
-                        <input type='date' placeholder="DD/MM/YYYY" value={formData.xdate} name='date' id='date' className='input-form' onChange={(e) => setFormData({ ...formData, xdate: e.target.value })} />
+                        <input type='date' placeholder="DD/MM/YYYY" value={formData.xdate} name='date' id='date' className={cn('input-form', 'text-white')} onChange={(e) => setFormData({ ...formData, xdate: e.target.value })} />
                     </div>
 
                     <div className='flex flex-col gap-1'>
-                        <label htmlFor='note' id='note' className='input-label'>
+                        <label htmlFor='note' id='note' className={cn('text-sm ', 'text-white')}>
                             Write Note
                         </label>
-                        <textarea name='note' id='note' cols={10} rows={5} className='w-full input-form' onChange={(e) => setFormData({ ...formData, note: e.target.value })} value={formData.note} />
+                        <textarea name='note' id='note' cols={10} rows={5} className={cn('input-form', 'text-white')} onChange={(e) => setFormData({ ...formData, note: e.target.value })} value={formData.note} />
                         {errors?.note && <span className='text-red-500'>{errors?.note[0]}</span>}
                     </div>
 
                     <div className={`my-4 flex justify-end`}>
-                        <button disabled={actionLoader} type='submit' className='flex items-center gap-2 justify-center btn'>
+                        <button disabled={actionLoader} type='submit' className={cn('flex items-center gap-2 justify-center btn bg-zinc-900', 'text-white')}>
                             {actionLoader ? 'Submitting...' : "Submit"}
                         </button>
                     </div>
@@ -184,14 +185,16 @@ const AmountForm = ({ formData, setFormData }: any) => {
     return (
         <div className="relative">
             <InputField
+                className={cn("input-form", "text-white ")}
                 name="amount"
                 id="amount"
                 type="text"
+                labelClassName="text-white text-xs"
                 value={amount}
                 onChange={handleChangeAmountWithSanitization}
                 label={"Enter Amount:  You can use + and . (e.g., 5+5+43.5)"}
             />
-            <div className="absolute bottom-[-18px] right-0 text-xs md:text-sm font-semibold">Total Amount: <span className="text-red-500"> {formData?.amount || 0}</span></div>
+            <div className={cn("absolute bottom-[-18px] right-0 text-xs md:text-sm ", "text-white")}>Total Amount: <span className="text-red-500"> {formData?.amount || 0}</span></div>
         </div>
     );
 };

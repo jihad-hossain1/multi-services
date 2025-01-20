@@ -3,18 +3,16 @@
 import Link from "next/link";
 import React from "react";
 
-const DashNavbar = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen:  React.Dispatch<React.SetStateAction<boolean>> }) => {
-    
+const DashNavbar = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const menuRef = React.useRef<HTMLDivElement | null>(null);
 
-    
     React.useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
         };
-    
+
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
@@ -27,7 +25,7 @@ const DashNavbar = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen:  React.
             <div
                 ref={menuRef}
                 className={`${isOpen ? "transform translate-x-0" : "transform translate-x-full"
-                    } fixed top-0 right-0 w-8/12 h-full bg-cyan-100 shadow-lg transition-transform duration-300 ease-in-out md:hidden z-50`}
+                    } fixed top-0 right-0 w-8/12 h-full bg-zinc-700  shadow-lg transition-transform duration-300 ease-in-out md:hidden z-50`}
             >
                 <div
                     className="block lg:hidden  h-full bg-muted/40"
@@ -44,7 +42,7 @@ const DashNavbar = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen:  React.
                     </div>
                 </div>
 
-                
+
             </div>
         </div>
     )
