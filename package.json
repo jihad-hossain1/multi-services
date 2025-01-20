@@ -43,6 +43,7 @@
     "react-transliterate": "^1.1.9",
     "sharp": "^0.33.5",
     "svgson": "^5.3.1",
+    "tailwind-merge": "^2.6.0",
     "zod": "^3.24.1"
   },
   "devDependencies": {

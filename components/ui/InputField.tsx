@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
 interface InputFieldProps {
@@ -32,7 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={id} className={labelClassName}>
+      <label htmlFor={id} className={cn(labelClassName, ...labelClassName.split(" "))}>
         <span>{label}</span>
         <span className={required ? "text-red-500" : "hidden"}>*</span>
       </label>
@@ -44,7 +45,7 @@ const InputField: React.FC<InputFieldProps> = ({
         onChange={onChange}
         value={value}
         defaultValue={defaultValue}
-        className={className}
+        className={cn(className, ...className.split(" "))}
         required={required}
         {...rest}
       />
@@ -53,4 +54,4 @@ const InputField: React.FC<InputFieldProps> = ({
   );
 };
 
-export  {InputField};
+export { InputField };
