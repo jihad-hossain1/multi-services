@@ -5,6 +5,7 @@ import Header from "@/components/shared/header/header";
 import { ToasterComponent } from "@/components/toaster/toaster";
 import AuthContextProvider from "../helpers/context/AuthContext";
 import Footer from "@/components/shared/footer/footer";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,9 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn(inter.className, "bg-[#0d1117] text-[white]")}>
         <AuthContextProvider>
-          <main className="bg-zinc-900 text-white">
+          <main className="">
             <ToasterComponent />
             <Header />
             <div className=" min-h-screen">{children}</div>
