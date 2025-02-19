@@ -1,3 +1,4 @@
+import { BalanceSchema, TBalance } from "@/helpers/schemas/schemas";
 import prisma from "@/lib/prismalib";
 import { serverAuth } from "@/lib/server_session";
 import { Expense, Expensecat } from "@prisma/client";
@@ -118,4 +119,112 @@ export class ExpenseService {
     });
     return response.json();
   }
+
+  static async getBalance() {
+    try {
+      const session = (await serverAuth()) as unknown as TUser;
+
+      if (!session) {
+        return {
+          success: false,
+          message: "Unauthorized",
+        };
+      }
+
+      const response = await prisma.balance.findMany({
+        where: {
+          xuserid: session.userId,
+        },
+        select: {
+          id: true,
+          xname: true,
+          amount: true,
+        },
+      });
+
+      if (!response) {
+        return {
+          success: false,
+          message: "No balance found",
+        };
+      }
+
+      return {
+        success: true,
+        message: "Balance fetched successfully",
+        data: response,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: "Error fetching balance",
+      };
+    }
+  }
+
+  static async createBalance(
+    balanceInfo: BalanceProps
+  ): Promise<BalanceResponse> {
+    try {
+      const session = (await serverAuth()) as unknown as TUser | null;
+
+      if (!session) return { success: false, message: "Unauthorized" };
+
+      const parsedData = BalanceSchema.safeParse({
+        ...balanceInfo,
+        xuserid: session.userId,
+      });
+
+      if (!parsedData.success)
+        return {
+          success: false,
+          errors: parsedData.error.errors,
+          message: "Validation Error",
+        };
+
+      const { amount, xtype, xname, xdesc } = parsedData.data;
+
+      const response = await prisma.balance.create({
+        data: {
+          amount: Number(amount),
+          xtype,
+          xuserid: session.userId,
+          xname,
+          xdesc,
+        },
+      });
+
+      if (!response) return { success: false, message: "balance create Error" };
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        message: (error as Error).message,
+      };
+    }
+  }
+
+  static async updateBalance(balanceInfo: UpdateBalanceProps) {
+    try {
+    } catch (error) {}
+  }
 }
+
+export type BalanceProps = {
+  amount: number;
+  xtype: string;
+  xname: string;
+  xdesc?: string;
+};
+
+type UpdateBalanceProps = Partial<TBalance | "id">;
+
+export type BalanceResponse =
+  | {
+      success: true;
+    }
+  | {
+      success: false;
+      errors?: any;
+      message: string;
+    };

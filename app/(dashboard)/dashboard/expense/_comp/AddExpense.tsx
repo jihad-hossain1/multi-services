@@ -8,12 +8,15 @@ import { createExpense } from "./action/createExpense";
 import useAuth from "@/helpers/hook/useAuth";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { BalanceForm } from "@/features/expense/components/balance/balanceForm";
 
 interface Props {
   categories: { id: string; name: string }[];
+  balances: { id: string; xname: string; amount: number }[];
 }
 
-const AddExpense: React.FC<Props> = ({ categories }) => {
+const AddExpense: React.FC<Props> = ({ categories, balances }) => {
+  console.log("🚀 ~ balances:", balances);
   const { auth } = useAuth();
   const router = useRouter();
 
@@ -25,6 +28,7 @@ const AddExpense: React.FC<Props> = ({ categories }) => {
     category: "",
     payment: "",
     note: "",
+    xbalance: "",
     xdate: new Date(),
   });
 
@@ -78,6 +82,9 @@ const AddExpense: React.FC<Props> = ({ categories }) => {
         <h4 className=" mb-6 text-2xl max-sm:text-xl font-bold text-center text-white">
           New Expense
         </h4>
+        <div className="flex justify-end">
+          <BalanceForm />
+        </div>
         <form onSubmit={handleSubmit} className="px-3 flex flex-col gap-2">
           <InputField
             labelClassName={cn("text-sm", "text-white")}
@@ -125,6 +132,26 @@ const AddExpense: React.FC<Props> = ({ categories }) => {
               {categories?.map((cat: ExpenseCategoryType, ind: number) => (
                 <option key={ind} value={cat?.id}>
                   {cat?.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="my-2">
+            <label htmlFor="balance">From Balance</label>
+            <select
+              value={formData.xbalance}
+              onChange={(e) =>
+                setFormData({ ...formData, balance: e.target.value })
+              }
+              className={cn("input-form", "text-white")}
+            >
+              <option value="" disabled>
+                Select A Balance
+              </option>
+              {balances?.map((balance) => (
+                <option key={balance.id} value={balance.id}>
+                  {`${balance?.xname} - ${balance?.amount}`}
                 </option>
               ))}
             </select>
