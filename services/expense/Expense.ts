@@ -139,6 +139,9 @@ export class ExpenseService {
           id: true,
           xname: true,
           amount: true,
+          xdate: true,
+          xtype: true,
+          xdesc: true,
         },
       });
 
@@ -206,18 +209,55 @@ export class ExpenseService {
 
   static async updateBalance(balanceInfo: UpdateBalanceProps) {
     try {
-    } catch (error) {}
+      const session = (await serverAuth()) as unknown as TUser | null;
+
+      if (!session) return { success: false, message: "Unauthorized" };
+
+      const { amount, xtype, xname, xdesc, id } = balanceInfo;
+
+      const response = await prisma.balance.update({
+        where: { id },
+        data: { amount: Number(amount), xtype, xname, xdesc },
+      });
+
+      if (!response) return { success: false, message: "balance update Error" };
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        message: (error as Error).message,
+      };
+    }
+  }
+
+  static async deleteBalance(id: string) {
+    if (!id) return { success: false, message: "Id is required" };
+    try {
+      const session = (await serverAuth()) as unknown as TUser | null;
+
+      if (!session) return { success: false, message: "Unauthorized" };
+
+      const response = await prisma.balance.delete({
+        where: { id, xuserid: session.userId },
+      });
+
+      if (!response) return { success: false, message: "balance delete Error" };
+      return { success: true };
+    } catch (error) {
+      return { success: false, message: (error as Error).message };
+    }
   }
 }
 
 export type BalanceProps = {
+  id?: string;
   amount: number;
   xtype: string;
   xname: string;
   xdesc?: string;
 };
 
-type UpdateBalanceProps = Partial<TBalance | "id">;
+type UpdateBalanceProps = Partial<TBalance>;
 
 export type BalanceResponse =
   | {
