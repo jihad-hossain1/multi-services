@@ -2,23 +2,40 @@ import React, { Suspense } from "react";
 import AddExpense from "../../_comp/AddExpense";
 import { ExpenseService } from "@/services/expense/Expense";
 
-async function ExpenseContent({ id }: { id: { id: string } }) {
-  // fetch single expense
-  const expense = (await ExpenseService.getExpCat()) as unknown as {
-    success: boolean;
-    message: string;
-    data: { id: string; name: string }[];
-  };
+type TCat = { id: string; name: string };
+type TBalance = { id: string; xname: string; amount: number };
 
-  let categories = [] as { id: string; name: string }[];
+// use generic type
+type TResponse<T> = {
+  success: boolean;
+  message: string;
+  data: T;
+};
+
+async function ExpenseContent({ id }: { id: { id: string } }) {
+  // TODO: fetch single expense
+  const expense = (await ExpenseService.getExpCat()) as unknown as TResponse<
+    TCat[]
+  >;
+
+  const balances = (await ExpenseService.getBalance()) as unknown as TResponse<
+    TBalance[]
+  >;
+
+  let categories = [] as TCat[];
+  let isBalance = [] as TBalance[];
 
   if (expense.success) {
     categories = [...expense.data];
   }
 
+  if (balances?.success) {
+    isBalance = [...balances.data];
+  }
+
   return (
     <div>
-      <AddExpense categories={categories} />
+      <AddExpense categories={categories} balances={isBalance} />
     </div>
   );
 }
