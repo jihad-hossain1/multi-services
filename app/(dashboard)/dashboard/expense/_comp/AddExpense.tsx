@@ -16,13 +16,12 @@ interface Props {
 }
 
 const AddExpense: React.FC<Props> = ({ categories, balances }) => {
-  console.log("🚀 ~ balances:", balances);
   const { auth } = useAuth();
   const router = useRouter();
 
   const [errors, setErrors] = React.useState<any>({});
   const [actionLoader, setActionLoader] = React.useState(false);
-  const [formData, setFormData] = React.useState<any>({
+  const [formData, setFormData] = React.useState({
     title: "",
     amount: "",
     category: "",
@@ -65,7 +64,8 @@ const AddExpense: React.FC<Props> = ({ categories, balances }) => {
           category: "",
           payment: "",
           note: "",
-          xdate: "",
+          xdate: new Date(),
+          xbalance: "",
         });
       } else {
         toast.error("something went wrong");
@@ -142,7 +142,7 @@ const AddExpense: React.FC<Props> = ({ categories, balances }) => {
             <select
               value={formData.xbalance}
               onChange={(e) =>
-                setFormData({ ...formData, balance: e.target.value })
+                setFormData({ ...formData, xbalance: e.target.value })
               }
               className={cn("input-form", "text-white")}
             >
@@ -196,12 +196,12 @@ const AddExpense: React.FC<Props> = ({ categories, balances }) => {
             <input
               type="date"
               placeholder="DD/MM/YYYY"
-              value={formData.xdate}
+              value={formData.xdate.toISOString().split("T")[0]}
               name="date"
               id="date"
               className={cn("input-form", "text-white")}
               onChange={(e) =>
-                setFormData({ ...formData, xdate: e.target.value })
+                setFormData({ ...formData, xdate: new Date(e.target.value) })
               }
             />
           </div>
