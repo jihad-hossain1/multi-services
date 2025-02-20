@@ -3,10 +3,17 @@ import AddExpense from "../../_comp/AddExpense";
 import { ExpenseService } from "@/services/expense/Expense";
 
 type TCat = { id: string; name: string };
-type TBalance = { id: string; xname: string; amount: number };
+export type TBalance = {
+  id: string;
+  xname: string;
+  amount: number;
+  xdate: string;
+  xtype: string;
+  xdesc: string;
+};
 
 // use generic type
-type TResponse<T> = {
+export type TResponse<T> = {
   success: boolean;
   message: string;
   data: T;
