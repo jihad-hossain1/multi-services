@@ -29,8 +29,46 @@ export class ExpenseService {
   }
 
   static async getExpenseById(id: string) {
-    const response = await fetch(`/api/v1/expense/${id}`);
-    return response.json();
+    if (!id) return { success: false, message: "Id is required" };
+    try {
+      const session = (await serverAuth()) as unknown as TUser;
+
+      if (!session) return { success: false, message: "Unauthorized" };
+
+      const response = await prisma.expense.findUnique({
+        where: { id, xuserid: session.userId },
+        select: {
+          id: true,
+          title: true,
+          amount: true,
+          payment: true,
+          note: true,
+          xbalance: true,
+          xdate: true,
+          xuserid: true,
+          catid: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+
+      if (!response) return { success: false, message: "Expense not found" };
+
+      return {
+        success: true,
+        message: "Expense fetched successfully",
+        data: response,
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: (error as Error).message,
+      };
+    }
   }
 
   static async createExpense(expense: Expense) {
@@ -42,11 +80,54 @@ export class ExpenseService {
   }
 
   static async updateExpense(id: string, expense: Expense) {
-    const response = await fetch(`/api/v1/expense/${id}`, {
-      method: "PUT",
-      body: JSON.stringify(expense),
-    });
-    return response.json();
+    try {
+      const session = (await serverAuth()) as unknown as TUser;
+
+      if (!session) return { success: false, message: "Unauthorized" };
+
+      const findExpense = await prisma.expense.findUnique({
+        where: { id, xuserid: session.userId },
+      });
+
+      if (!findExpense) return { success: false, message: "Expense not found" };
+
+      if (!findExpense.xbalance) {
+        const findBalance = await prisma.balance.findUnique({
+          where: { id: expense?.xbalance as string, xuserid: session.userId },
+        });
+
+        await prisma.balance.update({
+          where: {
+            id: expense?.xbalance as string,
+            xuserid: session.userId,
+          },
+          data: {
+            amount: Number(findBalance?.amount) - Number(expense.amount),
+          },
+        });
+      }
+
+      const response = await prisma.expense.update({
+        where: { id, xuserid: session.userId },
+        data: {
+          title: expense.title,
+          amount: Number(expense.amount),
+          payment: expense.payment,
+          note: expense.note,
+          xbalance: expense.xbalance,
+          xdate: expense.xdate,
+          catid: expense.catid,
+        },
+      });
+
+      if (!response) return { success: false, message: "Expense update Error" };
+      return { success: true };
+    } catch (error) {
+      return {
+        success: false,
+        message: (error as Error).message,
+      };
+    }
   }
 
   static async deleteExpense(id: string) {
