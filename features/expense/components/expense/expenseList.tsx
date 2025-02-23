@@ -21,7 +21,7 @@ export const Expenses = ({ balances }: { balances: TBalance[] }) => {
   const [catLoading, setCatLoading] = useState(false);
   const [expnsLoading, setExpnsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(20);
   const [totalCount, setTotalCount] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [fromDate, setFromDate] = useState("");

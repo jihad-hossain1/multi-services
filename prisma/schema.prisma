@@ -66,7 +66,7 @@ model Expense {
   amount   Float           @default(0)
   xdate    DateTime        @default(now())
   xuserid  String
-  xbalance String          @default("")
+  xbalance String?
   xbank    BankInfo?
   catid    String          @db.ObjectId
   category Expensecat      @relation(fields: [catid], references: [id], onDelete: Cascade)
