@@ -226,7 +226,7 @@ const AddExpense: React.FC<Props> = ({ categories, balances, expenseData }) => {
               id="date"
               className={cn("text-sm ", "text-white")}
             >
-              Select Date{" "}
+              Select Date
               <span className="text-cyan-600"> ( date is optional )</span>
             </label>
             <input
@@ -236,7 +236,10 @@ const AddExpense: React.FC<Props> = ({ categories, balances, expenseData }) => {
               id="date"
               className={cn("input-form", "text-white")}
               onChange={(e) =>
-                setFormData({ ...formData, xdate: new Date(e.target.value) })
+                setFormData({
+                  ...formData,
+                  xdate: e.target.value as unknown as Date,
+                })
               }
             />
           </div>
@@ -296,19 +299,16 @@ const AmountForm = ({ formData, setFormData }: any) => {
     const target = e.target as HTMLInputElement;
     const { value } = target;
 
-    // Allow only numbers, +, and . and ensure two decimal places
     const modValue = value
-      .replace(/[^0-9+.]/g, "") // Remove invalid characters
-      .replace(/(\.\d{2})\d+/g, "$1"); // Restrict to 2 decimal places
+      .replace(/[^0-9+.]/g, "")
+      .replace(/(\.\d{2})\d+/g, "$1");
 
     setAmount(modValue);
 
     try {
-      // Calculate total
-      const sanitizedValue = modValue.replace(/^\.+|\.+$/g, ""); // Remove leading/trailing dots
+      const sanitizedValue = modValue.replace(/^\.+|\.+$/g, "");
       const calculatedTotal = eval(sanitizedValue);
       if (!isNaN(calculatedTotal)) {
-        // Limit the calculated total to two decimal places
         setFormData({
           ...formData,
           amount: parseFloat(calculatedTotal.toFixed(2)),
@@ -317,7 +317,6 @@ const AmountForm = ({ formData, setFormData }: any) => {
         setFormData({ ...formData, amount: 0 });
       }
     } catch {
-      // If the expression is invalid, set total to 0
       setFormData({ ...formData, amount: 0 });
     }
   };
