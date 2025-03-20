@@ -36,6 +36,7 @@ const AddExpense: React.FC<Props> = ({ categories, balances, expenseData }) => {
     xbalance: "",
     xdate: new Date(),
   });
+  const [amount, setAmount] = React.useState<string>("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -109,6 +110,7 @@ const AddExpense: React.FC<Props> = ({ categories, balances, expenseData }) => {
         xbalance: expenseData?.xbalance,
         xdate: new Date(expenseData?.xdate as Date) || new Date(),
       });
+      setAmount(expenseData?.xbalance || "")
     }
   }, [expenseData]);
 
@@ -140,7 +142,7 @@ const AddExpense: React.FC<Props> = ({ categories, balances, expenseData }) => {
             <span className="text-red-500">{errors?.title[0]}</span>
           )}
 
-          <AmountForm formData={formData} setFormData={setFormData} />
+          <AmountForm amount={amount} setAmount={setAmount} formData={formData} setFormData={setFormData} />
 
           {errors?.amount && (
             <span className="text-red-500">{errors?.amount[0]}</span>
@@ -269,9 +271,7 @@ const AddExpense: React.FC<Props> = ({ categories, balances, expenseData }) => {
           </div>
 
           <div className={`my-4 flex justify-end`}>
-            <a className="btn bg-zinc-900" href={"/dashboard/expense"}>
-              <>Back</>
-            </a>
+            <a className="btn bg-zinc-900" href={"/dashboard/expense"}>Back</a>
             <button
               disabled={actionLoader}
               type="button"
@@ -290,8 +290,8 @@ const AddExpense: React.FC<Props> = ({ categories, balances, expenseData }) => {
   );
 };
 
-const AmountForm = ({ formData, setFormData }: any) => {
-  const [amount, setAmount] = React.useState<string>("");
+const AmountForm = ({ formData, setFormData, amount, setAmount }: any) => {
+
 
   const handleChangeAmountWithSanitization = (
     e: React.FormEvent<HTMLInputElement>
@@ -321,11 +321,11 @@ const AmountForm = ({ formData, setFormData }: any) => {
     }
   };
 
-  React.useEffect(() => {
-    if (formData?.amount) {
-      setAmount(formData?.amount.toString());
-    }
-  }, [formData?.amount]);
+  // React.useEffect(() => {
+  //   if (formData?.amount ) {
+  //     setAmount(formData?.amount.toString());
+  //   }
+  // }, [formData?.amount]);
 
   return (
     <div className="relative">
